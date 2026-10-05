@@ -1,0 +1,25 @@
+{
+  "variantName": "inspiration-card",
+  "baseBlock": "inspiration-card",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "moderate",
+    "purpose": "inspiration-card-detail",
+    "imagePattern": "large-rounded-room-photo-right",
+    "structure": "h1 + description + color palette rows (swatch, name link, placement) + Add palette to project pill | room photo",
+    "layout": "From 1024px a 4/8 two-column grid: text column left (h1, description, palette rows pushed to the bottom with thin rules between them, full-width black pill \"Add palette to project +\"), room photo right with 24px rounded corners (3:2 from 1200px, 1:1 at 1024-1199px). Below 1024px stacked with the photo first (2:3 mobile, 1:1 tablet, 16px radius). The photo is the LCP image (eager, high priority). The pill adds every card color to My Projects (scripts/projects.js); once all are saved it reads \"Palette added\" and a second click removes them (aria-pressed)."
+  },
+  "contentPattern": "row 1: [h1 headline + p description]; row 2: [picture] | [ul of colors, each li = <a href=/colors/color-detail/code>CODE|Name|HEX</a> + placement text (e.g. ' Wall')]",
+  "usage": {
+    "pagesUsing": [
+      "https://www.behr.com/inspiration/cards/bathroom/bathroom-brown-m3s2"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-10-05T00:00:00Z"
+  },
+  "options": [],
+  "memberVariantIds": [
+    "inspiration-card"
+  ]
+}

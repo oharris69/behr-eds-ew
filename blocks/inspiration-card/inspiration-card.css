@@ -1,0 +1,223 @@
+/*
+ * inspiration card: text + color palette + "Add palette to project" next to a large room photo.
+ * Selectors are prefixed with `main` because the page template adds the same class to <body>.
+ */
+main .inspiration-card {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  box-sizing: content-box;
+  max-width: var(--container-max-width);
+  margin-inline: auto;
+  padding: 64px var(--container-padding);
+  color: var(--theme-text-primary);
+}
+
+/* photo first on small screens (DOM keeps the heading first for reading order) */
+main .inspiration-card .inspiration-card-media {
+  order: -1;
+}
+
+main .inspiration-card .inspiration-card-media picture {
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 2 / 3;
+  border-radius: 16px;
+  background-color: var(--theme-surface-tertiary);
+}
+
+main .inspiration-card .inspiration-card-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* text column */
+main .inspiration-card .inspiration-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+}
+
+main .inspiration-card .inspiration-card-intro {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+main .inspiration-card .inspiration-card-intro > * {
+  margin: 0;
+}
+
+main .inspiration-card .inspiration-card-title {
+  font-size: var(--heading-font-size-l);
+  line-height: 1.1;
+}
+
+main .inspiration-card .inspiration-card-description {
+  font-size: var(--body-font-size-xs);
+  line-height: 1.2;
+}
+
+/* color rows: swatch, name, placement (right), thin rules between rows */
+main .inspiration-card .inspiration-card-colors {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+main .inspiration-card .inspiration-card-color {
+  padding-block: 8px;
+  border-top: 1px solid var(--theme-border-secondary);
+  font-size: var(--body-font-size-xs);
+  line-height: 1.2;
+}
+
+main .inspiration-card .inspiration-card-color:last-child {
+  border-bottom: 1px solid var(--theme-border-secondary);
+}
+
+main .inspiration-card .inspiration-card-color-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-block: 8px;
+  color: inherit;
+  text-decoration: none;
+}
+
+main .inspiration-card a.inspiration-card-color-row:focus-visible {
+  outline-offset: 2px;
+}
+
+main .inspiration-card .inspiration-card-swatch {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background-color: var(--swatch-color, transparent);
+}
+
+/* light paint colors get a visible edge against the light page */
+main .inspiration-card .inspiration-card-swatch.color-theme-light,
+main .inspiration-card .inspiration-card-swatch-empty {
+  border-color: var(--theme-border-secondary);
+}
+
+main .inspiration-card .inspiration-card-color-text {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 16px;
+  min-width: 0;
+}
+
+main .inspiration-card .inspiration-card-color-name {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+main .inspiration-card .inspiration-card-color-placement {
+  margin-left: auto;
+  text-align: right;
+}
+
+/* add palette button (pill from styles.css), full width */
+main .inspiration-card .inspiration-card-actions {
+  display: flex;
+}
+
+main .inspiration-card .inspiration-card-palette {
+  width: 100%;
+  padding-inline: 16px;
+}
+
+main .inspiration-card .inspiration-card-icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+main .inspiration-card .inspiration-card-live {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  main .inspiration-card a.inspiration-card-color-row:hover .inspiration-card-color-name {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}
+
+/* breakpoint-exception: Behr tablet layout starts at 768px */
+@media (width >= 768px) {
+  main .inspiration-card .inspiration-card-media picture {
+    aspect-ratio: 1 / 1;
+  }
+}
+
+/* breakpoint-exception: Behr desktop layout starts at 1024px (4/8 columns, text left) */
+@media (width >= 1024px) {
+  main .inspiration-card {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    gap: 0;
+    align-items: stretch;
+  }
+
+  main .inspiration-card .inspiration-card-media {
+    order: 0;
+  }
+
+  main .inspiration-card .inspiration-card-media picture {
+    border-radius: 24px;
+  }
+
+  main .inspiration-card .inspiration-card-content {
+    gap: 32px;
+    padding-right: 48px;
+  }
+
+  main .inspiration-card .inspiration-card-title {
+    line-height: 1;
+  }
+
+  main .inspiration-card .inspiration-card-description {
+    font-size: var(--body-font-size-s);
+  }
+
+  /* the palette sits at the bottom of the column, next to the photo's lower edge */
+  main .inspiration-card .inspiration-card-colors {
+    margin-top: auto;
+  }
+
+  main .inspiration-card .inspiration-card-swatch {
+    width: 24px;
+    height: 24px;
+  }
+
+  main .inspiration-card.inspiration-card-no-media {
+    grid-template-columns: minmax(0, 4fr);
+  }
+}
+
+@media (width >= 1200px) {
+  main .inspiration-card .inspiration-card-media picture {
+    aspect-ratio: 3 / 2;
+  }
+}
