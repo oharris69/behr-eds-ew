@@ -119,11 +119,12 @@ export default function decorate(block) {
   region.setAttribute('aria-roledescription', 'carousel');
   region.setAttribute('aria-label', heading?.textContent.trim() || LABELS.gallery);
 
-  const track = el('ul', 'room-carousel-track');
+  const track = el('div', 'room-carousel-track');
   track.tabIndex = 0;
+  track.setAttribute('role', 'group');
   track.setAttribute('aria-label', LABELS.gallery);
   slides.forEach((slide, i) => {
-    const li = el('li', 'room-carousel-slide');
+    const li = el('div', 'room-carousel-slide');
     li.setAttribute('role', 'group');
     li.setAttribute('aria-roledescription', 'slide');
     li.setAttribute(

@@ -284,9 +284,17 @@ export default function decorate(block) {
       } else holder.remove();
     });
 
-    const {
-      title, cta, date, byline,
-    } = classifyBody(body, feature, { rich, highlight });
+    const parts = classifyBody(body, feature, { rich, highlight });
+    const { cta, date, byline } = parts;
+    let { title } = parts;
+    // a highlight is the page's lead post: its title is the next heading level after the h1
+    if (highlight && title && /^H[3-6]$/.test(title.tagName)) {
+      const h2 = document.createElement('h2');
+      [...title.attributes].forEach((attr) => h2.setAttribute(attr.name, attr.value));
+      h2.append(...title.childNodes);
+      title.replaceWith(h2);
+      title = h2;
+    }
     if (rich) {
       body.querySelectorAll('picture').forEach((pic) => {
         if (!byline || !byline.contains(pic)) pic.remove();
@@ -311,6 +319,15 @@ export default function decorate(block) {
         a.append(...media.childNodes);
         media.append(a);
       }
+    }
+
+    // the photo link repeats the title link: keep it for pointer users only
+    const titleLink = title && title.querySelector('a[href]');
+    const mediaLink = media.querySelector('a[href]');
+    if (titleLink && mediaLink && !mediaLink.hasAttribute('aria-hidden')
+      && new URL(mediaLink.href).pathname.replace(/\/$/, '') === new URL(titleLink.href).pathname.replace(/\/$/, '')) {
+      mediaLink.tabIndex = -1;
+      mediaLink.setAttribute('aria-hidden', 'true');
     }
 
     if (rich) {

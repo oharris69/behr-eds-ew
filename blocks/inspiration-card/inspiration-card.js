@@ -5,8 +5,6 @@ import { isInProject, toggleProjectColor, PROJECTS_CHANGE_EVENT } from '../../sc
 const LABELS = {
   addPalette: 'Add palette to project',
   paletteAdded: 'Palette added',
-  viewColor: 'View {name} color',
-  viewColorFor: 'View {name} color for {placement}',
   paletteSaved: 'Palette added to your project',
   paletteRemoved: 'Palette removed from your project',
 };
@@ -105,12 +103,8 @@ function parseColorItem(li) {
 function buildColorRow(color) {
   const li = el('li', 'inspiration-card-color');
   const row = el(color.href ? 'a' : 'div', 'inspiration-card-color-row');
-  if (color.href) {
-    row.href = color.href;
-    row.setAttribute('aria-label', (color.placement ? LABELS.viewColorFor : LABELS.viewColor)
-      .replace('{name}', color.name)
-      .replace('{placement}', color.placement));
-  }
+  // the visible name + placement is the link's accessible name (WCAG 2.5.3 label in name)
+  if (color.href) row.href = color.href;
 
   const swatch = el('span', 'inspiration-card-swatch');
   swatch.setAttribute('aria-hidden', 'true');

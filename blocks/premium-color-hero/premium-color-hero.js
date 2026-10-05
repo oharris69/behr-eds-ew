@@ -117,8 +117,14 @@ function buildMedia(picture, videoSrc) {
   media.append(video, toggle);
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!reducedMotion) {
-    const autoplay = () => setTimeout(play, 0);
+  // the background video is a full-quality original (~17 MB): decoding it blocks the main
+  // thread on phone-class CPUs and costs mobile data, so phones and data-saver visitors get
+  // the poster and the play button instead of autoplay
+  const saveData = navigator.connection?.saveData;
+  const largeScreen = window.matchMedia('(width >= 768px)').matches;
+  if (!reducedMotion && !saveData && largeScreen) {
+    const autoplay = () => (window.requestIdleCallback
+      ? window.requestIdleCallback(play, { timeout: 2000 }) : setTimeout(play, 0));
     if (document.readyState === 'complete') autoplay();
     else window.addEventListener('load', autoplay, { once: true });
   }

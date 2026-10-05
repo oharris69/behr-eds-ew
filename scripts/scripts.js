@@ -240,11 +240,49 @@ async function loadEager(doc) {
  * Loads everything that doesn't need to be delayed.
  * @param {Element} doc The container element
  */
+const GENERIC_LINK_TEXT = /^(read|learn|see|view|discover|find out|explore) more$|^more$|^click here$|^here$/i;
+
+/**
+ * Gives generic links ("Read more", "See More", …) the context of their nearest heading as
+ * visually hidden text, e.g. "Read more: Living Room Paint Colors", so screen readers and
+ * search engines can tell them apart. Runs once blocks are decorated.
+ * @param {Element} main The main element
+ */
+function describeGenericLinks(main) {
+  const headingText = (h) => {
+    const clone = h.cloneNode(true);
+    clone.querySelectorAll('br').forEach((br) => br.replaceWith(' '));
+    return clone.textContent.replace(/\s+/g, ' ').trim();
+  };
+  main.querySelectorAll('a[href]').forEach((link) => {
+    if (link.hasAttribute('aria-label') || link.querySelector('.visually-hidden')) return;
+    if (!GENERIC_LINK_TEXT.test(link.textContent.trim())) return;
+    // closest container (card, block, section) holding a heading; prefer the one before the link
+    for (let node = link.parentElement; node && node !== main; node = node.parentElement) {
+      const headings = [...node.querySelectorAll('h1, h2, h3, h4, h5, h6')]
+        .filter((h) => !h.contains(link) && headingText(h));
+      if (headings.length) {
+        const before = headings
+          // eslint-disable-next-line no-bitwise
+          .filter((h) => h.compareDocumentPosition(link) & Node.DOCUMENT_POSITION_FOLLOWING);
+        const heading = before.length ? before[before.length - 1] : headings[0];
+        const hidden = document.createElement('span');
+        hidden.className = 'visually-hidden';
+        hidden.textContent = `: ${headingText(heading)}`;
+        link.append(hidden);
+        return;
+      }
+      if (node.classList.contains('section')) return;
+    }
+  });
+}
+
 async function loadLazy(doc) {
   loadHeader(doc.querySelector('body > header'));
 
   const main = doc.querySelector('main');
   await loadSections(main);
+  describeGenericLinks(main);
 
   const { hash } = window.location;
   const element = hash ? doc.getElementById(hash.substring(1)) : false;

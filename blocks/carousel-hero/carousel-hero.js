@@ -48,7 +48,7 @@ function buildSlide(row, index) {
   [...row.children].forEach((cell) => moveContent(cell, content));
   if (!content.children.length) return null;
 
-  const li = document.createElement('li');
+  const li = document.createElement('div');
   li.className = 'carousel-hero-slide';
 
   const picture = content.querySelector('picture');
@@ -283,7 +283,7 @@ function wire(block, track, dots, toggle) {
  * @param {Element} block
  */
 export default function decorate(block) {
-  const track = document.createElement('ul');
+  const track = document.createElement('div');
   track.className = 'carousel-hero-track';
   [...block.children].forEach((row) => {
     const slide = buildSlide(row, track.children.length);
