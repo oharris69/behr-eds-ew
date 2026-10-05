@@ -1,0 +1,38 @@
+/* Behr brand tokens (from www.behr.com theme) */
+:root {
+  /* theme colors */
+  --theme-text-primary: #000;
+  --theme-text-secondary: #404f53;
+  --theme-text-tertiary: #577278;
+  --theme-surface-primary: #f8f8f5;
+  --theme-surface-secondary: #fff;
+  --theme-surface-tertiary: #f0f0ec;
+  --theme-border-primary: #000;
+  --theme-border-secondary: #e6e6dc;
+  --theme-focus-primary: #000;
+  --theme-feedback-success: #005a54;
+  --theme-feedback-error: #bd483c;
+
+  /* palette: authorable solid card colors (simple-cards color tokens) */
+  --palette-black: #000;
+  --palette-slate-teal: #404f53;
+  --palette-green: #545550;
+
+  /* EDS aliases */
+  --background-color: var(--theme-surface-primary);
+  --light-color: var(--theme-surface-tertiary);
+  --dark-color: var(--theme-text-secondary);
+  --text-color: var(--theme-text-primary);
+  --link-color: var(--theme-text-primary);
+  --link-hover-color: var(--theme-text-primary);
+
+  /* motion */
+  --ease-in: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-out: cubic-bezier(0.55, 0.06, 0.68, 0.19);
+  --ease-snappy: cubic-bezier(0.19, 1, 0.22, 1);
+  --ease-underline: cubic-bezier(0.5, 0, 0, 1);
+
+  /* layout: 24px / 48px / 80px gutters, 1920px max content */
+  --container-max-width: 1920px;
+  --container-padding: 24px;
+}

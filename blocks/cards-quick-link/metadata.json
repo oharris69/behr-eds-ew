@@ -1,0 +1,20 @@
+{
+  "variantName": "cards-quick-link",
+  "baseBlock": "cards",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "moderate",
+    "purpose": "quick-links",
+    "imagePattern": "thumbnail",
+    "structure": "eyebrow + h2 + thumbnail + arrow link"
+  },
+  "contentPattern": "Each row: cell 1 = thumbnail picture; cell 2 = eyebrow paragraph, H2 headline, link (href of the row). Arrow icon is decorative (added by CSS/JS).",
+  "usage": {
+    "pagesUsing": ["https://www.behr.com/"],
+    "reuseCount": 1,
+    "lastUsed": "2026-09-30"
+  },
+  "options": [],
+  "memberVariantIds": ["cards-quick-link"]
+}

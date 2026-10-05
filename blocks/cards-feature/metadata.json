@@ -1,0 +1,20 @@
+{
+  "variantName": "cards-feature",
+  "baseBlock": "cards",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "dark-on-image",
+    "density": "spacious",
+    "purpose": "feature-panels",
+    "imagePattern": "full-bleed-background",
+    "structure": "background image + h2 + paragraph + button"
+  },
+  "contentPattern": "Each row: cell 1 = background picture; cell 2 = H2, paragraph, CTA link",
+  "usage": {
+    "pagesUsing": ["https://www.behr.com/"],
+    "reuseCount": 1,
+    "lastUsed": "2026-09-30"
+  },
+  "options": [],
+  "memberVariantIds": ["cards-feature"]
+}

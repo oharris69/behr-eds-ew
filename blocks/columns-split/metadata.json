@@ -1,0 +1,21 @@
+{
+  "variantName": "columns-split",
+  "baseBlock": "columns",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "spacious",
+    "purpose": "promo-split",
+    "imagePattern": "edge-to-edge-half-image",
+    "structure": "picture | h2 + paragraphs + cta",
+    "layout": "full-bleed 50/50 split from 768px: image fills its half edge-to-edge, text sits vertically centered on a tinted panel with a pill CTA; stacks image-over-text on mobile"
+  },
+  "contentPattern": "1 row, 2 cells: [picture] | [<h2> (leading <em> word), <p> paragraphs, <p><a>CTA</a></p>]",
+  "usage": {
+    "pagesUsing": ["https://www.behr.com/colorfullybehr/"],
+    "reuseCount": 1,
+    "lastUsed": "2026-10-01"
+  },
+  "options": [],
+  "memberVariantIds": ["columns-split"]
+}

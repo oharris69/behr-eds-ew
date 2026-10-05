@@ -1,0 +1,618 @@
+{
+  "templates": [
+    {
+      "name": "home",
+      "urls": [
+        "https://www.behr.com/"
+      ],
+      "representativeUrl": "https://www.behr.com/",
+      "description": "Behr homepage: color-of-the-year hero with image gallery, stacked feature panels, statement quote, and quick-link list",
+      "blocks": [
+        {
+          "name": "hero-gallery",
+          "instances": [
+            ".homepage-hero.block"
+          ]
+        },
+        {
+          "name": "cards-feature",
+          "instances": [
+            ".feature.block"
+          ]
+        },
+        {
+          "name": "cards-quick-link",
+          "instances": [
+            ".quick-link-list.block"
+          ]
+        }
+      ],
+      "urlPattern": "/",
+      "sections": [
+        {
+          "id": "1",
+          "name": "hero",
+          "selector": [
+            ".section.homepage-hero-container"
+          ],
+          "style": null,
+          "blocks": [
+            "hero-gallery"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "2",
+          "name": "feature-panels",
+          "selector": [
+            ".section.feature-container"
+          ],
+          "style": null,
+          "blocks": [
+            "cards-feature"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "3",
+          "name": "statement",
+          "selector": [
+            ".section.statement-container"
+          ],
+          "style": "statement",
+          "blocks": [],
+          "defaultContent": [
+            ".statement.block h2"
+          ]
+        },
+        {
+          "id": "4",
+          "name": "quick-links",
+          "selector": [
+            ".section.quick-link-list-container"
+          ],
+          "style": null,
+          "blocks": [
+            "cards-quick-link"
+          ],
+          "defaultContent": []
+        }
+      ]
+    },
+    {
+      "name": "colorfullybehr",
+      "urls": [
+        "https://www.behr.com/colorfullybehr/"
+      ],
+      "representativeUrl": "https://www.behr.com/colorfullybehr/",
+      "description": "ColorfullyBEHR blog landing: spotlight hero, Today's Must-Reads post cards with a more link, Ask an Expert image/text split, Color of the Year / Color Spotlight feature cards",
+      "blocks": [
+        {
+          "name": "hero-spotlight",
+          "instances": [
+            "#banner #smartslider3-2"
+          ]
+        },
+        {
+          "name": "cards-post",
+          "instances": [
+            "#news .postGrid",
+            "#info"
+          ]
+        },
+        {
+          "name": "columns-split",
+          "instances": [
+            "#ask"
+          ]
+        }
+      ],
+      "urlPattern": "/colorfullybehr/",
+      "sections": [
+        {
+          "id": "1",
+          "name": "spotlight-hero",
+          "selector": [
+            "#banner"
+          ],
+          "style": null,
+          "blocks": [
+            "hero-spotlight"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "2",
+          "name": "must-reads",
+          "selector": [
+            "#news"
+          ],
+          "style": "light, centered",
+          "blocks": [
+            "cards-post"
+          ],
+          "defaultContent": [
+            "#news .textwidget > h2",
+            "#news .textwidget > p:has(> a.btn)"
+          ]
+        },
+        {
+          "id": "3",
+          "name": "ask-an-expert",
+          "selector": [
+            "#ask"
+          ],
+          "style": null,
+          "blocks": [
+            "columns-split"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "4",
+          "name": "feature-cards",
+          "selector": [
+            "#info"
+          ],
+          "style": "light",
+          "blocks": [
+            "cards-post"
+          ],
+          "defaultContent": []
+        }
+      ]
+    },
+    {
+      "name": "colorfullybehr-2",
+      "urls": [
+        "https://www.behr.com/colorfullybehr/behr-announces-2027-color-of-the-year-grounded/"
+      ],
+      "representativeUrl": "https://www.behr.com/colorfullybehr/behr-announces-2027-color-of-the-year-grounded/",
+      "description": "ColorfullyBEHR blog article: category eyebrow, title and byline, long-form body with captioned images and Q&A, tags, Picks for you related posts, shared sidebar",
+      "blocks": [
+        {
+          "name": "cards-related",
+          "instances": [
+            ".singleRelated .postGrid.postRelated"
+          ]
+        },
+        {
+          "name": "fragment",
+          "instances": [
+            "#secondary.widget-area"
+          ]
+        }
+      ],
+      "urlPattern": "/colorfullybehr/*",
+      "sections": [
+        {
+          "id": "1",
+          "name": "article-header",
+          "selector": [
+            "article.post > h5.postCategory"
+          ],
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            "article.post > h5.postCategory",
+            "article.post > header.entry-header h1",
+            "article.post > div.singleInfo"
+          ]
+        },
+        {
+          "id": "2",
+          "name": "article-body",
+          "selector": [
+            "article.post > div.entry-content"
+          ],
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            "article.post > div.entry-content"
+          ]
+        },
+        {
+          "id": "3",
+          "name": "post-tags",
+          "selector": [
+            "article.post > footer.entry-footer .singleTags"
+          ],
+          "style": "tags",
+          "blocks": [],
+          "defaultContent": [
+            "article.post > footer.entry-footer .singleTags"
+          ]
+        },
+        {
+          "id": "4",
+          "name": "related-posts",
+          "selector": [
+            "#primary div.singleRelated"
+          ],
+          "style": null,
+          "blocks": [
+            "cards-related"
+          ],
+          "defaultContent": [
+            ".singleRelated .linedTitle h2"
+          ]
+        },
+        {
+          "id": "5",
+          "name": "sidebar",
+          "selector": [
+            "#secondary.widget-area"
+          ],
+          "style": "sidebar",
+          "blocks": [
+            "fragment"
+          ],
+          "defaultContent": []
+        }
+      ]
+    },
+    {
+      "name": "color-detail",
+      "urls": [
+        "https://www.behr.com/colors/color-detail/t27-01"
+      ],
+      "representativeUrl": "https://www.behr.com/colors/color-detail/t27-01",
+      "description": "Premium color detail (Color of the Year): video hero with color bar, color summary on the page color, room carousel, palette, color trends visualizer, sample CTAs, testimonial, past Colors of the Year carousel, FAQ",
+      "blocks": [
+        {
+          "name": "premium-color-hero",
+          "instances": [
+            "main > div > div.premium-color-hero"
+          ]
+        },
+        {
+          "name": "color-summary",
+          "instances": [
+            "main > div > div.color-summary"
+          ]
+        },
+        {
+          "name": "room-carousel",
+          "instances": [
+            "main > div > div.room-carousel"
+          ]
+        },
+        {
+          "name": "color-collection",
+          "instances": [
+            "main > div > div.color-collection"
+          ]
+        },
+        {
+          "name": "color-trends-visualizer",
+          "instances": [
+            "main > div > div.color-trends-visualizer"
+          ]
+        },
+        {
+          "name": "fifty-fifty",
+          "instances": [
+            "main > div > div.fifty-fifty"
+          ]
+        },
+        {
+          "name": "testimonial",
+          "instances": [
+            "main > div > div.testimonial"
+          ]
+        },
+        {
+          "name": "image-cards",
+          "instances": [
+            "main > div > div.image-cards"
+          ]
+        },
+        {
+          "name": "faq",
+          "instances": [
+            "main > div > div.faq"
+          ]
+        }
+      ],
+      "urlPattern": "/colors/color-detail/*",
+      "sections": [
+        {
+          "id": "1",
+          "name": "premium-color-hero",
+          "selector": [
+            "main > div:has(> div.premium-color-hero)"
+          ],
+          "style": null,
+          "blocks": [
+            "premium-color-hero"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "2",
+          "name": "color-summary",
+          "selector": [
+            "main > div:has(> div.color-summary)"
+          ],
+          "style": null,
+          "blocks": [
+            "color-summary"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "3",
+          "name": "room-carousel",
+          "selector": [
+            "main > div:has(> div.room-carousel)"
+          ],
+          "style": null,
+          "blocks": [
+            "room-carousel"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "4",
+          "name": "color-collection",
+          "selector": [
+            "main > div:has(> div.color-collection)"
+          ],
+          "style": "light",
+          "blocks": [
+            "color-collection"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "5",
+          "name": "color-trends-visualizer",
+          "selector": [
+            "main > div:has(> div.color-trends-visualizer)"
+          ],
+          "style": null,
+          "blocks": [
+            "color-trends-visualizer"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "6",
+          "name": "fifty-fifty",
+          "selector": [
+            "main > div:has(> div.fifty-fifty)"
+          ],
+          "style": "light",
+          "blocks": [
+            "fifty-fifty"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "7",
+          "name": "testimonial",
+          "selector": [
+            "main > div:has(> div.testimonial)"
+          ],
+          "style": null,
+          "blocks": [
+            "testimonial"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "8",
+          "name": "image-cards",
+          "selector": [
+            "main > div:has(> div.image-cards)"
+          ],
+          "style": "light",
+          "blocks": [
+            "image-cards"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "9",
+          "name": "faq",
+          "selector": [
+            "main > div:has(> div.faq)"
+          ],
+          "style": null,
+          "blocks": [
+            "faq"
+          ],
+          "defaultContent": []
+        }
+      ]
+    },
+    {
+      "name": "inspiration",
+      "urls": [
+        "https://www.behr.com/inspiration/"
+      ],
+      "representativeUrl": "https://www.behr.com/inspiration/",
+      "description": "Inspiration landing (target of the /inspiration/designer-stories redirect): dark-box hero, filterable inspiration card grid, shared tools fragment",
+      "blocks": [
+        {
+          "name": "hero-spotlight",
+          "instances": [
+            "main > div > div.simple-hero"
+          ]
+        },
+        {
+          "name": "inspiration-grid",
+          "instances": [
+            "main > div > div.inspiration-grid"
+          ]
+        },
+        {
+          "name": "fragment",
+          "instances": [
+            "main > div > p:has(> a[href^=\"/fragments/\"]:only-child)"
+          ]
+        }
+      ],
+      "urlPattern": "/inspiration/",
+      "sections": [
+        {
+          "id": "1",
+          "name": "hero",
+          "selector": [
+            "main > div:has(> div.simple-hero)"
+          ],
+          "style": null,
+          "blocks": [
+            "hero-spotlight"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "2",
+          "name": "inspiration-grid",
+          "selector": [
+            "main > div:has(> div.inspiration-grid)"
+          ],
+          "style": null,
+          "blocks": [
+            "inspiration-grid"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "3",
+          "name": "tools",
+          "selector": [
+            "main > div:has(> p > a[href^=\"/fragments/\"])"
+          ],
+          "style": null,
+          "blocks": [
+            "fragment"
+          ],
+          "defaultContent": []
+        }
+      ]
+    },
+    {
+      "name": "pro",
+      "urls": [
+        "https://www.behr.com/pro/onthejob/"
+      ],
+      "representativeUrl": "https://www.behr.com/pro/onthejob/",
+      "description": "On the Job with BEHR Pro blog landing: hero carousel, audience filter chips, highlighted latest post, filterable post grid with Load More, Trends posts, Shop BEHR Products",
+      "blocks": [
+        {
+          "name": "carousel-hero",
+          "instances": [
+            "section.hero-swiper"
+          ]
+        },
+        {
+          "name": "filter-chips",
+          "instances": [
+            "section.filter"
+          ]
+        },
+        {
+          "name": "cards-post",
+          "instances": [
+            "section.most-recent-blog .single-blog-article",
+            "section.blogs .blogs__block",
+            "section.trends .container > .row:has(.blogs-article)"
+          ]
+        },
+        {
+          "name": "fifty-fifty",
+          "instances": [
+            "section.shop .shop__products"
+          ]
+        }
+      ],
+      "urlPattern": "/pro/onthejob/",
+      "sections": [
+        {
+          "id": "1",
+          "name": "hero",
+          "selector": [
+            "section.hero-swiper"
+          ],
+          "style": null,
+          "blocks": [
+            "carousel-hero"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "2",
+          "name": "audience-filter",
+          "selector": [
+            "section.filter"
+          ],
+          "style": null,
+          "blocks": [
+            "filter-chips"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "3",
+          "name": "latest-post",
+          "selector": [
+            "section.most-recent-blog"
+          ],
+          "style": "light",
+          "blocks": [
+            "cards-post"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "4",
+          "name": "post-grid",
+          "selector": [
+            "section.blogs"
+          ],
+          "style": null,
+          "blocks": [
+            "cards-post"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "5",
+          "name": "trends",
+          "selector": [
+            "section.trends"
+          ],
+          "style": null,
+          "blocks": [
+            "cards-post"
+          ],
+          "defaultContent": [
+            "section.trends .trends__header",
+            "section.trends .d-sm-block > a.trends__link"
+          ]
+        },
+        {
+          "id": "6",
+          "name": "shop",
+          "selector": [
+            "section.shop"
+          ],
+          "style": "centered",
+          "blocks": [
+            "fifty-fifty"
+          ],
+          "defaultContent": [
+            "section.shop .shop__header",
+            "section.shop .shop__description",
+            "section.shop .shop__publisher"
+          ]
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "projectType": "da"
+  }
+}

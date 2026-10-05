@@ -1,0 +1,20 @@
+{
+  "status": "success",
+  "url": "https://www.behr.com/pro/onthejob/",
+  "path": "pro/onthejob/index",
+  "timestamp": "2026-10-01T15:35:56.223Z",
+  "title": "On the Job with BEHR™ Blog - Professional painting blog",
+  "template": "pro",
+  "blocks": [
+    "carousel-hero",
+    "filter-chips",
+    "cards-post",
+    "cards-post",
+    "cards-post",
+    "cards-post",
+    "cards-post",
+    "cards-post",
+    "cards-post",
+    "fifty-fifty"
+  ]
+}

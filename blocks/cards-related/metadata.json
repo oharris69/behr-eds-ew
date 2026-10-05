@@ -1,0 +1,21 @@
+{
+  "variantName": "cards-related",
+  "baseBlock": "cards",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "compact",
+    "purpose": "related-posts",
+    "imagePattern": "landscape-image-top",
+    "structure": "linked image + h3 title link",
+    "layout": "grid, 2-up in the ~560px article column (3rd item wraps), centered uppercase dark-grey titles clamped to 2 lines with ellipsis, no card background or border"
+  },
+  "contentPattern": "One row per post, 2 columns: [image (linked)] | [h3 > a title]",
+  "usage": {
+    "pagesUsing": ["https://www.behr.com/colorfullybehr/behr-announces-2027-color-of-the-year-grounded/"],
+    "reuseCount": 1,
+    "lastUsed": "2026-10-01"
+  },
+  "options": [],
+  "memberVariantIds": ["cards-related"]
+}

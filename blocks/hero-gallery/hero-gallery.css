@@ -1,0 +1,390 @@
+/*
+ * Hero Gallery (Behr homepage hero)
+ * Viewport-height stage: centered headline/description/CTA over a collage of
+ * rounded room photos. Tile geometry is taken from the source collage
+ * (artboard 539x812 below 1024px, 1440x900 from 1024px), scaled to cover the
+ * stage like the source animation (preserveAspectRatio: xMidYMid slice).
+ */
+
+.hero-gallery {
+  position: relative;
+  height: calc(100dvh - var(--nav-height));
+  overflow: hidden;
+  background-color: var(--theme-surface-primary);
+  color: var(--theme-text-primary);
+  container-type: size;
+}
+
+/* copy */
+.hero-gallery .hero-gallery-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  width: calc(100% - 3rem);
+  text-align: center;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.hero-gallery .hero-gallery-content > * {
+  width: 100%;
+  margin: 0;
+  pointer-events: auto;
+}
+
+.hero-gallery .hero-gallery-content :is(h1, h2, h3) {
+  font-size: 56px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--theme-text-primary);
+}
+
+.hero-gallery .hero-gallery-content p {
+  max-width: 22rem;
+  font-size: var(--body-font-size-m);
+  line-height: 1.2;
+  color: var(--theme-text-primary);
+}
+
+.hero-gallery .hero-gallery-content p:has(> a:only-child) {
+  max-width: none;
+}
+
+/* CTA: authored as a plain link, styled as the Behr primary pill */
+.hero-gallery .hero-gallery-content a:any-link {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 56px;
+  border: 2px solid transparent;
+  border-radius: 96px;
+  padding: 16px 32px;
+  background-color: var(--theme-text-primary);
+  color: var(--theme-surface-secondary);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  transition:
+    border-color 0.15s var(--ease-snappy),
+    background-color 0.15s var(--ease-snappy),
+    color 0.15s var(--ease-snappy);
+}
+
+.hero-gallery .hero-gallery-content a:focus-visible {
+  outline: 2px solid var(--theme-focus-primary);
+  outline-offset: 4px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hero-gallery .hero-gallery-content a:any-link:hover {
+    border-color: var(--theme-border-primary);
+    background-color: transparent;
+    color: var(--theme-text-primary);
+  }
+}
+
+/* entrance: staggered fade/rise, as on the source */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-gallery .hero-gallery-content > * {
+    animation: hero-gallery-reveal 700ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  }
+
+  .hero-gallery .hero-gallery-content > :nth-child(2) {
+    animation-delay: 120ms;
+  }
+
+  .hero-gallery .hero-gallery-content > :nth-child(n + 3) {
+    animation-delay: 240ms;
+  }
+}
+
+@keyframes hero-gallery-reveal {
+  from {
+    opacity: 0;
+    filter: blur(1px);
+    transform: translateY(1.25rem);
+  }
+}
+
+/* collage stage: covers the block box (scaled up 143.333% on phones) */
+.hero-gallery .hero-gallery-images {
+  --vw: 539;
+  --vh: 812;
+  --box: 143.333;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: max(calc(var(--box) * 1cqw), calc(var(--box) * 1cqh * var(--vw) / var(--vh)));
+  aspect-ratio: 539 / 812;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  transform: translate(-50%, -50%);
+  container-type: inline-size;
+}
+
+.hero-gallery .hero-gallery-image {
+  position: absolute;
+  top: calc(var(--y, 0) / var(--vh) * 100%);
+  left: calc(var(--x, 0) / var(--vw) * 100%);
+  width: calc(var(--w, 100) / var(--vw) * 100%);
+  height: calc(var(--h, 100) / var(--vh) * 100%);
+  overflow: hidden;
+  border-radius: calc(min(var(--w, 100), var(--h, 100)) * 24 / 314 / var(--vw) * 100cqw);
+  line-height: 0;
+}
+
+.hero-gallery .hero-gallery-image picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-gallery .hero-gallery-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* single image: fill the stage */
+.hero-gallery.hero-gallery-single .hero-gallery-image {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+}
+
+/* tile positions, small artboard (539 x 812) */
+.hero-gallery-multi .hero-gallery-image:nth-child(1) {
+  --x: 646.4;
+  --y: -27;
+  --w: 271.8;
+  --h: 180.5;
+}
+
+.hero-gallery-multi .hero-gallery-image:nth-child(2) {
+  --x: 62;
+  --y: -29.8;
+  --w: 162.2;
+  --h: 243.7;
+}
+
+.hero-gallery-multi .hero-gallery-image:nth-child(3) {
+  --x: -256;
+  --y: 273;
+  --w: 180;
+  --h: 180;
+}
+
+.hero-gallery-multi .hero-gallery-image:nth-child(4) {
+  --x: 646;
+  --y: 272.9;
+  --w: 270.7;
+  --h: 179.8;
+}
+
+.hero-gallery-multi .hero-gallery-image:nth-child(5) {
+  --x: 26;
+  --y: 666.2;
+  --w: 162.2;
+  --h: 243.7;
+}
+
+.hero-gallery-multi .hero-gallery-image:nth-child(6) {
+  --x: 628;
+  --y: 552;
+  --w: 180;
+  --h: 180;
+}
+
+.hero-gallery-multi .hero-gallery-image:nth-child(7) {
+  --x: 358.5;
+  --y: -14.2;
+  --w: 189.5;
+  --h: 125.8;
+}
+
+.hero-gallery-multi .hero-gallery-image:nth-child(8) {
+  --x: -211;
+  --y: 531.3;
+  --w: 90.1;
+  --h: 135.4;
+}
+
+.hero-gallery-multi .hero-gallery-image:nth-child(9) {
+  --x: -166;
+  --y: 102;
+  --w: 90;
+  --h: 90;
+}
+
+.hero-gallery-multi .hero-gallery-image:nth-child(10) {
+  --x: 237.5;
+  --y: 631.8;
+  --w: 189.5;
+  --h: 125.8;
+}
+
+.hero-gallery-multi .hero-gallery-image:nth-child(11) {
+  --x: 382;
+  --y: 781.3;
+  --w: 90.1;
+  --h: 135.4;
+}
+
+.hero-gallery-multi .hero-gallery-image:nth-child(12) {
+  --x: 288.5;
+  --y: 136.5;
+  --w: 99;
+  --h: 99;
+}
+
+/* the collage has 12 slots; extra authored images are not shown */
+.hero-gallery-multi .hero-gallery-image:nth-child(n + 13) {
+  display: none;
+}
+
+/* breakpoint-exception: Behr tablet layout starts at 768px */
+@media (width >= 768px) {
+  .hero-gallery .hero-gallery-content > * {
+    width: auto;
+  }
+
+  .hero-gallery .hero-gallery-content a:any-link {
+    display: inline-flex;
+    width: auto;
+  }
+
+  .hero-gallery .hero-gallery-images {
+    --box: 100;
+  }
+}
+
+/* breakpoint-exception: Behr desktop layout (and two-row header) starts at 1024px */
+@media (width >= 1024px) {
+  .hero-gallery .hero-gallery-content {
+    top: 55%;
+    gap: 32px;
+    width: 60%;
+  }
+
+  .hero-gallery .hero-gallery-content :is(h1, h2, h3) {
+    width: 100%;
+    font-size: 88px;
+  }
+
+  .hero-gallery .hero-gallery-content p {
+    max-width: 26.1875rem;
+  }
+
+  .hero-gallery .hero-gallery-images {
+    --vw: 1440;
+    --vh: 900;
+
+    aspect-ratio: 1440 / 900;
+  }
+
+  /* tile positions, large artboard (1440 x 900) */
+  .hero-gallery-multi .hero-gallery-image:nth-child(1) {
+    --x: 1154.7;
+    --y: 51;
+    --w: 307.5;
+    --h: 204.2;
+  }
+
+  .hero-gallery-multi .hero-gallery-image:nth-child(2) {
+    --x: 190;
+    --y: 680.5;
+    --w: 204.1;
+    --h: 306.8;
+  }
+
+  .hero-gallery-multi .hero-gallery-image:nth-child(3) {
+    --x: 1263.3;
+    --y: 362.3;
+    --w: 97.3;
+    --h: 97.3;
+  }
+
+  .hero-gallery-multi .hero-gallery-image:nth-child(4) {
+    --x: 1633.1;
+    --y: 82.9;
+    --w: 473;
+    --h: 314.2;
+  }
+
+  .hero-gallery-multi .hero-gallery-image:nth-child(5) {
+    --x: -24;
+    --y: 115.5;
+    --w: 204.1;
+    --h: 306.8;
+  }
+
+  .hero-gallery-multi .hero-gallery-image:nth-child(6) {
+    --x: -395;
+    --y: 734;
+    --w: 314;
+    --h: 314;
+  }
+
+  .hero-gallery-multi .hero-gallery-image:nth-child(7) {
+    --x: 291.9;
+    --y: 98.1;
+    --w: 212.9;
+    --h: 141.4;
+  }
+
+  .hero-gallery-multi .hero-gallery-image:nth-child(8) {
+    --x: 1263;
+    --y: 537.5;
+    --w: 204.1;
+    --h: 306.8;
+  }
+
+  .hero-gallery-multi .hero-gallery-image:nth-child(9) {
+    --x: 832.3;
+    --y: 114.3;
+    --w: 97.3;
+    --h: 97.3;
+  }
+
+  .hero-gallery-multi .hero-gallery-image:nth-child(10) {
+    --x: 566.7;
+    --y: 844.7;
+    --w: 307.5;
+    --h: 204.2;
+  }
+
+  .hero-gallery-multi .hero-gallery-image:nth-child(11) {
+    --x: 1045.4;
+    --y: 771.7;
+    --w: 97.3;
+    --h: 146.3;
+  }
+
+  .hero-gallery-multi .hero-gallery-image:nth-child(12) {
+    --x: 82.3;
+    --y: 495.3;
+    --w: 97.3;
+    --h: 97.3;
+  }
+}
+
+@media (width >= 1200px) {
+  .hero-gallery .hero-gallery-content {
+    width: 45%;
+  }
+}

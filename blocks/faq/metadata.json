@@ -1,0 +1,30 @@
+{
+  "variantName": "faq",
+  "baseBlock": "accordion",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "moderate",
+    "purpose": "faq-accordion",
+    "imagePattern": "none",
+    "structure": "intro h3 + p; accordion of details/summary items with chevron on a light rounded panel",
+    "layout": "stacked on mobile/tablet; from 1024px intro in columns 1-3 (sticky) and accordion panel in columns 5-12"
+  },
+  "contentPattern": "Row 1 (optional, single cell): [h3 + p intro]. Rows 2..n: [question] | [answer: text with <br><br> breaks, or rich text]. Rows without an answer are skipped. Emits FAQPage JSON-LD into document.head once per block.",
+  "usage": {
+    "pagesUsing": [
+      "https://www.behr.com/colors/color-detail/t27-01"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-10-01"
+  },
+  "options": [
+    {
+      "class": "single",
+      "label": "Single open"
+    }
+  ],
+  "memberVariantIds": [
+    "faq"
+  ]
+}

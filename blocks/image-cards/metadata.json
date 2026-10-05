@@ -1,0 +1,25 @@
+{
+  "variantName": "image-cards",
+  "baseBlock": "cards",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "moderate",
+    "purpose": "image-card-carousel",
+    "imagePattern": "full-bleed-2x3-portrait-image-with-top-gradient",
+    "structure": "intro h3 + p on the left; tall linked image cards with white h4 + text over a dark top gradient",
+    "layout": "stacked on mobile; from 1024px a 12-column grid with intro in columns 1-3 and a right-bleeding scroll-snap carousel in 5-12; round prev/next buttons and 01/09 counter below"
+  },
+  "contentPattern": "Row 1 (optional, single cell without picture): [h3 (may contain <br>) + p intro]. Rows 2..n: [picture] | [h4 + p description + p > a explore link]. The explore link (else a title or image link) makes the whole card a link; focal points in img data-title/title ('data-focal:x,y') become object-position.",
+  "usage": {
+    "pagesUsing": [
+      "https://www.behr.com/colors/color-detail/t27-01"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-10-01"
+  },
+  "options": [],
+  "memberVariantIds": [
+    "image-cards"
+  ]
+}

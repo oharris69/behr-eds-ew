@@ -1,0 +1,42 @@
+{
+  "variantName": "cards-post",
+  "baseBlock": "cards",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "moderate",
+    "purpose": "blog-post-teasers",
+    "imagePattern": "square-image-below-text",
+    "structure": "category eyebrow + h3 title link + excerpt + read-more link + image + date",
+    "layout": "grid of white bordered cards, 1-up mobile / 2-up tablet / 3-up desktop; text above the image, date footer with a top rule. Feature option: 2-up shadowed cards with an h2 label (leading em word), larger title, pill CTA and 16:9 image. Pro option: borderless image-first cards (3:2 image, outlined tag pills, title, 32px round avatar + uppercase author • date), 1/2/3-up (2-up when exactly two cards), Load More pill revealing 9 more when there are more than 9 cards. Highlight option: one featured post, image (4:3) left / text right from 768px, tag pills, title, excerpt, byline, black pill Read More; the light panel comes from section style \"light\""
+  },
+  "contentPattern": "One row per post, 2 columns: [picture (optionally linked)] | [eyebrow <p>, <h3><a>title</a></h3>, excerpt <p>, link <p>, date <p>]. Feature option text: [<h2> label, <h3><a>title</a></h3>, excerpt <p>, link <p>]. Pro / highlight text cell: [optional eyebrow <p>Tag 1, Tag 2</p> (split into pills), <h3><a>title</a></h3>, optional excerpt <p>, optional link-only Read More <p> (highlight), last <p> = byline: optional small avatar picture + \"Author • 1 month ago\"]",
+  "usage": {
+    "pagesUsing": [
+      "https://www.behr.com/colorfullybehr/",
+      "https://www.behr.com/pro/onthejob/"
+    ],
+    "reuseCount": 2,
+    "lastUsed": "2026-10-01T14:51:10Z"
+  },
+  "options": [
+    {
+      "class": "feature",
+      "label": "Feature"
+    },
+    {
+      "class": "highlight",
+      "label": "Highlight"
+    },
+    {
+      "class": "pro",
+      "label": "Pro"
+    }
+  ],
+  "memberVariantIds": [
+    "cards-post",
+    "cards-post-feature",
+    "cards-post-highlight",
+    "cards-post-pro"
+  ]
+}

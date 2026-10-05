@@ -1,0 +1,21 @@
+{
+  "variantName": "room-carousel",
+  "baseBlock": "carousel",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "page-color",
+    "density": "moderate",
+    "purpose": "rooms-painted-in-color-gallery",
+    "imagePattern": "single-slide-rounded-image",
+    "structure": "intro (h3 + copy + Add to project pill) and a scroll-snap slider of room images with prev/next buttons, current room name and 01/05 counter",
+    "layout": "stacked by default; premium option: intro in columns 1-3 and slider in columns 5-12 from 1024px. Images 2:3 on mobile, 3:2 on desktop"
+  },
+  "contentPattern": "Row 1: [h3 + p intro] (single cell, detected as the first row without a picture). Rows 2..n: [picture | room name]. Reads rgbhex, color-code, color-name metadata.",
+  "usage": {
+    "pagesUsing": ["https://www.behr.com/colors/color-detail/t27-01"],
+    "reuseCount": 1,
+    "lastUsed": "2026-10-01"
+  },
+  "options": [{ "class": "premium", "label": "Premium" }],
+  "memberVariantIds": ["room-carousel", "room-carousel-premium"]
+}

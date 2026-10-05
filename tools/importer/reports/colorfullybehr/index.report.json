@@ -1,0 +1,14 @@
+{
+  "status": "success",
+  "url": "https://www.behr.com/colorfullybehr/",
+  "path": "colorfullybehr/index",
+  "timestamp": "2026-10-01T13:07:48.433Z",
+  "title": "Colorfully Behr Blog | Paint Color Inspiration + Projects",
+  "template": "colorfullybehr",
+  "blocks": [
+    "hero-spotlight",
+    "cards-post",
+    "cards-post",
+    "columns-split"
+  ]
+}

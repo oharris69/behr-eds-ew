@@ -1,0 +1,104 @@
+/* Filter Chips: label + row of pill chips filtering the next cards-post block */
+
+.filter-chips {
+  box-sizing: content-box;
+  max-width: var(--container-max-width);
+  margin-inline: auto;
+  padding-block: 24px;
+  padding-inline: var(--container-padding);
+}
+
+.filter-chips .filter-chips-label {
+  margin: 0 0 12px;
+  font-size: var(--body-font-size-xs);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* mobile: one horizontally scrolling row, bleeding to the viewport edge */
+.filter-chips .filter-chips-list {
+  display: flex;
+  gap: 8px;
+  margin-inline: calc(-1 * var(--container-padding));
+  border-bottom: 1px solid var(--theme-border-secondary);
+  padding: 2px var(--container-padding) 24px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.filter-chips .filter-chips-list::-webkit-scrollbar {
+  display: none;
+}
+
+.filter-chips .filter-chips-chip {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  margin: 0;
+  border: 1px solid var(--theme-border-primary);
+  border-radius: 96px;
+  padding: 8px 20px;
+  background-color: transparent;
+  color: var(--theme-text-primary);
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs);
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 0.15s var(--ease-snappy),
+    color 0.15s var(--ease-snappy);
+}
+
+.filter-chips .filter-chips-chip[aria-pressed="true"] {
+  background-color: var(--theme-text-primary);
+  color: var(--theme-surface-secondary);
+}
+
+.filter-chips .filter-chips-chip:focus-visible {
+  outline: 2px solid var(--theme-focus-primary);
+  outline-offset: 2px;
+}
+
+/* screen-reader-only result count */
+.filter-chips .filter-chips-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .filter-chips .filter-chips-chip:hover {
+    background-color: var(--theme-text-primary);
+    color: var(--theme-surface-secondary);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .filter-chips .filter-chips-chip {
+    transition: none;
+  }
+}
+
+/* breakpoint-exception: Behr tablet layout starts at 768px */
+@media (width >= 768px) {
+  .filter-chips .filter-chips-list {
+    flex-wrap: wrap;
+    margin-inline: 0;
+    padding-inline: 0;
+    overflow-x: visible;
+  }
+}
+
+/* breakpoint-exception: Behr desktop layout starts at 1024px */
+@media (width >= 1024px) {
+  .filter-chips {
+    padding-block: 32px;
+  }
+}

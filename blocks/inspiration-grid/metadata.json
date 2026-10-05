@@ -1,0 +1,25 @@
+{
+  "variantName": "inspiration-grid",
+  "baseBlock": "inspiration-grid",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "high",
+    "purpose": "filterable-inspiration-gallery",
+    "imagePattern": "card-image-top",
+    "structure": "results count + Filter button, filter tray (checkbox chip groups per tag namespace), sticky title bar, card grid (image, headline, description, color swatches), load more",
+    "layout": "1-up mobile / 2-up tablet / 3-up desktop grid of rounded image cards; left sliding modal filter tray with Clear All + View N results pill buttons; fixed sticky bar (title + Filter) once the controls scroll away"
+  },
+  "contentPattern": "Key/value rows: sticky-title | Inspiration; prefilters | comma-separated tag keys (may be empty); optional source | query index URL (default /inspiration/cards/query-index.json); optional tags | tag sheet URL (default /docs/library/tagging.json). Cards come from the index, not from authored rows.",
+  "usage": {
+    "pagesUsing": [
+      "https://www.behr.com/inspiration/"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-10-01"
+  },
+  "options": [],
+  "memberVariantIds": [
+    "inspiration-grid"
+  ]
+}

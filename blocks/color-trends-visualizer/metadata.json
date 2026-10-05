@@ -1,0 +1,25 @@
+{
+  "variantName": "color-trends-visualizer",
+  "baseBlock": "color-trends-visualizer",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "rich",
+    "purpose": "interactive-room-paint-visualizer",
+    "imagePattern": "layered-room-photo-with-alpha-masks",
+    "structure": "heading + intro, room tabs (icon + name), 3:2 stage (base photo, one masked paint layer per surface, shading overlay), surface buttons, instruction, palette chips, selected color + Add to project / Clear colors pills",
+    "layout": "stacked on mobile; desktop 2 columns: intro + selection panel left, tabs/stage/chips right"
+  },
+  "contentPattern": "4 columns. Text rows: [h2], [intro text], [instruction text]. Room rows (picture in cell 2): [:icon-name: + room name | base picture | ul > li (p surface name, p mask picture with alpha) | shading/gel picture]. Color row: [ul > li > a text=\"CODE|Name|HEX\" palette | ul with the default color link | | ].",
+  "usage": {
+    "pagesUsing": [
+      "https://www.behr.com/colors/color-detail/t27-01"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-10-01"
+  },
+  "options": [],
+  "memberVariantIds": [
+    "color-trends-visualizer"
+  ]
+}

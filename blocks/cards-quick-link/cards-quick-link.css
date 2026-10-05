@@ -1,0 +1,215 @@
+/* cards-quick-link: full-width link rows (eyebrow + display headline + thumbnail + arrow).
+   Mirrors Behr's quick-link-list: 4/8/12-column grid, hover reveals the thumbnail on desktop. */
+.cards-quick-link {
+  background-color: var(--theme-surface-secondary);
+  color: var(--theme-text-primary);
+}
+
+.cards-quick-link > ul {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cards-quick-link .cards-quick-link-item {
+  position: relative;
+  background-color: var(--theme-surface-secondary);
+  transition: background-color 0.3s var(--ease-in);
+}
+
+.cards-quick-link .cards-quick-link-item + .cards-quick-link-item::before {
+  content: "";
+  display: block;
+  border-top: 1px solid var(--theme-border-secondary);
+}
+
+/* card: the whole row is one link laid out on the Behr grid */
+.cards-quick-link .cards-quick-link-card {
+  box-sizing: content-box;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px 8px;
+  align-items: center;
+  max-width: 100%;
+  min-height: auto;
+  margin-inline: auto;
+  padding-block: 64px;
+  padding-inline: var(--container-padding);
+  color: var(--theme-text-primary);
+  text-decoration: none;
+}
+
+.cards-quick-link .cards-quick-link-card:focus-visible {
+  outline: 2px solid var(--theme-focus-primary);
+  outline-offset: -2px;
+  border-radius: 0;
+}
+
+.cards-quick-link .cards-quick-link-body {
+  display: block;
+  grid-column: span 4;
+}
+
+.cards-quick-link .cards-quick-link-body > * {
+  margin: 0;
+}
+
+.cards-quick-link .cards-quick-link-eyebrow {
+  width: 75%;
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+
+.cards-quick-link .cards-quick-link-body :is(h1, h2, h3, h4, h5, h6) {
+  width: 100%;
+  margin-block-start: 8px;
+  font-size: 56px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.cards-quick-link .cards-quick-link-body > :first-child {
+  margin-block-start: 0;
+}
+
+/* thumbnail */
+.cards-quick-link .cards-quick-link-image {
+  grid-column: span 4;
+  overflow: hidden;
+  border-radius: 16px;
+  background-color: var(--theme-surface-secondary);
+}
+
+.cards-quick-link .cards-quick-link-image picture {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+}
+
+.cards-quick-link .cards-quick-link-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* arrow: 40px black circle with a 16px white arrow (mobile/tablet only) */
+.cards-quick-link .cards-quick-link-arrow {
+  grid-column: 1 / -1;
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 9999px;
+  background-color: var(--theme-text-primary);
+}
+
+.cards-quick-link .cards-quick-link-arrow::after {
+  content: "";
+  display: block;
+  width: 16px;
+  height: 16px;
+  background-color: var(--theme-surface-secondary);
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M2 8L13.1432 8' stroke='%23000' stroke-width='1.5'/%3E%3Cpath d='M8.85742 13.1431L14.0005 8.00003L8.85742 2.857' stroke='%23000' stroke-width='1.5'/%3E%3C/svg%3E");
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+}
+
+/* breakpoint-exception: Behr tablet grid (8 columns) starts at 768px */
+@media (width >= 768px) {
+  .cards-quick-link .cards-quick-link-card {
+    grid-template-columns: repeat(8, 1fr);
+    align-items: start;
+  }
+
+  .cards-quick-link .cards-quick-link-image {
+    grid-column: span 4;
+  }
+}
+
+/* breakpoint-exception: Behr desktop grid (12 columns) and hover reveal start at 1024px */
+@media (width >= 1024px) {
+  .cards-quick-link .cards-quick-link-card {
+    grid-template-columns: repeat(12, 1fr);
+    align-items: center;
+    max-width: var(--container-max-width);
+    min-height: 254px;
+  }
+
+  .cards-quick-link .cards-quick-link-card:has(.cards-quick-link-image) {
+    padding-block: 16px;
+  }
+
+  .cards-quick-link .cards-quick-link-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    grid-column: span 7;
+  }
+
+  .cards-quick-link .cards-quick-link-eyebrow {
+    width: 42.8571%;
+  }
+
+  .cards-quick-link .cards-quick-link-body :is(h1, h2, h3, h4, h5, h6) {
+    font-size: 88px;
+  }
+
+  .cards-quick-link .cards-quick-link-image {
+    grid-column: 10 / span 3;
+    background-color: var(--theme-surface-primary);
+    opacity: 0;
+    transform: scale(0.9);
+    clip-path: inset(50%);
+    pointer-events: none;
+    transition:
+      opacity 0.3s var(--ease-in),
+      transform 0.3s var(--ease-in),
+      clip-path 0.3s var(--ease-in);
+  }
+
+  .cards-quick-link .cards-quick-link-arrow {
+    display: none;
+  }
+
+  /* keyboard focus reveals the row the same way hover does */
+  .cards-quick-link .cards-quick-link-item:has(.cards-quick-link-card:focus-visible) {
+    background-color: var(--theme-surface-primary);
+  }
+
+  .cards-quick-link .cards-quick-link-item:has(.cards-quick-link-card:focus-visible) .cards-quick-link-image {
+    opacity: 1;
+    transform: scale(1);
+    clip-path: inset(0%);
+  }
+}
+
+/* breakpoint-exception: hover reveal only applies to the 1024px+ desktop layout */
+@media (width >= 1024px) and (hover: hover) {
+  .cards-quick-link .cards-quick-link-item:hover {
+    background-color: var(--theme-surface-primary);
+  }
+
+  .cards-quick-link .cards-quick-link-item:hover .cards-quick-link-image {
+    opacity: 1;
+    transform: scale(1);
+    clip-path: inset(0%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cards-quick-link .cards-quick-link-item,
+  .cards-quick-link .cards-quick-link-image {
+    transition: none;
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "variantName": "hero-spotlight",
+  "baseBlock": "hero",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light-box-on-image",
+    "density": "moderate",
+    "purpose": "blog-spotlight-hero",
+    "imagePattern": "full-bleed-background",
+    "structure": "background image + eyebrow + h1 + cta",
+    "layout": "~530px banner image (desktop) with a translucent white text box on the left: centered uppercase eyebrow with a short rule, title, pill CTA; stacks image-over-text on mobile. Dark option: full-bleed photo (viewport height minus header, min 480px) with a square black rounded box top-left (243/262/314px at mobile/tablet/desktop), large white h1 at the top of the box and a small white paragraph pinned to its bottom"
+  },
+  "contentPattern": "Row 1: picture. Row 2: optional eyebrow <p>, <h1> title (may contain <br>), optional <p> text, optional <p><a>CTA</a></p>. Dark option (Hero Spotlight (dark)): same model, typically h1 + short <p>",
+  "usage": {
+    "pagesUsing": [
+      "https://www.behr.com/colorfullybehr/"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-10-01"
+  },
+  "options": [
+    {
+      "class": "dark",
+      "label": "Dark"
+    }
+  ],
+  "memberVariantIds": [
+    "hero-spotlight"
+  ]
+}

@@ -1,3 +1,5 @@
+@import url('brand.css');
+
 /*
  * Copyright 2020 Adobe. All rights reserved.
  * This file is licensed to you under the Apache License, Version 2.0 (the "License");
@@ -11,63 +13,90 @@
  */
 
 :root {
-  /* colors */
-  --background-color: white;
-  --light-color: #f8f8f8;
-  --dark-color: #505050;
-  --text-color: #131313;
-  --link-color: #3b63fb;
-  --link-hover-color: #1d3ecf;
-
   /* fonts */
-  --body-font-family: roboto, roboto-fallback, sans-serif;
-  --heading-font-family: roboto-condensed, roboto-condensed-fallback, sans-serif;
+  --body-font-family: proxima-nova, proxima-nova-normal-400-fallback, arial, helvetica, sans-serif;
+  --heading-font-family: proxima-nova, proxima-nova-normal-400-fallback, arial, helvetica, sans-serif;
 
-  /* body sizes */
-  --body-font-size-m: 22px;
-  --body-font-size-s: 19px;
-  --body-font-size-xs: 17px;
+  /* body sizes (Behr body-large / body-medium / body-small) */
+  --body-font-size-m: 18px;
+  --body-font-size-s: 16px;
+  --body-font-size-xs: 14px;
 
-  /* heading sizes */
-  --heading-font-size-xxl: 55px;
-  --heading-font-size-xl: 44px;
-  --heading-font-size-l: 34px;
-  --heading-font-size-m: 27px;
+  /* heading sizes, mobile (Behr headline-1..5, h6 = body-large) */
+  --heading-font-size-xxl: 48px;
+  --heading-font-size-xl: 40px;
+  --heading-font-size-l: 32px;
+  --heading-font-size-m: 28px;
   --heading-font-size-s: 24px;
-  --heading-font-size-xs: 22px;
+  --heading-font-size-xs: 18px;
 
   /* nav height */
-  --nav-height: 64px;
+  --nav-height: 65px;
 }
 
-/* fallback fonts */
+/* fallback fonts: Arial calibrated to Proxima Nova metrics (no CLS on swap) */
 @font-face {
-  font-family: roboto-condensed-fallback;
-  size-adjust: 88.82%;
+  font-family: "proxima-nova-normal-400-fallback";
   src: local('Arial');
+  size-adjust: 96.411%;
+  ascent-override: 112.021%;
+  descent-override: 33.71%;
+  line-gap-override: 0%;
 }
 
 @font-face {
-  font-family: roboto-fallback;
-  size-adjust: 99.529%;
-  src: local('Arial');
+  font-family: "proxima-nova-normal-600-fallback";
+  src: local('Arial Bold');
+  size-adjust: 93.731%;
+  ascent-override: 115.224%;
+  descent-override: 38.408%;
+  line-gap-override: 0%;
 }
 
-@media (width >= 900px) {
+@font-face {
+  font-family: "proxima-nova-normal-700-fallback";
+  src: local('Arial Bold');
+  size-adjust: 95.094%;
+  ascent-override: 113.571%;
+  descent-override: 38.909%;
+  line-gap-override: 0%;
+}
+
+/* breakpoint-exception: Behr tablet layout starts at 768px */
+@media (width >= 768px) {
   :root {
-    /* body sizes */
-    --body-font-size-m: 18px;
-    --body-font-size-s: 16px;
-    --body-font-size-xs: 14px;
-
-    /* heading sizes */
-    --heading-font-size-xxl: 45px;
-    --heading-font-size-xl: 36px;
-    --heading-font-size-l: 28px;
-    --heading-font-size-m: 22px;
-    --heading-font-size-s: 20px;
-    --heading-font-size-xs: 18px;
+    --container-padding: 48px;
   }
+}
+
+/* breakpoint-exception: Behr desktop layout (and two-row header) starts at 1024px */
+@media (width >= 1024px) {
+  :root {
+    --container-padding: 80px;
+
+    /* heading sizes, desktop */
+    --heading-font-size-xxl: 64px;
+    --heading-font-size-xl: 48px;
+    --heading-font-size-l: 40px;
+    --heading-font-size-m: 32px;
+
+    /* utility bar 41px + main bar 88px + 1px border */
+    --nav-height: 130px;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* reserve the scrollbar so opening drawers (scroll lock) never shifts the layout */
+html {
+  scrollbar-gutter: stable;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizelegibility;
 }
 
 body {
@@ -76,16 +105,26 @@ body {
   background-color: var(--background-color);
   color: var(--text-color);
   font-family: var(--body-font-family);
-  font-size: var(--body-font-size-m);
-  line-height: 1.6;
+  font-size: 16px;
+  line-height: normal;
+  text-size-adjust: 100%;
+  -webkit-tap-highlight-color: rgb(0 0 0 / 0%);
 }
 
 body.appear {
   display: block;
 }
 
+/* fixed header; main is offset by the header height from first paint (no CLS) */
 header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 30;
   height: var(--nav-height);
+}
+
+main {
+  padding-top: var(--nav-height);
 }
 
 header .header,
@@ -98,18 +137,24 @@ footer .footer[data-block-status="loaded"] {
   visibility: visible;
 }
 
+/* typography */
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-  margin-top: 0.8em;
-  margin-bottom: 0.25em;
+  margin: 0;
   font-family: var(--heading-font-family);
-  font-weight: 600;
-  line-height: 1.25;
-  scroll-margin: 40px;
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  scroll-margin: calc(var(--nav-height) + 16px);
+}
+
+h1,
+h2 {
+  line-height: 1;
 }
 
 h1 { font-size: var(--heading-font-size-xxl); }
@@ -117,7 +162,12 @@ h2 { font-size: var(--heading-font-size-xl); }
 h3 { font-size: var(--heading-font-size-l); }
 h4 { font-size: var(--heading-font-size-m); }
 h5 { font-size: var(--heading-font-size-s); }
-h6 { font-size: var(--heading-font-size-xs); }
+
+h6 {
+  font-size: var(--heading-font-size-xs);
+  line-height: 1.2;
+  letter-spacing: 0;
+}
 
 p,
 dl,
@@ -125,13 +175,18 @@ ol,
 ul,
 pre,
 blockquote {
-  margin-top: 0.8em;
-  margin-bottom: 0.25em;
+  margin: 0;
+}
+
+main p,
+main li {
+  font-size: var(--body-font-size-s);
+  line-height: 1.2;
 }
 
 code,
 pre {
-  font-size: var(--body-font-size-s);
+  font-size: var(--body-font-size-xs);
 }
 
 pre {
@@ -142,10 +197,6 @@ pre {
   white-space: pre;
 }
 
-main > div {
-  margin: 40px 16px;
-}
-
 input,
 textarea,
 select,
@@ -153,21 +204,38 @@ button {
   font: inherit;
 }
 
-/* links */
+/* links: inherit color; underline drawn with a gradient that retracts on hover */
 a:any-link {
-  color: var(--link-color);
+  color: currentcolor;
   text-decoration: none;
   overflow-wrap: break-word;
 }
 
 a:hover {
-  color: var(--link-hover-color);
-  text-decoration: underline;
+  color: currentcolor;
+  text-decoration: none;
 }
 
-/* buttons */
+a:focus-visible {
+  outline: 2px solid var(--theme-focus-primary);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+main .default-content-wrapper a:any-link:not(.button) {
+  background-image: linear-gradient(currentcolor, currentcolor);
+  background-repeat: no-repeat;
+  background-position: right bottom;
+  background-size: 100% 1.5px;
+  box-decoration-break: clone;
+  transition:
+    background-size 0.45s var(--ease-underline),
+    background-position 0.45s var(--ease-underline);
+}
+
+/* buttons: Behr pill buttons (strong = primary, em = secondary, strong+em = accent) */
 p.button-wrapper {
-  margin: 12px 0;
+  margin: 0;
 }
 
 a.button:any-link,
@@ -176,106 +244,73 @@ button.button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   max-width: 100%;
+  min-height: 56px;
   margin: 0;
   border: 2px solid transparent;
-  border-radius: 2.4em;
-  padding: 0.5em 1.2em;
-  font: inherit;
-  font-weight: 500;
-  line-height: 1.25;
+  border-radius: 96px;
+  padding: 16px 32px;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1;
   text-decoration: none;
   cursor: pointer;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  transition:
+    border-color 0.15s var(--ease-snappy),
+    background-color 0.15s var(--ease-snappy),
+    color 0.15s var(--ease-snappy);
 }
 
 a.button[aria-disabled="true"],
 button.button:disabled {
-  cursor: not-allowed;
+  opacity: 0.5;
   pointer-events: none;
 }
 
 a.button.primary,
-button.button.primary {
-  border-color: var(--text-color);
-  background-color: var(--text-color);
-  color: var(--background-color);
-}
-
-a.button.primary:hover,
-a.button.primary:focus-visible,
-button.button.primary:hover,
-button.button.primary:focus-visible {
-  border-color: var(--dark-color);
-  background-color: var(--dark-color);
-  color: var(--light-color);
-}
-
-a.button.primary[aria-disabled="true"],
-a.button.primary[aria-disabled="true"]:hover,
-a.button.primary[aria-disabled="true"]:focus-visible,
-button.button.primary:disabled,
-button.button.primary:disabled:hover,
-button.button.primary:disabled:focus-visible {
-  background-color: var(--light-color);
-  border-color: var(--light-color);
-  color: var(--dark-color);
+button.button.primary,
+a.button.accent,
+button.button.accent {
+  border-color: transparent;
+  background-color: var(--theme-text-primary);
+  color: var(--theme-surface-secondary);
 }
 
 a.button.secondary,
 button.button.secondary {
-  border-color: var(--text-color);
+  border-color: var(--theme-border-primary);
   background-color: transparent;
-  color: var(--text-color);
+  color: var(--theme-text-primary);
 }
 
-a.button.secondary:hover,
-a.button.secondary:focus-visible,
-button.button.secondary:hover,
-button.button.secondary:focus-visible {
-  border-color: var(--dark-color);
-  background-color: var(--light-color);
-  color: var(--dark-color);
+a.button:focus-visible,
+button.button:focus-visible {
+  outline: 2px solid var(--theme-focus-primary);
+  outline-offset: 4px;
 }
 
-a.button.secondary[aria-disabled="true"],
-a.button.secondary[aria-disabled="true"]:hover,
-a.button.secondary[aria-disabled="true"]:focus-visible,
-button.button.secondary:disabled,
-button.button.secondary:disabled:hover,
-button.button.secondary:disabled:focus-visible {
-  background-color: var(--light-color);
-  border-color: var(--light-color);
-  color: var(--dark-color);
-}
+@media (hover: hover) and (pointer: fine) {
+  main .default-content-wrapper a:any-link:not(.button):hover {
+    background-size: 0% 1.5px;
+  }
 
-/* high-impact call-to-action */
-a.button.accent,
-button.button.accent {
-  border-color: var(--link-color);
-  background-color: var(--link-color);
-  color: var(--background-color);
-}
+  a.button.primary:hover,
+  button.button.primary:hover,
+  a.button.accent:hover,
+  button.button.accent:hover {
+    border-color: var(--theme-border-primary);
+    background-color: transparent;
+    color: var(--theme-text-primary);
+  }
 
-a.button.accent:hover,
-a.button.accent:focus-visible,
-button.button.accent:hover,
-button.button.accent:focus-visible {
-  border-color: var(--link-hover-color);
-  background-color: var(--link-hover-color);
-}
-
-a.button.accent[aria-disabled="true"],
-a.button.accent[aria-disabled="true"]:hover,
-a.button.accent[aria-disabled="true"]:focus-visible,
-button.button.accent:disabled,
-button.button.accent:disabled:hover,
-button.button.accent:disabled:focus-visible {
-  background-color: var(--light-color);
-  border-color: var(--light-color);
-  color: var(--dark-color);
+  a.button.secondary:hover,
+  button.button.secondary:hover {
+    border-color: transparent;
+    background-color: var(--theme-text-primary);
+    color: var(--theme-surface-secondary);
+  }
 }
 
 main img {
@@ -295,31 +330,388 @@ main img {
   width: 100%;
 }
 
-/* sections */
+/* sections: blocks own their spacing; default content sits in the Behr container */
 main > .section {
-  margin: 40px 0;
+  margin: 0;
 }
 
 main > .section > div {
-  max-width: 1200px;
-  margin: auto;
-  padding: 0 24px;
+  max-width: none;
+  margin: 0;
+  padding: 0;
 }
 
-main > .section:first-of-type {
-  margin-top: 0;
+main > .section > .default-content-wrapper {
+  box-sizing: content-box;
+  max-width: var(--container-max-width);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
 }
 
-@media (width >= 900px) {
-  main > .section > div {
-    padding: 0 32px;
+main .default-content-wrapper :is(h1, h2, h3, h4, h5, h6) + * {
+  margin-top: 16px;
+}
+
+main .default-content-wrapper * + :is(h1, h2, h3, h4, h5, h6) {
+  margin-top: 24px;
+}
+
+main .default-content-wrapper :is(p, ul, ol) + :is(p, ul, ol) {
+  margin-top: 32px;
+}
+
+main .default-content-wrapper :is(ul, ol) {
+  padding-left: 24px;
+}
+
+/* section metadata styles */
+main .section.light,
+main .section.highlight {
+  background-color: var(--theme-surface-primary);
+  padding-block: 64px;
+}
+
+main .section.dark {
+  background-color: var(--theme-text-primary);
+  color: var(--theme-surface-secondary);
+  padding-block: 64px;
+}
+
+/* default content next to a block in the same section */
+main > .section > .default-content-wrapper + div,
+main > .section > div + .default-content-wrapper {
+  margin-top: 40px;
+}
+
+/* centered: headings, intro copy and CTAs centered above/below a block */
+main .section.centered > .default-content-wrapper {
+  text-align: center;
+}
+
+/* an image in centered intro copy is a badge or logo (e.g. "Exclusively at The Home Depot") */
+main .section.centered > .default-content-wrapper p > picture img {
+  width: auto;
+  max-height: 96px;
+}
+
+/* script word in a heading (*Today's* Must-Reads): upright, semi-bold */
+main .default-content-wrapper h2 em {
+  font-style: normal;
+  font-weight: 600;
+}
+
+/* statement: one large centered quote filling the viewport */
+main .section.statement {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  /* the quote area is at least one viewport tall, plus 80px padding above and below */
+  min-height: calc(100vh + 160px);
+  padding-block: 80px;
+  background-color: var(--theme-surface-primary);
+}
+
+/* full width (auto margins would shrink a flex item); padding counted inside the width */
+main .section.statement > .default-content-wrapper {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: calc(var(--container-max-width) + 2 * var(--container-padding));
+}
+
+main .section.statement :is(h1, h2, h3, p) {
+  font-size: 56px;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  text-align: center;
+}
+
+@media (width >= 1024px) {
+  main .default-content-wrapper * + :is(h1, h2, h3, h4, h5, h6) {
+    margin-top: 32px;
+  }
+
+  main .section.light,
+  main .section.highlight,
+  main .section.dark {
+    padding-block: 104px;
+  }
+
+  /* quote spans columns 2-11 of the 12-column grid */
+  main .section.statement > .default-content-wrapper {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 8px;
+  }
+
+  main .section.statement {
+    min-height: calc(max(100vh, 900px) + 160px);
+  }
+
+  main .section.statement > .default-content-wrapper > * {
+    grid-column: 2 / 12;
+  }
+
+  main .section.statement :is(h1, h2, h3, p) {
+    font-size: 88px;
   }
 }
 
-/* section metadata */
-main .section.light,
-main .section.highlight {
-  background-color: var(--light-color);
-  margin: 0;
-  padding: 40px 0;
+/* blog-post template: narrow article column with the shared sidebar beside it */
+/* stylelint-disable no-descending-specificity -- rules are grouped by page region, not specificity */
+body.blog-post main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: start;
+  padding-inline: var(--container-padding);
+  padding-bottom: 64px;
 }
+
+body.blog-post main > .section > .default-content-wrapper {
+  max-width: none;
+  padding-inline: 0;
+}
+
+body.blog-post main .default-content-wrapper :is(p, ul, ol) + :is(p, ul, ol) {
+  margin-top: 20px;
+}
+
+/* article header: category eyebrow, title, byline */
+body.blog-post main > .section:first-child {
+  padding-top: 40px;
+}
+
+body.blog-post main > .section:first-child .default-content-wrapper > p:first-child {
+  font-size: var(--body-font-size-xs);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--theme-text-secondary);
+}
+
+body.blog-post main > .section:first-child h1 {
+  margin-top: 24px;
+  font-size: var(--heading-font-size-l);
+  line-height: 1.1;
+}
+
+body.blog-post main > .section:first-child h1 + p {
+  margin-top: 16px;
+  color: var(--theme-text-secondary);
+}
+
+/* article body */
+body.blog-post main > .section:nth-child(2) {
+  padding-top: 32px;
+}
+
+body.blog-post main > .section:nth-child(2) :is(p, li) {
+  line-height: 1.5;
+}
+
+body.blog-post main > .section:nth-child(2) h2 {
+  font-size: var(--heading-font-size-m);
+}
+
+body.blog-post main > .section:nth-child(2) h3 {
+  font-size: var(--heading-font-size-s);
+}
+
+body.blog-post main > .section:nth-child(2) * + :is(h2, h3) {
+  margin-top: 40px;
+}
+
+body.blog-post main > .section:nth-child(2) :is(h2, h3) + * {
+  margin-top: 16px;
+}
+
+body.blog-post main > .section:nth-child(2) p:has(> picture) {
+  margin-top: 32px;
+  line-height: 0;
+}
+
+body.blog-post main > .section:nth-child(2) .default-content-wrapper > :first-child {
+  margin-top: 0;
+}
+
+body.blog-post main > .section:nth-child(2) p:has(> picture) img {
+  display: block;
+  width: 100%;
+}
+
+/* image credit captions are a lone italic line under the photo */
+body.blog-post main > .section:nth-child(2) p:has(> em:only-child) {
+  font-size: var(--body-font-size-xs);
+  color: var(--theme-text-secondary);
+}
+
+body.blog-post main > .section:nth-child(2) p:has(> picture) + p:has(> em:only-child) {
+  margin-top: 8px;
+}
+
+/* tags: pill chips */
+body.blog-post main .section.tags {
+  padding-top: 40px;
+}
+
+body.blog-post main .section.tags ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0;
+  list-style: none;
+}
+
+body.blog-post main .section.tags li {
+  margin: 0;
+}
+
+body.blog-post main .section.tags a:any-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  border: 1px solid var(--theme-border-primary);
+  border-radius: 96px;
+  padding: 8px 16px;
+  background-image: none;
+  font-size: var(--body-font-size-xs);
+  font-weight: 600;
+  line-height: 1;
+  text-transform: capitalize;
+  transition:
+    background-color 0.15s var(--ease-snappy),
+    color 0.15s var(--ease-snappy);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  body.blog-post main .section.tags a:any-link:hover {
+    background-color: var(--theme-text-primary);
+    color: var(--theme-surface-secondary);
+  }
+}
+
+/* related posts */
+body.blog-post main > .section.cards-related-container {
+  margin-top: 64px;
+  border-top: 1px solid var(--theme-border-secondary);
+  padding-top: 40px;
+}
+
+body.blog-post main > .section.cards-related-container h2 {
+  font-size: var(--heading-font-size-s);
+}
+
+body.blog-post main > .section.cards-related-container > .default-content-wrapper + div {
+  margin-top: 24px;
+}
+
+/* sidebar: one card per widget */
+body.blog-post main .section.sidebar {
+  margin-top: 64px;
+}
+
+body.blog-post main .section.sidebar > .default-content-wrapper {
+  border: 1px solid var(--theme-border-secondary);
+  padding: 16px;
+  background-color: var(--theme-surface-secondary);
+}
+
+body.blog-post main .section.sidebar > .default-content-wrapper + .default-content-wrapper {
+  margin-top: 24px;
+}
+
+body.blog-post main .section.sidebar h2 {
+  border-bottom: 1px solid var(--theme-border-secondary);
+  padding-bottom: 12px;
+  font-size: var(--body-font-size-xs);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+body.blog-post main .section.sidebar h3 {
+  margin-top: 12px;
+  font-size: var(--body-font-size-s);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: 0;
+}
+
+body.blog-post main .section.sidebar a:has(> picture) {
+  display: block;
+  background-image: none;
+  line-height: 0;
+}
+
+body.blog-post main .section.sidebar img {
+  display: block;
+  width: 100%;
+}
+
+body.blog-post main .section.sidebar ul {
+  padding: 0;
+  list-style: none;
+}
+
+body.blog-post main .section.sidebar li {
+  font-size: var(--body-font-size-xs);
+}
+
+/* trending posts: category label over its links */
+body.blog-post main .section.sidebar li > p {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--theme-text-secondary);
+}
+
+body.blog-post main .section.sidebar li > p + ul {
+  margin-top: 8px;
+}
+
+body.blog-post main .section.sidebar li > ul > li + li {
+  margin-top: 8px;
+}
+
+body.blog-post main .section.sidebar ul:has(> li > p) > li + li {
+  margin-top: 16px;
+  border-top: 1px solid var(--theme-border-secondary);
+  padding-top: 16px;
+}
+
+/* pinterest: image grid */
+body.blog-post main .section.sidebar ul:has(> li > a > picture) {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+body.blog-post main .section.sidebar ul:has(> li > a > picture) img {
+  aspect-ratio: 3 / 5;
+  object-fit: cover;
+}
+
+@media (width >= 1024px) {
+  body.blog-post main {
+    grid-template-columns: minmax(0, 710px) 220px;
+    justify-content: center;
+    column-gap: clamp(48px, 10vw, 140px);
+    padding-bottom: 104px;
+  }
+
+  body.blog-post main > .section {
+    grid-column: 1;
+  }
+
+  /* empty implicit rows collapse, so the sidebar spans however many article sections exist */
+  body.blog-post main .section.sidebar {
+    grid-column: 2;
+    grid-row: 1 / span 12;
+    align-self: start;
+    margin-top: 0;
+    padding-top: 40px;
+  }
+}
+/* stylelint-enable no-descending-specificity */

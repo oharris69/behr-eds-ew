@@ -1,0 +1,25 @@
+{
+  "variantName": "simple-cards",
+  "baseBlock": "cards",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "solid-dark-cards-on-light",
+    "density": "moderate",
+    "purpose": "tool-links-carousel",
+    "imagePattern": "none",
+    "structure": "intro (h2 + p) + carousel of solid-color link cards (h3 + p) + prev/next + 01/03 counter",
+    "layout": "intro left (columns 1-3) and scroll-snap carousel right (columns 5-12, bleeding to the viewport edge) on desktop; stacked on mobile. Cards are tall rounded solid-color tiles (black / slate-teal / green), 3:2 on desktop, white text in the top-left, arrow badge bottom-right"
+  },
+  "contentPattern": "Row 1: [<h2> + <p> intro]. Rows 2..n: [color token: black | slate-teal | green] | [<h3> + <p> + <p><a>link</a></p>]. Unknown or missing color tokens fall back to black.",
+  "usage": {
+    "pagesUsing": [
+      "https://www.behr.com/inspiration/"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-10-01"
+  },
+  "options": [],
+  "memberVariantIds": [
+    "simple-cards"
+  ]
+}

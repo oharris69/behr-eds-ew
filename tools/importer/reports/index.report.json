@@ -1,0 +1,13 @@
+{
+  "status": "success",
+  "url": "https://www.behr.com/",
+  "path": "index",
+  "timestamp": "2026-10-01T02:51:13.729Z",
+  "title": "Paint Color Inspiration & Project Ideas | Behr",
+  "template": "home",
+  "blocks": [
+    "hero-gallery",
+    "cards-feature",
+    "cards-quick-link"
+  ]
+}

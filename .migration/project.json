@@ -1,0 +1,12 @@
+{
+  "type": "da",
+  "sites": {
+    "behr-eds-ew": {
+      "previewOrg": "oharris69",
+      "previewSite": "behr-eds-ew",
+      "contentHostUrl": "https://content.da.live/oharris69/behr-eds-ew/",
+      "libraryUrl": "https://main--sta-boilerplate--aemdemos.aem.page/tools/sidekick/library.json",
+      "botProtected": true
+    }
+  }
+}

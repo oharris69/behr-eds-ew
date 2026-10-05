@@ -1,0 +1,139 @@
+/* Color Collection: heading + grid of linked paint swatches */
+
+.color-collection {
+  box-sizing: content-box;
+  max-width: var(--container-max-width);
+  margin-inline: auto;
+  padding-block: 64px;
+  padding-inline: var(--container-padding);
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  color: var(--theme-text-primary);
+}
+
+/* a styled section (light/dark/highlight) already pads the block */
+main .section:is(.light, .dark, .highlight) .color-collection {
+  padding-block: 0;
+}
+
+.color-collection .color-collection-header > :is(h1, h2, h3, h4, h5, h6) {
+  margin: 0;
+  font-size: var(--heading-font-size-l);
+}
+
+.color-collection .color-collection-header > * + * {
+  margin-top: 16px;
+}
+
+.color-collection .color-collection-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.color-collection .color-collection-item {
+  min-width: 0;
+}
+
+.color-collection .color-collection-swatch {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 4px;
+  aspect-ratio: 1;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  padding: 12px;
+  background-color: var(--swatch-color, var(--theme-surface-tertiary));
+  color: var(--theme-text-primary);
+  text-decoration: none;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  forced-color-adjust: none;
+  transition: transform 0.3s var(--ease-in);
+}
+
+/* light swatches need an edge against the light page */
+.color-collection .color-collection-swatch.color-theme-light {
+  border-color: var(--theme-border-secondary);
+}
+
+.color-collection .color-collection-swatch.color-theme-dark {
+  color: var(--theme-surface-secondary);
+}
+
+.color-collection .color-collection-swatch:focus-visible {
+  outline: 2px solid var(--theme-focus-primary);
+  outline-offset: 4px;
+}
+
+.color-collection .color-collection-name {
+  font-size: var(--body-font-size-xs);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.color-collection .color-collection-code {
+  font-size: var(--body-font-size-xs);
+  line-height: 1.2;
+}
+
+/* fallback: link text only (not in code|name|hex form) */
+.color-collection .color-collection-item-plain .color-collection-swatch {
+  aspect-ratio: auto;
+  justify-content: flex-start;
+  border: 0;
+  padding: 0;
+  background: none;
+  text-decoration: underline;
+  font-size: var(--body-font-size-xs);
+}
+
+.color-collection .color-collection-list-plain {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .color-collection .color-collection-item:not(.color-collection-item-plain) .color-collection-swatch:hover {
+    transform: translateY(-4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .color-collection .color-collection-swatch {
+    transition: none;
+  }
+}
+
+/* breakpoint-exception: Behr tablet layout starts at 768px */
+@media (width >= 768px) {
+  .color-collection .color-collection-list {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .color-collection .color-collection-swatch {
+    padding: 16px;
+  }
+
+  .color-collection .color-collection-name {
+    font-size: var(--body-font-size-s);
+  }
+}
+
+/* breakpoint-exception: Behr desktop layout starts at 1024px */
+@media (width >= 1024px) {
+  .color-collection {
+    gap: 40px;
+    padding-block: 100px;
+  }
+
+  .color-collection .color-collection-list {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 24px;
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "variantName": "testimonial",
+  "baseBlock": "quote",
+  "canonicalModel": "key-value",
+  "visualCharacteristics": {
+    "colorScheme": "page-color",
+    "density": "sparse",
+    "purpose": "color-of-the-year-quote",
+    "imagePattern": "circular-avatar",
+    "structure": "eyebrow + page color name/code (metadata) | large quote + avatar, attributor name and description",
+    "layout": "full-bleed page color background; stacked on mobile, 3/12 + 8/12 columns on desktop"
+  },
+  "contentPattern": "Key/value rows: eyebrow | text; description | quote; attributor-image | picture; attributor-name | text; attributor-description | text. Any row may be missing. Color name and code come from page metadata (color-name, color-code, rgbhex).",
+  "usage": {
+    "pagesUsing": [
+      "https://www.behr.com/colors/color-detail/t27-01"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-10-01"
+  },
+  "options": [],
+  "memberVariantIds": [
+    "testimonial"
+  ]
+}

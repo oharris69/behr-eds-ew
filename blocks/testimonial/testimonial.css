@@ -1,0 +1,132 @@
+/* Testimonial: a quote set on the page's paint color */
+
+.testimonial {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 40px;
+  padding-block: 64px;
+
+  /* full-bleed color, content capped at the Behr container width */
+  padding-inline: max(var(--container-padding), calc((100% - var(--container-max-width)) / 2));
+  background-color: var(--page-color, var(--theme-surface-tertiary));
+  color: var(--theme-text-primary);
+  forced-color-adjust: auto;
+}
+
+/* dark paint color: light text */
+.testimonial.color-theme-dark {
+  color: var(--theme-surface-secondary);
+}
+
+.testimonial p {
+  margin: 0;
+}
+
+/* left column: eyebrow, color name and code */
+.testimonial .testimonial-color {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.testimonial .testimonial-eyebrow {
+  font-size: var(--body-font-size-s);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.testimonial .testimonial-color-name {
+  font-size: var(--heading-font-size-s);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.testimonial .testimonial-color-code {
+  font-size: var(--body-font-size-xs);
+  line-height: 1.2;
+}
+
+/* right column: quote and attribution */
+.testimonial .testimonial-content {
+  margin: 0;
+  min-width: 0;
+}
+
+.testimonial .testimonial-quote {
+  margin: 0;
+}
+
+.testimonial .testimonial-quote p {
+  font-family: var(--heading-font-family);
+  font-size: var(--heading-font-size-xl);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  overflow-wrap: break-word;
+}
+
+.testimonial .testimonial-quote p + p {
+  margin-top: 16px;
+}
+
+.testimonial .testimonial-attribution {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.testimonial .testimonial-quote + .testimonial-attribution {
+  margin-top: 32px;
+}
+
+.testimonial .testimonial-avatar {
+  flex: 0 0 56px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.testimonial .testimonial-avatar img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.testimonial .testimonial-attributor {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: var(--body-font-size-xs);
+  line-height: 1.2;
+}
+
+.testimonial .testimonial-attributor-name {
+  font-size: var(--body-font-size-s);
+  font-weight: 700;
+}
+
+/* breakpoint-exception: Behr tablet layout starts at 768px */
+@media (width >= 768px) {
+  .testimonial {
+    padding-block: 80px;
+  }
+}
+
+/* breakpoint-exception: Behr desktop layout starts at 1024px */
+@media (width >= 1024px) {
+  .testimonial {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 8fr);
+    column-gap: calc(100% / 12);
+    padding-block: 100px;
+  }
+
+  .testimonial .testimonial-content {
+    grid-column: 2;
+  }
+
+  .testimonial .testimonial-quote p {
+    font-size: var(--heading-font-size-xxl);
+  }
+}

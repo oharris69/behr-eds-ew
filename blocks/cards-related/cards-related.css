@@ -1,0 +1,91 @@
+/* Cards Related: "Picks for you" related-post grid */
+
+.cards-related > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px 16px;
+}
+
+.cards-related .cards-related-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+/* image on top, landscape crop */
+.cards-related .cards-related-card-image {
+  line-height: 0;
+}
+
+.cards-related .cards-related-card-image a,
+.cards-related .cards-related-card-image picture {
+  display: block;
+  width: 100%;
+}
+
+.cards-related .cards-related-card-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+  transition: transform 0.45s var(--ease-snappy);
+}
+
+.cards-related .cards-related-card-image a {
+  overflow: hidden;
+}
+
+/* title, clamped to two lines */
+
+.cards-related .cards-related-card-body > :first-child {
+  margin-top: 0;
+}
+
+.cards-related .cards-related-card-body > :last-child {
+  margin-bottom: 0;
+}
+
+.cards-related .cards-related-card-title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  margin: 0;
+  font-size: var(--heading-font-size-xs);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: 0;
+}
+
+.cards-related .cards-related-card-title a:any-link {
+  background-image: linear-gradient(currentcolor, currentcolor);
+  background-repeat: no-repeat;
+  background-position: right bottom;
+  background-size: 0% 1.5px;
+  transition: background-size 0.45s var(--ease-underline);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cards-related .cards-related-card:hover img {
+    transform: scale(1.04);
+  }
+
+  .cards-related .cards-related-card:hover .cards-related-card-title a:any-link {
+    background-position: left bottom;
+    background-size: 100% 1.5px;
+  }
+}
+
+/* 3-up from tablet up */
+@media (width >= 600px) {
+  .cards-related > ul {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

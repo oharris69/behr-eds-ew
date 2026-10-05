@@ -1,0 +1,13 @@
+{
+  "status": "success",
+  "url": "https://www.behr.com/inspiration/",
+  "path": "inspiration/index",
+  "timestamp": "2026-10-01T14:33:18.030Z",
+  "title": "Room & paint color inspiration | Behr",
+  "template": "inspiration",
+  "blocks": [
+    "hero-spotlight",
+    "inspiration-grid",
+    "fragment"
+  ]
+}

@@ -1,0 +1,561 @@
+/* Inspiration Grid: controls bar + filter tray + sticky header + card grid */
+
+.inspiration-grid {
+  box-sizing: content-box;
+  max-width: var(--container-max-width);
+  margin-inline: auto;
+  padding-block: 64px;
+  padding-inline: var(--container-padding);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.inspiration-grid .inspiration-grid-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ---------- controls bar ---------- */
+.inspiration-grid .inspiration-grid-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.inspiration-grid .inspiration-grid-controls[hidden] {
+  display: none;
+}
+
+.inspiration-grid .inspiration-grid-count {
+  margin: 0;
+  font-size: var(--body-font-size-xs);
+  line-height: 1.2;
+}
+
+.inspiration-grid .inspiration-grid-filter-button {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 0 auto;
+  padding: 12px 16px;
+  border: 1.5px solid var(--theme-border-secondary);
+  border-radius: 8px;
+  background-color: var(--theme-surface-primary);
+  color: var(--theme-text-primary);
+  font-size: var(--body-font-size-xs);
+  line-height: 1.2;
+  cursor: pointer;
+  transition:
+    background-color 0.3s var(--ease-in),
+    border-color 0.3s var(--ease-in);
+}
+
+.inspiration-grid .inspiration-grid-filter-button:focus-visible {
+  outline: none;
+  border-color: var(--theme-border-primary);
+  box-shadow: 0 0 0 2px var(--theme-focus-primary);
+}
+
+.inspiration-grid .inspiration-grid-filter-icon {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+}
+
+.inspiration-grid .inspiration-grid-filter-badge {
+  box-sizing: content-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 12px;
+  height: 12px;
+  padding: 2px;
+  border-radius: 96px;
+  background-color: var(--theme-text-primary);
+  color: var(--theme-surface-secondary);
+  font-size: 12px;
+  line-height: 1;
+}
+
+.inspiration-grid .inspiration-grid-filter-badge[hidden] {
+  display: none;
+}
+
+/* ---------- sticky header (fixed bar once the controls scroll away) ---------- */
+.inspiration-grid .inspiration-grid-sticky {
+  position: fixed;
+  top: var(--inspiration-grid-sticky-top, 0);
+  left: 0;
+  right: 0;
+  z-index: 29;
+  background-color: var(--theme-surface-primary);
+  border-bottom: 1px solid var(--theme-border-secondary);
+  transform: translateY(-100%);
+  visibility: hidden;
+  transition:
+    transform 0.3s var(--ease-in),
+    visibility 0s linear 0.3s;
+}
+
+.inspiration-grid .inspiration-grid-sticky.is-visible {
+  transform: translateY(0);
+  visibility: visible;
+  transition: transform 0.3s var(--ease-in);
+}
+
+.inspiration-grid .inspiration-grid-sticky-inner {
+  box-sizing: content-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: var(--container-max-width);
+  margin-inline: auto;
+  padding: 8px var(--container-padding);
+}
+
+.inspiration-grid .inspiration-grid-sticky-title {
+  margin: 0;
+  font-size: var(--body-font-size-xs);
+  line-height: 1.2;
+}
+
+/* ---------- grid ---------- */
+.inspiration-grid .inspiration-grid-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 40px 8px;
+  margin: 0;
+  padding: 0;
+}
+
+.inspiration-grid .inspiration-grid-list[hidden] {
+  display: none;
+}
+
+.inspiration-grid .inspiration-grid-item {
+  display: flex;
+  min-width: 0;
+}
+
+.inspiration-grid .inspiration-grid-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  color: var(--theme-text-primary);
+  text-decoration: none;
+}
+
+.inspiration-grid a.inspiration-grid-card:focus-visible {
+  outline: 2px solid var(--theme-focus-primary);
+  outline-offset: 4px;
+  border-radius: 16px;
+}
+
+.inspiration-grid .inspiration-grid-card-media {
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  border-radius: 16px;
+  background-color: var(--theme-surface-tertiary);
+}
+
+.inspiration-grid .inspiration-grid-card-media picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.inspiration-grid .inspiration-grid-card-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.45s var(--ease-snappy);
+}
+
+.inspiration-grid .inspiration-grid-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.inspiration-grid .inspiration-grid-card-title {
+  margin: 0;
+  font-size: var(--heading-font-size-s);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.inspiration-grid .inspiration-grid-card-text {
+  display: -webkit-box;
+  margin: 0;
+  overflow: hidden;
+  font-size: var(--body-font-size-xs);
+  line-height: 1.2;
+  color: var(--theme-text-secondary);
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+/* color swatches with a name tooltip on hover */
+.inspiration-grid .inspiration-grid-swatches {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0 0;
+  padding: 0;
+}
+
+.inspiration-grid .inspiration-grid-swatch {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--theme-border-secondary);
+  border-radius: 96px;
+  background-color: var(--inspiration-grid-swatch, var(--theme-surface-tertiary));
+}
+
+.inspiration-grid .inspiration-grid-swatch::after {
+  content: attr(data-name) / "";
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  z-index: 2;
+  padding: 6px 8px;
+  border-radius: 4px;
+  background-color: var(--theme-text-primary);
+  color: var(--theme-surface-secondary);
+  font-size: 12px;
+  line-height: 1.2;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 4px);
+  transition:
+    opacity 0.15s var(--ease-in),
+    transform 0.15s var(--ease-in);
+}
+
+.inspiration-grid .inspiration-grid-swatch:hover::after {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* skeleton while the index loads */
+.inspiration-grid .inspiration-grid-skeleton-card {
+  aspect-ratio: 4 / 5;
+  border-radius: 16px;
+  background-color: var(--theme-surface-tertiary);
+}
+
+/* empty / error state */
+.inspiration-grid .inspiration-grid-message {
+  margin: 0;
+  padding-block: 24px 48px;
+  font-size: var(--body-font-size-xs);
+  line-height: 1.2;
+}
+
+.inspiration-grid .inspiration-grid-message[hidden],
+.inspiration-grid .inspiration-grid-more[hidden] {
+  display: none;
+}
+
+.inspiration-grid .inspiration-grid-more {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.inspiration-grid .inspiration-grid-more .button {
+  width: 100%;
+}
+
+/* ---------- filter tray: modal sheet sliding in from the left ---------- */
+.inspiration-grid .inspiration-grid-tray {
+  box-sizing: border-box;
+  width: min(375px, 100vw);
+  max-width: 100vw;
+  height: 100%;
+  max-height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  inset: 0 auto 0 0;
+  background-color: var(--theme-surface-secondary);
+  color: var(--theme-text-primary);
+  transform: translateX(-100%);
+  transition: transform 0.3s var(--ease-in);
+}
+
+.inspiration-grid .inspiration-grid-tray.is-open {
+  transform: translateX(0);
+}
+
+.inspiration-grid .inspiration-grid-tray::backdrop {
+  background-color: rgb(0 0 0 / 0%);
+  transition: background-color 0.3s var(--ease-in);
+}
+
+.inspiration-grid .inspiration-grid-tray.is-open::backdrop {
+  background-color: rgb(0 0 0 / 50%);
+}
+
+.inspiration-grid .inspiration-grid-tray-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.inspiration-grid .inspiration-grid-tray-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 12px 12px 24px;
+}
+
+.inspiration-grid .inspiration-grid-tray-title {
+  margin: 0;
+  font-size: var(--heading-font-size-xs);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.inspiration-grid .inspiration-grid-tray-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 96px;
+  background: transparent;
+  color: var(--theme-text-primary);
+  cursor: pointer;
+}
+
+.inspiration-grid .inspiration-grid-tray-close::before {
+  content: "";
+  width: 24px;
+  height: 24px;
+  background-color: currentcolor;
+  mask: url("../../icons/close.svg") center / contain no-repeat;
+}
+
+.inspiration-grid .inspiration-grid-tray-close:focus-visible {
+  outline: 2px solid var(--theme-focus-primary);
+  outline-offset: -2px;
+}
+
+.inspiration-grid .inspiration-grid-tray-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0 24px;
+}
+
+.inspiration-grid .inspiration-grid-group {
+  margin: 0;
+  padding: 24px 0;
+  border: 0;
+  border-bottom: 1px solid var(--theme-border-secondary);
+}
+
+.inspiration-grid .inspiration-grid-group-title {
+  float: left;
+  width: 100%;
+  margin: 0 0 16px;
+  padding: 0;
+  font-size: var(--body-font-size-s);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.inspiration-grid .inspiration-grid-options {
+  clear: both;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* option chip: a real checkbox, visually replaced by the chip */
+.inspiration-grid .inspiration-grid-option {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  box-sizing: border-box;
+  padding: 8px 14px;
+  border: 1.5px solid var(--theme-border-secondary);
+  border-radius: 96px;
+  background-color: var(--theme-surface-secondary);
+  font-size: var(--body-font-size-xs);
+  line-height: 1.2;
+  cursor: pointer;
+  transition:
+    border-color 0.15s var(--ease-snappy),
+    background-color 0.15s var(--ease-snappy),
+    color 0.15s var(--ease-snappy);
+}
+
+.inspiration-grid .inspiration-grid-option-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: inherit;
+}
+
+.inspiration-grid .inspiration-grid-option:has(:checked) {
+  border-color: var(--theme-text-primary);
+  background-color: var(--theme-text-primary);
+  color: var(--theme-surface-secondary);
+}
+
+.inspiration-grid .inspiration-grid-option:has(:focus-visible) {
+  outline: 2px solid var(--theme-focus-primary);
+  outline-offset: 2px;
+}
+
+.inspiration-grid .inspiration-grid-option.is-disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.inspiration-grid .inspiration-grid-option-count {
+  color: inherit;
+  opacity: 0.7;
+  font-variant-numeric: tabular-nums;
+}
+
+.inspiration-grid .inspiration-grid-option-dot {
+  width: 12px;
+  height: 12px;
+  border: 1px solid var(--theme-border-secondary);
+  border-radius: 96px;
+  background-color: var(--inspiration-grid-swatch);
+}
+
+.inspiration-grid .inspiration-grid-tray-empty {
+  margin: 24px 0;
+  font-size: var(--body-font-size-xs);
+}
+
+.inspiration-grid .inspiration-grid-tray-footer {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 24px 24px;
+  border-top: 1px solid var(--theme-border-secondary);
+}
+
+.inspiration-grid .inspiration-grid-tray-footer .button {
+  flex: 1 1 auto;
+  padding-inline: 24px;
+  white-space: nowrap;
+}
+
+.inspiration-grid .inspiration-grid-tray-clear {
+  flex-grow: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .inspiration-grid .inspiration-grid-filter-button:hover {
+    border-color: var(--theme-border-primary);
+    background-color: var(--theme-surface-secondary);
+  }
+
+  .inspiration-grid a.inspiration-grid-card:hover .inspiration-grid-card-media img {
+    transform: scale(1.04);
+  }
+
+  .inspiration-grid .inspiration-grid-option:not(.is-disabled, :has(:checked)):hover {
+    border-color: var(--theme-border-primary);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .inspiration-grid .inspiration-grid-sticky,
+  .inspiration-grid .inspiration-grid-sticky.is-visible,
+  .inspiration-grid .inspiration-grid-tray,
+  .inspiration-grid .inspiration-grid-tray::backdrop,
+  .inspiration-grid .inspiration-grid-card-media img,
+  .inspiration-grid .inspiration-grid-swatch::after {
+    transition: none;
+  }
+}
+
+/* breakpoint-exception: Behr tablet layout starts at 768px */
+@media (width >= 768px) {
+  .inspiration-grid .inspiration-grid-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 48px 16px;
+  }
+
+  .inspiration-grid .inspiration-grid-more .button {
+    width: auto;
+  }
+
+  .inspiration-grid .inspiration-grid-group {
+    padding: 32px 0;
+  }
+}
+
+/* breakpoint-exception: Behr desktop layout starts at 1024px */
+@media (width >= 1024px) {
+  .inspiration-grid {
+    padding-block: 104px;
+    gap: 32px;
+  }
+
+  .inspiration-grid .inspiration-grid-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 64px 8px;
+  }
+
+  .inspiration-grid .inspiration-grid-card-media {
+    aspect-ratio: 1;
+    border-radius: 24px;
+  }
+
+  .inspiration-grid a.inspiration-grid-card:focus-visible {
+    border-radius: 24px;
+  }
+
+  .inspiration-grid .inspiration-grid-skeleton-card {
+    aspect-ratio: 1;
+    border-radius: 24px;
+  }
+
+  .inspiration-grid .inspiration-grid-card-text,
+  .inspiration-grid .inspiration-grid-count,
+  .inspiration-grid .inspiration-grid-message {
+    font-size: var(--body-font-size-s);
+  }
+
+  .inspiration-grid .inspiration-grid-sticky-inner {
+    padding-block: 12px;
+  }
+
+  .inspiration-grid .inspiration-grid-sticky-title {
+    font-size: var(--body-font-size-s);
+    font-weight: 600;
+  }
+}

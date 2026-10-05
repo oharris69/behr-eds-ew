@@ -1,0 +1,25 @@
+{
+  "variantName": "color-collection",
+  "baseBlock": "color-collection",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "moderate",
+    "purpose": "color-palette-swatches",
+    "imagePattern": "none",
+    "structure": "h2 heading + grid of linked paint swatches (name + code on the swatch, readable text via color theme)",
+    "layout": "3-up mobile / 4-up tablet / 7-up desktop square swatch grid; plain link fallback for links not in code|name|hex form"
+  },
+  "contentPattern": "Row 1: [h2 heading]. Row 2: [ul > li > a href=/colors/color-detail/{code} text=\"CODE|Name|HEX\"]. A row with a non-color link (e.g. the legacy data-feed URL) renders as a plain link. Section metadata id (e.g. trends) becomes the section id.",
+  "usage": {
+    "pagesUsing": [
+      "https://www.behr.com/colors/color-detail/t27-01"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-10-01"
+  },
+  "options": [],
+  "memberVariantIds": [
+    "color-collection"
+  ]
+}

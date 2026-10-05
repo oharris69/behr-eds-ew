@@ -1,0 +1,21 @@
+{
+  "variantName": "premium-color-hero",
+  "baseBlock": "hero",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "page-color",
+    "density": "sparse",
+    "purpose": "premium-color-detail-hero",
+    "imagePattern": "full-bleed-poster-with-background-video",
+    "structure": "full-bleed poster picture + muted looping background video with play/pause toggle; color bar on the page color with a curved top, color name (h1) + color code and a round add-to-project button",
+    "layout": "media fills the viewport above the bar; bar: name + code centered, round '+' button left (tablet+) or full-width below (mobile). Overlay option moves the title group over the media"
+  },
+  "contentPattern": "Rows: [picture (poster) + p > a (MP4 URL)] / [h1 color name] / [optional eyebrow text]. Rows are found by shape: missing video falls back to the poster, missing h1 falls back to color-name metadata. Reads color-code, color-name, rgbhex metadata.",
+  "usage": {
+    "pagesUsing": ["https://www.behr.com/colors/color-detail/t27-01"],
+    "reuseCount": 1,
+    "lastUsed": "2026-10-01"
+  },
+  "options": [{ "class": "overlay", "label": "Overlay" }],
+  "memberVariantIds": ["premium-color-hero"]
+}

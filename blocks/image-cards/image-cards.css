@@ -1,0 +1,292 @@
+/* Image Cards: intro + horizontal scroll-snap carousel of tall image cards */
+
+.image-cards {
+  box-sizing: content-box;
+  max-width: var(--container-max-width);
+  margin-inline: auto;
+  padding-block: 64px;
+  padding-inline: var(--container-padding);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 40px;
+}
+
+/* padded sections (section metadata style) already provide the vertical rhythm */
+.section:is(.light, .highlight, .dark) .image-cards {
+  padding-block: 0;
+}
+
+/* intro */
+.image-cards .image-cards-intro {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.image-cards .image-cards-intro > * {
+  margin: 0;
+}
+
+/* carousel */
+.image-cards .image-cards-carousel {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  min-width: 0;
+}
+
+/* the track bleeds to the viewport edges; scroll-padding keeps snapped cards aligned */
+.image-cards .image-cards-track {
+  list-style: none;
+  display: flex;
+  gap: 8px;
+  margin: 0 calc(-1 * var(--container-padding));
+  padding: 0 var(--container-padding);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--container-padding);
+  scrollbar-width: none;
+}
+
+.image-cards .image-cards-track::-webkit-scrollbar {
+  display: none;
+}
+
+.image-cards .image-cards-track:focus-visible {
+  outline: 2px solid var(--theme-focus-primary);
+  outline-offset: 4px;
+}
+
+.image-cards .image-cards-slide {
+  flex: 0 0 calc(100% - 24px);
+  max-width: 421px;
+  scroll-snap-align: start;
+}
+
+/* card: image fills it, dark gradient behind the text at the top */
+.image-cards .image-cards-card {
+  position: relative;
+  display: block;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  border-radius: 16px;
+  background-color: var(--theme-text-secondary);
+  color: var(--theme-surface-secondary);
+  text-decoration: none;
+}
+
+.image-cards .image-cards-card::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 0 0 50%;
+  background: linear-gradient(to top, rgb(0 0 0 / 0%), rgb(0 0 0 / 54%));
+  pointer-events: none;
+}
+
+.image-cards a.image-cards-card:focus-visible {
+  outline: 2px solid var(--theme-focus-primary);
+  outline-offset: 4px;
+}
+
+.image-cards .image-cards-card-image {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.image-cards .image-cards-card-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.45s var(--ease-snappy);
+}
+
+.image-cards .image-cards-card-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+}
+
+.image-cards .image-cards-card-content > * {
+  margin: 0;
+  color: inherit;
+}
+
+.image-cards .image-cards-card-title {
+  font-size: var(--heading-font-size-m);
+  overflow-wrap: anywhere;
+}
+
+/* arrow badge: always visible on touch, revealed on hover/focus on desktop */
+.image-cards .image-cards-card-arrow {
+  position: absolute;
+  z-index: 1;
+  right: 16px;
+  bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 96px;
+  background-color: var(--theme-surface-secondary);
+  color: var(--theme-text-primary);
+  transition: opacity 0.3s var(--ease-snappy);
+}
+
+.image-cards .image-cards-card-arrow::before {
+  content: "";
+  width: 20px;
+  height: 20px;
+  background-color: currentcolor;
+  mask: url("../../icons/arrow-right.svg") center / contain no-repeat;
+}
+
+/* controls: round prev/next buttons + counter */
+.image-cards .image-cards-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.image-cards .image-cards-nav {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  margin: 0;
+  border: 2px solid var(--theme-border-primary);
+  border-radius: 96px;
+  padding: 0;
+  background-color: transparent;
+  color: var(--theme-text-primary);
+  cursor: pointer;
+  transition:
+    background-color 0.15s var(--ease-snappy),
+    color 0.15s var(--ease-snappy),
+    opacity 0.15s var(--ease-snappy);
+}
+
+.image-cards .image-cards-nav::before {
+  content: "";
+  width: 24px;
+  height: 24px;
+  background-color: currentcolor;
+  mask: url("../../icons/chevron-right.svg") center / contain no-repeat;
+}
+
+.image-cards .image-cards-nav-prev::before {
+  mask-image: url("../../icons/chevron-left.svg");
+}
+
+.image-cards .image-cards-nav:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.image-cards .image-cards-nav:focus-visible {
+  outline: 2px solid var(--theme-focus-primary);
+  outline-offset: 4px;
+}
+
+.image-cards .image-cards-counter {
+  margin: 0 0 0 auto;
+  font-size: var(--body-font-size-s);
+  font-variant-numeric: tabular-nums;
+}
+
+.image-cards .image-cards-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .image-cards a.image-cards-card:hover .image-cards-card-image img {
+    transform: scale(1.04);
+  }
+
+  .image-cards .image-cards-nav:not(:disabled):hover {
+    background-color: var(--theme-text-primary);
+    color: var(--theme-surface-secondary);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .image-cards .image-cards-card-image img {
+    transition: none;
+  }
+}
+
+/* breakpoint-exception: Behr tablet layout starts at 768px */
+@media (width >= 768px) {
+  .image-cards .image-cards-slide {
+    flex-basis: 421px;
+  }
+}
+
+/* breakpoint-exception: Behr desktop layout starts at 1024px */
+@media (width >= 1024px) {
+  /* 12-column grid: intro spans columns 1-3, carousel 5-12 and bleeds right */
+  .image-cards {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 8px;
+    padding-block: 104px;
+  }
+
+  .image-cards .image-cards-intro {
+    grid-column: 1 / 4;
+    gap: 16px;
+  }
+
+  .image-cards .image-cards-carousel {
+    grid-column: 5 / -1;
+  }
+
+  .image-cards .image-cards-intro + .image-cards-carousel {
+    grid-row: 1;
+  }
+
+  .image-cards .image-cards-carousel:only-child {
+    grid-column: 1 / -1;
+  }
+
+  .image-cards .image-cards-track {
+    margin-left: 0;
+    padding-left: 0;
+    scroll-padding-left: 0;
+  }
+
+  .image-cards .image-cards-card {
+    border-radius: 24px;
+  }
+
+  .image-cards .image-cards-card-content {
+    gap: 16px;
+    padding: 24px;
+  }
+
+  .image-cards .image-cards-card-arrow {
+    right: 24px;
+    bottom: 24px;
+    width: 56px;
+    height: 56px;
+    opacity: 0;
+  }
+
+  .image-cards a.image-cards-card:is(:hover, :focus-visible) .image-cards-card-arrow {
+    opacity: 1;
+  }
+}

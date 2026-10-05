@@ -1,0 +1,98 @@
+/* Columns Split: edge-to-edge image beside a tinted text panel */
+
+.columns-split {
+  color: var(--theme-text-primary);
+}
+
+.columns-split .columns-split-row {
+  display: flex;
+  flex-direction: column;
+}
+
+.columns-split .columns-split-image {
+  line-height: 0;
+}
+
+.columns-split .columns-split-image picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.columns-split .columns-split-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.columns-split .columns-split-panel {
+  display: flex;
+  align-items: center;
+  padding: 40px var(--container-padding);
+  background-color: var(--theme-surface-tertiary);
+}
+
+.columns-split .columns-split-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 560px;
+}
+
+.columns-split .columns-split-title {
+  margin: 0;
+  font-size: var(--heading-font-size-l);
+}
+
+.columns-split .columns-split-script {
+  font-style: normal;
+  font-weight: 600;
+}
+
+.columns-split .columns-split-body > p {
+  line-height: 1.4;
+}
+
+.columns-split .columns-split-body > .columns-split-cta {
+  margin-top: 8px;
+}
+
+/* breakpoint-exception: Behr tablet layout starts at 768px */
+@media (width >= 768px) {
+  .columns-split .columns-split-row {
+    flex-direction: row;
+    min-height: 400px;
+  }
+
+  .columns-split .columns-split-row > * {
+    flex: 1 1 50%;
+    min-width: 0;
+  }
+
+  .columns-split .columns-split-image-end .columns-split-image {
+    order: 2;
+  }
+
+  .columns-split .columns-split-image img {
+    aspect-ratio: auto;
+    min-height: 100%;
+  }
+
+  .columns-split .columns-split-panel {
+    padding: 48px;
+  }
+}
+
+/* breakpoint-exception: Behr desktop layout starts at 1024px */
+@media (width >= 1024px) {
+  .columns-split .columns-split-row {
+    min-height: 520px;
+  }
+
+  .columns-split .columns-split-panel {
+    padding: 80px;
+  }
+}

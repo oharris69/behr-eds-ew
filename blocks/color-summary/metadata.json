@@ -1,0 +1,21 @@
+{
+  "variantName": "color-summary",
+  "baseBlock": "color-summary",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "page-color",
+    "density": "moderate",
+    "purpose": "color-detail-summary",
+    "imagePattern": "none",
+    "structure": "eyebrow + large h2 statement; What you'll love list (authored items + shared fragment), Color information (LRV, RGB, HEX from metadata), Why Behr paint? (fragment, accordion on mobile); Add to project pill",
+    "layout": "stacked on mobile; 12-column grid with three 3-column info columns (1-3, 5-7, 9-11) from 1024px; CTA below the columns"
+  },
+  "contentPattern": "Rows: [p eyebrow + h2 statement] / [optional cells: ul or paragraphs of color-specific 'What you'll love' items]. Loads /fragments/color-details/premium-color-detail/color-summary-what-youll-love and the color-detail-description-fragment metadata path (default /fragments/color-details/why-behr-paint). Reads lrv, color-r/g/b, rgbhex, color-code, color-name metadata.",
+  "usage": {
+    "pagesUsing": ["https://www.behr.com/colors/color-detail/t27-01"],
+    "reuseCount": 1,
+    "lastUsed": "2026-10-01"
+  },
+  "options": [],
+  "memberVariantIds": ["color-summary"]
+}

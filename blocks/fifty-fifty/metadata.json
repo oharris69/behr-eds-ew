@@ -1,0 +1,32 @@
+{
+  "variantName": "fifty-fifty",
+  "baseBlock": "cards",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "moderate",
+    "purpose": "paired-promo-cards",
+    "imagePattern": "wide-7x4-image-between-heading-and-cta",
+    "structure": "intro h3 + p, then equal white rounded cards: centered h4, image, black pill CTA at the bottom",
+    "layout": "cards stacked on mobile, 2-up from 768px (3-up at 1024px when three cards); intro left-aligned above. Products option: no card chrome, product image (2:1, contained) above a full-width black pill button, 3-up from 768px, rows may omit the heading"
+  },
+  "contentPattern": "Row 1 (optional, no picture): [h3 + p intro]. Rows 2..n: [h4 + p > a CTA (+ optional second CTA)] | [picture]. Cells are detected by content (order may be swapped); plain CTA links are rendered as pill buttons (first primary, others secondary). Products option rows: [<p><a>CTA</a></p> (optional h4 above)] | [picture].",
+  "usage": {
+    "pagesUsing": [
+      "https://www.behr.com/colors/color-detail/t27-01",
+      "https://www.behr.com/pro/onthejob/"
+    ],
+    "reuseCount": 2,
+    "lastUsed": "2026-10-01T14:51:10Z"
+  },
+  "options": [
+    {
+      "class": "products",
+      "label": "Products"
+    }
+  ],
+  "memberVariantIds": [
+    "fifty-fifty",
+    "fifty-fifty-products"
+  ]
+}

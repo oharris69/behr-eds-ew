@@ -1,0 +1,25 @@
+{
+  "variantName": "carousel-hero",
+  "baseBlock": "carousel",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "dark-overlay-on-image",
+    "density": "moderate",
+    "purpose": "blog-hero-carousel",
+    "imagePattern": "full-bleed-background",
+    "structure": "background image + h1/h2 title + text + pill CTA, one slide per row",
+    "layout": "full-bleed scroll-snap slides (480px min mobile, 420px tablet, max(440px, 32vw) desktop); dark gradient (bottom-up on mobile, left-to-right from 768px); white text left-aligned in the container; inverted white pill CTA; pause/play toggle + one dot per slide centered at the bottom; autoplay 5s looping, paused on hover/focus, stopped by any interaction, off under prefers-reduced-motion"
+  },
+  "contentPattern": "One row per slide, 2 cells: [picture] | [<h1> (slide 1) or <h2> title, <p> text, <p><a>CTA</a></p>]. Cells are detected by content (order may be swapped); plain CTA links become pill buttons (first primary, others secondary). Slide 1 image loads eagerly with high priority (LCP); the others lazy-load.",
+  "usage": {
+    "pagesUsing": [
+      "https://www.behr.com/pro/onthejob/"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-10-01T15:22:08Z"
+  },
+  "options": [],
+  "memberVariantIds": [
+    "carousel-hero"
+  ]
+}

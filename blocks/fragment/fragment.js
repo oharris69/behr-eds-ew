@@ -20,7 +20,11 @@ import {
  */
 export async function loadFragment(path) {
   if (path && path.startsWith('/') && !path.startsWith('//')) {
-    const resp = await fetch(`${path}.plain.html`);
+    let resp = await fetch(`${path}.plain.html`);
+    // local dev serves imported content under /content
+    if (!resp.ok && window.location.pathname.startsWith('/content/')) {
+      resp = await fetch(`/content${path}.plain.html`);
+    }
     if (resp.ok) {
       const main = document.createElement('main');
       main.innerHTML = await resp.text();
@@ -51,7 +55,10 @@ export default async function decorate(block) {
   const wrapper = block.closest('.fragment-wrapper');
   const section = wrapper.closest('.section');
 
-  if (section && section.children.length === 1) {
+  // a section styled through section metadata keeps its wrapper (and classes)
+  const styled = section && [...section.classList]
+    .some((c) => c !== 'section' && !c.endsWith('-container'));
+  if (section && section.children.length === 1 && !styled) {
     // fragment is the ONLY child of its section; replace the whole section
     section.replaceWith(...fragment.childNodes);
   } else {

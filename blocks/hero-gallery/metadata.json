@@ -1,0 +1,20 @@
+{
+  "variantName": "hero-gallery",
+  "baseBlock": "hero",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "spacious",
+    "purpose": "homepage-hero",
+    "imagePattern": "multi-image-gallery",
+    "structure": "h1 + paragraph + cta + image gallery"
+  },
+  "contentPattern": "Row 1: single cell with H1, paragraph, CTA link. Rows 2..n: one picture per row (12 gallery images). Deviates from vanilla hero (image first, text second) because of the multi-image gallery.",
+  "usage": {
+    "pagesUsing": ["https://www.behr.com/"],
+    "reuseCount": 1,
+    "lastUsed": "2026-09-30"
+  },
+  "options": [],
+  "memberVariantIds": ["hero-gallery"]
+}

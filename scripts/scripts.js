@@ -10,6 +10,9 @@ import {
   loadSections,
   loadCSS,
   buildBlock,
+  readBlockConfig,
+  toCamelCase,
+  toClassName,
 } from './aem.js';
 
 if (window.trustedTypes && window.trustedTypes.createPolicy) {
@@ -143,14 +146,68 @@ function decorateButtons(main) {
 }
 
 /**
+ * Applies section-metadata tables to their sections: `style` becomes section
+ * classes, other keys become data attributes. Runs after decorateSections.
+ * @param {Element} main The main element
+ */
+function decorateSectionMetadata(main) {
+  main.querySelectorAll(':scope > .section').forEach((section) => {
+    const sectionMeta = section.querySelector(':scope > div > .section-metadata');
+    if (!sectionMeta) return;
+    const meta = readBlockConfig(sectionMeta);
+    Object.keys(meta).forEach((key) => {
+      if (key === 'style') {
+        String(meta.style).split(',')
+          .map((style) => toClassName(style.trim()))
+          .filter((style) => style)
+          .forEach((style) => section.classList.add(style));
+      } else {
+        section.dataset[toCamelCase(key)] = meta[key];
+      }
+    });
+    sectionMeta.parentElement.remove();
+  });
+}
+
+/**
+ * Turns authored `:icon-name:` shorthand into icon spans. The Edge Delivery pipeline does
+ * this when it renders a page; content served as-is (local preview, some fragments) still
+ * has the text form.
+ * @param {Element} main The main element
+ */
+function decorateIconShorthand(main) {
+  const pattern = /:([a-z][a-z0-9-]*):/g;
+  const walker = document.createTreeWalker(main, NodeFilter.SHOW_TEXT, {
+    acceptNode: (node) => (node.textContent.includes(':')
+      && !node.parentElement.closest('pre, code, script, style')
+      ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT),
+  });
+  const nodes = [];
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+  nodes.forEach((node) => {
+    const parts = node.textContent.split(pattern);
+    if (parts.length === 1) return;
+    // split() alternates text and captured icon names
+    node.replaceWith(...parts.map((part, i) => {
+      if (i % 2 === 0) return part;
+      const span = document.createElement('span');
+      span.className = `icon icon-${part}`;
+      return span;
+    }).filter((part) => part !== ''));
+  });
+}
+
+/**
  * Decorates the main element.
  * @param {Element} main The main element
  */
 // eslint-disable-next-line import/prefer-default-export
 export function decorateMain(main) {
+  decorateIconShorthand(main);
   decorateIcons(main);
   buildAutoBlocks(main);
   decorateSections(main);
+  decorateSectionMetadata(main);
   decorateBlocks(main);
   decorateButtons(main);
 }

@@ -1,0 +1,268 @@
+/* Carousel Hero: full-bleed rotating hero slides with dots and autoplay */
+
+.carousel-hero {
+  position: relative;
+  isolation: isolate;
+  color: var(--theme-surface-secondary);
+  background-color: var(--theme-text-primary);
+}
+
+/* track: native horizontal scroll-snap (swipe on touch) */
+.carousel-hero .carousel-hero-track {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+
+.carousel-hero .carousel-hero-track::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel-hero .carousel-hero-slide {
+  position: relative;
+  display: grid;
+  flex: 0 0 100%;
+  min-width: 0;
+  min-height: 480px;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+/* image fills the slide; text sits on top of it */
+.carousel-hero .carousel-hero-image,
+.carousel-hero .carousel-hero-inner {
+  grid-area: 1 / 1;
+}
+
+.carousel-hero .carousel-hero-image {
+  position: relative;
+  line-height: 0;
+}
+
+.carousel-hero .carousel-hero-image picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* out of flow so the photo's intrinsic size never sets the slide height */
+.carousel-hero .carousel-hero-image img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* dark gradient for legible white text (bottom-up on mobile) */
+.carousel-hero .carousel-hero-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgb(0 0 0 / 75%) 0%, rgb(0 0 0 / 45%) 55%, rgb(0 0 0 / 15%) 100%);
+}
+
+.carousel-hero .carousel-hero-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  box-sizing: content-box;
+  width: calc(100% - 2 * var(--container-padding));
+  max-width: var(--container-max-width);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+
+  /* room for two rows of dots on small screens */
+  padding-block: 48px 104px;
+}
+
+.carousel-hero .carousel-hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  max-width: 560px;
+}
+
+.carousel-hero .carousel-hero-content > * {
+  margin: 0;
+}
+
+.carousel-hero .carousel-hero-title {
+  overflow-wrap: anywhere;
+  font-size: var(--heading-font-size-l);
+  line-height: 1.1;
+  color: inherit;
+}
+
+.carousel-hero .carousel-hero-text {
+  font-size: var(--body-font-size-m);
+  line-height: 1.4;
+}
+
+.carousel-hero .carousel-hero-cta {
+  margin-top: 8px;
+}
+
+/* the default black pill would vanish on the dark gradient: invert it */
+.carousel-hero .carousel-hero-cta a.button.primary {
+  background-color: var(--theme-surface-secondary);
+  color: var(--theme-text-primary);
+}
+
+.carousel-hero .carousel-hero-cta a.button.secondary {
+  border-color: var(--theme-surface-secondary);
+  color: var(--theme-surface-secondary);
+}
+
+.carousel-hero .carousel-hero-cta a.button:focus-visible {
+  outline-color: var(--theme-surface-secondary);
+}
+
+/* controls: pause/play + dots, centered near the bottom */
+.carousel-hero .carousel-hero-controls {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 20px;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding-inline: var(--container-padding);
+  pointer-events: none;
+}
+
+.carousel-hero .carousel-hero-dots {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.carousel-hero .carousel-hero-dot,
+.carousel-hero .carousel-hero-toggle {
+  pointer-events: auto;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--theme-surface-secondary);
+  cursor: pointer;
+}
+
+/* 24px hit area around a 10px dot */
+.carousel-hero .carousel-hero-dot {
+  width: 24px;
+  height: 24px;
+}
+
+.carousel-hero .carousel-hero-dot::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border: 1.5px solid currentcolor;
+  border-radius: 50%;
+  transition: background-color 0.2s var(--ease-snappy);
+}
+
+.carousel-hero .carousel-hero-dot[aria-current="true"]::before {
+  background-color: currentcolor;
+}
+
+/* pause glyph (two bars) / play glyph (triangle) */
+.carousel-hero .carousel-hero-toggle {
+  width: 28px;
+  height: 28px;
+  flex: none;
+  border: 1.5px solid currentcolor;
+  border-radius: 50%;
+}
+
+.carousel-hero .carousel-hero-toggle::before {
+  content: '';
+  width: 8px;
+  height: 10px;
+  border-inline: 2.5px solid currentcolor;
+}
+
+.carousel-hero .carousel-hero-toggle.is-paused::before {
+  width: 0;
+  height: 0;
+  margin-left: 3px;
+  border-block: 5.5px solid transparent;
+  border-inline: 9px solid currentcolor;
+  border-inline-end: 0;
+}
+
+.carousel-hero .carousel-hero-dot:focus-visible,
+.carousel-hero .carousel-hero-toggle:focus-visible {
+  outline: 2px solid var(--theme-surface-secondary);
+  outline-offset: 0;
+  border-radius: 50%;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .carousel-hero .carousel-hero-cta a.button.primary:hover {
+    border-color: var(--theme-surface-secondary);
+    background-color: transparent;
+    color: var(--theme-surface-secondary);
+  }
+
+  .carousel-hero .carousel-hero-cta a.button.secondary:hover {
+    border-color: transparent;
+    background-color: var(--theme-surface-secondary);
+    color: var(--theme-text-primary);
+  }
+
+  .carousel-hero .carousel-hero-dot:hover::before {
+    background-color: currentcolor;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carousel-hero .carousel-hero-dot::before {
+    transition: none;
+  }
+}
+
+/* breakpoint-exception: Behr tablet layout starts at 768px */
+@media (width >= 768px) {
+  .carousel-hero .carousel-hero-slide {
+    min-height: 420px;
+  }
+
+  /* left-to-right gradient behind the left-aligned text */
+  .carousel-hero .carousel-hero-image::after {
+    background: linear-gradient(90deg, rgb(0 0 0 / 70%) 0%, rgb(0 0 0 / 40%) 45%, rgb(0 0 0 / 0%) 80%);
+  }
+
+  .carousel-hero .carousel-hero-inner {
+    align-items: center;
+    padding-block: 56px 72px;
+  }
+}
+
+/* breakpoint-exception: Behr desktop layout starts at 1024px */
+@media (width >= 1024px) {
+  .carousel-hero .carousel-hero-slide {
+    min-height: max(440px, 32vw);
+  }
+
+  .carousel-hero .carousel-hero-content {
+    gap: 24px;
+    max-width: 600px;
+  }
+
+  .carousel-hero .carousel-hero-title {
+    font-size: var(--heading-font-size-xl);
+  }
+}

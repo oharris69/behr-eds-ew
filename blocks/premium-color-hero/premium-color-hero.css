@@ -1,0 +1,286 @@
+/* premium color hero: full-bleed poster/video, color bar with a curved top on the page color */
+.premium-color-hero {
+  --premium-color-hero-fg: var(--theme-text-primary);
+  --premium-color-hero-bar-height: 160px;
+
+  position: relative;
+  overflow: hidden;
+  background-color: var(--page-color, var(--theme-surface-tertiary));
+  color: var(--premium-color-hero-fg);
+}
+
+.premium-color-hero.color-theme-dark {
+  --premium-color-hero-fg: var(--theme-surface-secondary);
+}
+
+.premium-color-hero-icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 2;
+}
+
+.premium-color-hero-icon-play,
+.premium-color-hero-icon-pause {
+  width: 16px;
+  height: 16px;
+}
+
+.premium-color-hero-icon-play {
+  fill: currentcolor;
+  stroke: none;
+}
+
+.premium-color-hero-icon-pause {
+  stroke-width: 3;
+}
+
+/* media */
+.premium-color-hero-media {
+  position: relative;
+  max-width: var(--container-max-width);
+  height: clamp(320px, calc(100svh - var(--nav-height) - var(--premium-color-hero-bar-height)), 125vw);
+  margin-inline: auto;
+  overflow: hidden;
+}
+
+.premium-color-hero-media picture,
+.premium-color-hero-media img,
+.premium-color-hero-video {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.premium-color-hero-video {
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-in);
+}
+
+.premium-color-hero-media.is-playing .premium-color-hero-video {
+  opacity: 1;
+}
+
+.premium-color-hero-video-toggle {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 50%;
+  padding: 0;
+  background-color: var(--theme-surface-secondary);
+  color: var(--theme-text-primary);
+  cursor: pointer;
+}
+
+.premium-color-hero-video-toggle::after {
+  /* 44px hit area around the 32px button */
+  content: "";
+  position: absolute;
+  inset: -6px;
+}
+
+.premium-color-hero-video-toggle:focus-visible {
+  outline: 2px solid var(--premium-color-hero-fg);
+  outline-offset: 4px;
+}
+
+.premium-color-hero-media .premium-color-hero-video-toggle:focus-visible {
+  outline-color: var(--theme-surface-secondary);
+}
+
+/* overlay option: title group over the media */
+.premium-color-hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px var(--container-padding) 64px;
+  background: linear-gradient(rgb(0 0 0 / 35%), rgb(0 0 0 / 0%) 70%);
+  color: var(--theme-surface-secondary);
+  text-align: center;
+}
+
+/* color bar: curved top edge rising over the media */
+.premium-color-hero-bar {
+  position: relative;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 24px;
+  max-width: var(--container-max-width);
+  min-height: var(--premium-color-hero-bar-height);
+  margin-inline: auto;
+  padding: 16px var(--container-padding) 32px;
+}
+
+.premium-color-hero-bar::before {
+  content: "";
+  position: absolute;
+  bottom: calc(100% - 1px);
+  left: -40%;
+  width: 180%;
+  height: 48px;
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  background-color: var(--page-color, var(--theme-surface-tertiary));
+  pointer-events: none;
+}
+
+.premium-color-hero-text {
+  position: relative;
+  text-align: center;
+}
+
+.premium-color-hero-text p,
+.premium-color-hero-text h1 {
+  margin: 0;
+}
+
+.premium-color-hero-eyebrow {
+  margin-bottom: 8px;
+  font-size: var(--body-font-size-m);
+  font-weight: 600;
+}
+
+.premium-color-hero .premium-color-hero-title,
+.premium-color-hero-name {
+  font-size: var(--heading-font-size-s);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.premium-color-hero-overlay .premium-color-hero-title {
+  font-size: var(--heading-font-size-xxl);
+}
+
+.premium-color-hero-code {
+  font-size: var(--body-font-size-xs);
+  line-height: 1.4;
+}
+
+.premium-color-hero-cta {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.premium-color-hero-cta:empty {
+  display: none;
+}
+
+.premium-color-hero-project {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 56px;
+  border: 2px solid transparent;
+  border-radius: 96px;
+  padding: 16px 32px;
+  background-color: var(--theme-surface-secondary);
+  color: var(--theme-text-primary);
+  cursor: pointer;
+  transition:
+    border-color 0.15s var(--ease-snappy),
+    background-color 0.15s var(--ease-snappy),
+    color 0.15s var(--ease-snappy);
+}
+
+.premium-color-hero.color-theme-light .premium-color-hero-project {
+  background-color: var(--theme-text-primary);
+  color: var(--theme-surface-secondary);
+}
+
+.premium-color-hero-project[aria-pressed="true"] {
+  border-color: var(--premium-color-hero-fg);
+}
+
+.premium-color-hero .premium-color-hero-project:focus-visible {
+  outline: 2px solid var(--premium-color-hero-fg);
+  outline-offset: 4px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .premium-color-hero .premium-color-hero-project:hover {
+    border-color: var(--premium-color-hero-fg);
+    background-color: transparent;
+    color: var(--premium-color-hero-fg);
+  }
+}
+
+/* breakpoint-exception: Behr tablet layout starts at 768px */
+@media (width >= 768px) {
+  .premium-color-hero {
+    --premium-color-hero-bar-height: 120px;
+  }
+
+  .premium-color-hero-media {
+    height: clamp(360px, calc(100svh - var(--nav-height) - var(--premium-color-hero-bar-height)), 56.25vw);
+  }
+
+  .premium-color-hero-bar {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: start;
+    padding-block: 16px 40px;
+  }
+
+  .premium-color-hero-bar::before {
+    left: -15%;
+    width: 130%;
+    height: 64px;
+  }
+
+  .premium-color-hero-cta {
+    justify-content: flex-start;
+  }
+
+  .premium-color-hero-project {
+    width: 98px;
+    min-height: 60px;
+    padding: 16px;
+  }
+
+  .premium-color-hero-video-toggle {
+    top: 24px;
+    right: 24px;
+  }
+}
+
+/* breakpoint-exception: Behr desktop layout starts at 1024px */
+@media (width >= 1024px) {
+  .premium-color-hero-bar {
+    padding-inline: 96px;
+  }
+
+  .premium-color-hero .premium-color-hero-title,
+  .premium-color-hero-name {
+    font-size: 32px;
+  }
+
+  .premium-color-hero-code {
+    font-size: var(--body-font-size-s);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .premium-color-hero-video,
+  .premium-color-hero-project {
+    transition: none;
+  }
+}

@@ -1,0 +1,184 @@
+/* Fifty-Fifty: intro + equal side-by-side cards (heading, image, pill CTA) */
+
+.fifty-fifty {
+  box-sizing: content-box;
+  max-width: var(--container-max-width);
+  margin-inline: auto;
+  padding-block: 64px;
+  padding-inline: var(--container-padding);
+}
+
+/* padded sections (section metadata style) already provide the vertical rhythm */
+.section:is(.light, .highlight, .dark) .fifty-fifty {
+  padding-block: 0;
+}
+
+/* intro */
+.fifty-fifty .fifty-fifty-intro {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 40px;
+}
+
+.fifty-fifty .fifty-fifty-intro > * {
+  margin: 0;
+}
+
+/* cards */
+.fifty-fifty .fifty-fifty-cards {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 8px;
+}
+
+.fifty-fifty .fifty-fifty-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  min-width: 0;
+  border-radius: 16px;
+  padding: 40px 16px 16px;
+  background-color: var(--theme-surface-secondary);
+  color: var(--theme-text-primary);
+  text-align: center;
+}
+
+.fifty-fifty .fifty-fifty-card-title {
+  max-width: 20ch;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.fifty-fifty .fifty-fifty-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fifty-fifty .fifty-fifty-card-image {
+  width: 100%;
+  line-height: 0;
+}
+
+.fifty-fifty .fifty-fifty-card-image a,
+.fifty-fifty .fifty-fifty-card-image picture {
+  display: block;
+  width: 100%;
+}
+
+.fifty-fifty .fifty-fifty-card-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 7 / 4;
+  object-fit: cover;
+}
+
+/* CTAs sit at the bottom so buttons line up across cards */
+.fifty-fifty .fifty-fifty-card-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+  width: 100%;
+  margin-top: auto;
+}
+
+.fifty-fifty .fifty-fifty-card-actions a.button {
+  width: 100%;
+}
+
+/* breakpoint-exception: Behr tablet layout starts at 768px */
+@media (width >= 768px) {
+  .fifty-fifty .fifty-fifty-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .fifty-fifty .fifty-fifty-card:only-child {
+    grid-column: 1 / -1;
+  }
+
+  .fifty-fifty .fifty-fifty-card-actions {
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .fifty-fifty .fifty-fifty-card-actions a.button {
+    width: auto;
+  }
+}
+
+/* breakpoint-exception: Behr desktop layout starts at 1024px */
+@media (width >= 1024px) {
+  .fifty-fifty {
+    padding-block: 104px;
+  }
+
+  .fifty-fifty .fifty-fifty-intro {
+    padding-bottom: 64px;
+  }
+
+  .fifty-fifty .fifty-fifty-cards:has(> :nth-child(3):last-child) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .fifty-fifty .fifty-fifty-card {
+    gap: 32px;
+    border-radius: 24px;
+    padding: 64px 32px;
+  }
+
+  .fifty-fifty .fifty-fifty-card-title {
+    max-width: 9.5em;
+  }
+}
+
+/* products option: product images without card chrome, full-width pill button below */
+.fifty-fifty.products .fifty-fifty-cards {
+  gap: 40px;
+}
+
+.fifty-fifty.products .fifty-fifty-card {
+  gap: 24px;
+  border-radius: 0;
+  padding: 0;
+  background-color: transparent;
+}
+
+.fifty-fifty.products .fifty-fifty-card-image img {
+  aspect-ratio: 2 / 1;
+  object-fit: contain;
+
+  /* product shots on white melt into the page background */
+  mix-blend-mode: multiply;
+}
+
+.fifty-fifty.products .fifty-fifty-card-actions a.button {
+  width: 100%;
+}
+
+/* breakpoint-exception: Behr tablet layout starts at 768px */
+@media (width >= 768px) {
+  .fifty-fifty.products .fifty-fifty-cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 32px;
+  }
+
+  .fifty-fifty.products .fifty-fifty-card-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+/* breakpoint-exception: Behr desktop layout starts at 1024px */
+@media (width >= 1024px) {
+  .fifty-fifty.products .fifty-fifty-card {
+    gap: 32px;
+  }
+}
