@@ -9,8 +9,10 @@ const isDesktop = window.matchMedia('(width >= 1024px)');
  * @returns {Promise<Document|null>} parsed fragment
  */
 async function fetchNav() {
-  let resp = await fetch('/content/nav.plain.html');
-  if (!resp.ok) resp = await fetch('/nav.plain.html');
+  // the local dev server serves imported content under /content; DA/EDS serves it at the root
+  let resp = window.location.pathname.startsWith('/content/')
+    ? await fetch('/content/nav.plain.html') : null;
+  if (!resp?.ok) resp = await fetch('/nav.plain.html');
   if (!resp.ok) return null;
   const doc = new DOMParser().parseFromString(await resp.text(), 'text/html');
   // fragment image paths are relative to the fragment itself
@@ -678,7 +680,9 @@ function setupSheet(button, sheet) {
 export default async function decorate(block) {
   const doc = await fetchNav();
   if (!doc) return;
-  const sections = [...doc.body.querySelectorAll(':scope > div')];
+  // skip empty sections (e.g. the one left behind by a page metadata block)
+  const sections = [...doc.body.querySelectorAll(':scope > div')]
+    .filter((section) => section.children.length);
   if (sections.length < 2) return;
   const [utilitySection, brandSection, ...rest] = sections;
   const toolsSection = rest.pop();

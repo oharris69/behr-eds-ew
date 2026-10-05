@@ -4,8 +4,9 @@
  * @returns {Promise<Document|null>} parsed fragment
  */
 async function fetchFooter() {
-  let resp = await fetch('/content/footer.plain.html');
-  if (!resp.ok) resp = await fetch('/footer.plain.html');
+  let resp = window.location.pathname.startsWith('/content/')
+    ? await fetch('/content/footer.plain.html') : null;
+  if (!resp?.ok) resp = await fetch('/footer.plain.html');
   if (!resp.ok) return null;
   const doc = new DOMParser().parseFromString(await resp.text(), 'text/html');
   // fragment image paths are relative to the fragment itself
@@ -324,7 +325,9 @@ function buildBrand(section) {
 export default async function decorate(block) {
   const doc = await fetchFooter();
   if (!doc) return;
-  const [subscribe, links, legal, brandSection] = [...doc.body.querySelectorAll(':scope > div')];
+  // skip empty sections (e.g. the one left behind by a page metadata block)
+  const [subscribe, links, legal, brandSection] = [...doc.body.querySelectorAll(':scope > div')]
+    .filter((section) => section.children.length);
   block.textContent = '';
 
   if (subscribe) block.append(...buildSubscribe(parseSubscribe(subscribe)));
