@@ -4,8 +4,11 @@ import { isInProject, toggleProjectColor, PROJECTS_CHANGE_EVENT } from '../../sc
 
 /* UI strings (not authored) */
 const LABELS = {
-  addToProject: 'Add {color} to project',
-  removeFromProject: 'Remove {color} from project',
+  addToProject: 'Add to project',
+  addedToProject: 'Added to project',
+  /* accessible names contain the visible label (shown below 1024px) plus the color */
+  addColorToProject: 'Add to project: {color}',
+  addedColorToProject: 'Added to project: {color}',
   playVideo: 'Play background video',
   pauseVideo: 'Pause background video',
 };
@@ -132,7 +135,8 @@ function buildMedia(picture, videoSrc) {
 }
 
 /**
- * Round "+" button that adds/removes the page color from My Projects.
+ * "Add to project" pill (icon-only circle on desktop) that adds/removes the page color
+ * from My Projects.
  * @param {{ code: string, name: string, hex?: string }} color
  * @returns {HTMLButtonElement}
  */
@@ -145,8 +149,11 @@ function buildProjectButton(color) {
   const sync = () => {
     const saved = isInProject(color.code);
     button.setAttribute('aria-pressed', String(saved));
-    button.setAttribute('aria-label', (saved ? LABELS.removeFromProject : LABELS.addToProject).replace('{color}', colorLabel));
-    button.replaceChildren(icon(saved ? 'check' : 'plus'));
+    button.setAttribute('aria-label', (saved ? LABELS.addedColorToProject : LABELS.addColorToProject).replace('{color}', colorLabel));
+    const label = document.createElement('span');
+    label.className = 'premium-color-hero-project-label';
+    label.textContent = saved ? LABELS.addedToProject : LABELS.addToProject;
+    button.replaceChildren(label, icon(saved ? 'check' : 'plus'));
   };
   button.addEventListener('click', () => {
     toggleProjectColor(color);

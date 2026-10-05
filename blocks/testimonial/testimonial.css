@@ -3,8 +3,8 @@
 .testimonial {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 40px;
-  padding-block: 64px;
+  gap: 64px;
+  padding-block: 104px;
 
   /* full-bleed color, content capped at the Behr container width */
   padding-inline: max(var(--container-padding), calc((100% - var(--container-max-width)) / 2));
@@ -26,19 +26,21 @@
 .testimonial .testimonial-color {
   display: flex;
   flex-direction: column;
-  gap: 4px;
 }
 
-.testimonial .testimonial-eyebrow {
-  font-size: var(--body-font-size-s);
+.testimonial p.testimonial-eyebrow {
+  margin-bottom: 4px;
+  font-size: var(--body-font-size-m);
   font-weight: 600;
   line-height: 1.2;
 }
 
-.testimonial .testimonial-color-name {
-  font-size: var(--heading-font-size-s);
+.testimonial p.testimonial-color-name {
+  margin-bottom: 4px;
+  font-size: var(--heading-font-size-m);
   font-weight: 700;
-  line-height: 1.2;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
 }
 
 .testimonial .testimonial-color-code {
@@ -58,10 +60,10 @@
 
 .testimonial .testimonial-quote p {
   font-family: var(--heading-font-family);
-  font-size: var(--heading-font-size-xl);
+  font-size: var(--heading-font-size-xxl);
   font-weight: 400;
-  line-height: 1.1;
-  letter-spacing: -0.01em;
+  line-height: 1;
+  letter-spacing: -0.02em;
   overflow-wrap: break-word;
 }
 
@@ -76,7 +78,7 @@
 }
 
 .testimonial .testimonial-quote + .testimonial-attribution {
-  margin-top: 32px;
+  margin-top: 24px;
 }
 
 .testimonial .testimonial-avatar {
@@ -104,14 +106,7 @@
 
 .testimonial .testimonial-attributor-name {
   font-size: var(--body-font-size-s);
-  font-weight: 700;
-}
-
-/* breakpoint-exception: Behr tablet layout starts at 768px */
-@media (width >= 768px) {
-  .testimonial {
-    padding-block: 80px;
-  }
+  font-weight: 600;
 }
 
 /* breakpoint-exception: Behr desktop layout starts at 1024px */
@@ -119,14 +114,17 @@
   .testimonial {
     grid-template-columns: minmax(0, 3fr) minmax(0, 8fr);
     column-gap: calc(100% / 12);
-    padding-block: 100px;
   }
 
   .testimonial .testimonial-content {
     grid-column: 2;
   }
 
-  .testimonial .testimonial-quote p {
-    font-size: var(--heading-font-size-xxl);
+  .testimonial p.testimonial-color-name {
+    line-height: 1;
+  }
+
+  .testimonial .testimonial-quote + .testimonial-attribution {
+    margin-top: 32px;
   }
 }

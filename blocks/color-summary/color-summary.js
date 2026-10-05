@@ -10,11 +10,15 @@ const LABELS = {
   whyBehr: 'Why Behr paint?',
   lrv: 'LRV',
   lrvTitle: 'Light Reflectance Value',
+  lrvDescription: 'LRV (Light Reflectance Value) indicates how much light a color reflects, on a scale of 0 (black) to 100 (white).',
   rgb: 'RGB',
+  rgbDescription: 'RGB (Red, Green, Blue) is a digital formula that defines colors on screens and ensures accurate color matching for online design, mockups, and branding.',
   hex: 'HEX',
+  hexDescription: 'A hex is a six-character color code like #RRGGBB that defines colors precisely by combining red, green, and blue values.',
   red: 'R',
   green: 'G',
   blue: 'B',
+  moreInfo: 'More information about',
   addToProject: 'Add to project',
   addedToProject: 'Added to project',
 };
@@ -61,6 +65,138 @@ function el(tag, className, text) {
 }
 
 /**
+ * @param {string} name icon file name in /icons
+ * @returns {string}
+ */
+const iconUrl = (name) => `${window.hlx?.codeBasePath || ''}/icons/${name}.svg`;
+
+/**
+ * Icon drawn as a currentcolor mask so it follows the block's light/dark theme.
+ * @param {string} src
+ * @param {string} className
+ * @returns {HTMLElement}
+ */
+function maskIcon(src, className) {
+  const span = el('span', `color-summary-mask ${className}`);
+  span.setAttribute('aria-hidden', 'true');
+  span.style.setProperty('--color-summary-mask', `url("${src}")`);
+  return span;
+}
+
+/**
+ * Re-renders an authored `:name:` icon span (white-stroke SVG) as a themed mask.
+ * @param {Element} span
+ * @returns {HTMLElement|null}
+ */
+function themedIcon(span) {
+  const name = [...span.classList].find((c) => c.startsWith('icon-'))?.slice(5);
+  const src = span.querySelector('img')?.src || (name && iconUrl(name));
+  return src ? maskIcon(src, 'color-summary-feature-icon') : null;
+}
+
+const HOVER_CLOSE_DELAY = 150;
+const openTips = new Set();
+let tipCount = 0;
+
+/**
+ * Info tooltip: [icon?] [label] [info button] with a card that overlays the row.
+ * Hover / keyboard focus previews the card, click / tap pins it (the button turns into a
+ * close icon), and Escape, an outside click or moving focus away closes it.
+ * @param {object} options
+ * @param {HTMLElement} options.label trigger label (moved into the tooltip)
+ * @param {HTMLElement|null} [options.icon] decorative trigger icon
+ * @param {string} options.title card title
+ * @param {{ title: string, text: Node[], icon?: HTMLElement|null }[]} options.items
+ * @returns {HTMLElement}
+ */
+function buildTooltip({
+  label, icon: leadIcon = null, title, items,
+}) {
+  tipCount += 1;
+  const tip = el('div', 'color-summary-tip');
+  if (leadIcon) tip.classList.add('color-summary-tip-has-icon');
+  tip.dataset.state = 'closed';
+  tip.dataset.pinned = 'false';
+
+  const card = el('div', 'color-summary-tip-card');
+  card.id = `color-summary-tip-${tipCount}`;
+  card.setAttribute('role', 'tooltip');
+  const list = el('div', 'color-summary-tip-items');
+  items.forEach((item) => {
+    const row = el('div', 'color-summary-tip-item');
+    const text = el('div', 'color-summary-tip-text');
+    text.append(...item.text);
+    row.append(...[item.icon, el('p', 'color-summary-tip-item-title', item.title), text]
+      .filter(Boolean));
+    list.append(row);
+  });
+  const body = el('div', 'color-summary-tip-body');
+  body.append(list);
+  card.append(el('p', 'color-summary-tip-title', title), body);
+
+  const toggle = el('button', 'color-summary-tip-toggle');
+  toggle.type = 'button';
+  toggle.setAttribute('aria-expanded', 'false');
+  toggle.setAttribute('aria-describedby', card.id);
+  toggle.setAttribute('aria-label', `${LABELS.moreInfo} ${label.textContent.trim()}`);
+  toggle.append(
+    maskIcon(iconUrl('info'), 'color-summary-tip-info'),
+    maskIcon(iconUrl('close'), 'color-summary-tip-close'),
+  );
+
+  let closeTimer;
+  const setPinned = (pinned) => { tip.dataset.pinned = String(pinned); };
+  const isPinned = () => tip.dataset.pinned === 'true';
+  /* eslint-disable no-use-before-define */
+  const onKeydown = (e) => { if (e.key === 'Escape') close(); };
+  const onPointerdown = (e) => { if (!tip.contains(e.target)) close(); };
+  /* eslint-enable no-use-before-define */
+
+  function close() {
+    clearTimeout(closeTimer);
+    setPinned(false);
+    if (tip.dataset.state !== 'open') return;
+    tip.dataset.state = 'closed';
+    toggle.setAttribute('aria-expanded', 'false');
+    document.removeEventListener('keydown', onKeydown);
+    document.removeEventListener('pointerdown', onPointerdown);
+    openTips.delete(close);
+  }
+
+  function open(pinned) {
+    clearTimeout(closeTimer);
+    setPinned(pinned);
+    if (tip.dataset.state === 'open') return;
+    openTips.forEach((closeOther) => closeOther());
+    tip.dataset.state = 'open';
+    toggle.setAttribute('aria-expanded', 'true');
+    document.addEventListener('keydown', onKeydown);
+    document.addEventListener('pointerdown', onPointerdown);
+    openTips.add(close);
+  }
+
+  toggle.addEventListener('click', () => (isPinned() ? close() : open(true)));
+  toggle.addEventListener('pointerenter', (e) => {
+    if (e.pointerType === 'mouse') open(isPinned());
+  });
+  toggle.addEventListener('focus', () => {
+    if (toggle.matches(':focus-visible')) open(isPinned());
+  });
+  tip.addEventListener('pointerenter', () => clearTimeout(closeTimer));
+  tip.addEventListener('pointerleave', (e) => {
+    if (e.pointerType !== 'mouse' || isPinned() || toggle.matches(':focus-visible')) return;
+    closeTimer = setTimeout(close, HOVER_CLOSE_DELAY);
+  });
+  tip.addEventListener('focusout', (e) => {
+    if (!tip.contains(e.relatedTarget)) close();
+  });
+
+  leadIcon?.classList.add('color-summary-tip-icon');
+  tip.append(...[leadIcon, label, toggle, card].filter(Boolean));
+  return tip;
+}
+
+/**
  * Accepts a site path or a full URL and returns the path loadFragment expects.
  * @param {string} value
  * @returns {string|null}
@@ -104,6 +240,52 @@ function buildColumn(modifier, title) {
 }
 
 /**
+ * One "What you'll love" item. Authored as `:icon: Label` with an optional nested list
+ * whose items become the info tooltip text (icon and nested list are both optional).
+ * @param {Element} source li, p or cell
+ * @returns {HTMLElement|null}
+ */
+function buildFeature(source) {
+  const nested = [...source.querySelectorAll(':scope > ul, :scope > ol')];
+  const tipText = nested
+    .flatMap((list) => [...list.querySelectorAll(':scope > li')])
+    .filter((item) => item.textContent.trim())
+    .map((item) => {
+      const p = el('p');
+      p.append(...item.childNodes);
+      return p;
+    });
+  nested.forEach((list) => list.remove());
+
+  const iconSpan = source.querySelector(':scope > .icon');
+  const featureIcon = iconSpan ? themedIcon(iconSpan) : null;
+  iconSpan?.remove();
+
+  const label = el('span', 'color-summary-feature-label');
+  label.append(...source.childNodes);
+  const first = label.firstChild;
+  const last = label.lastChild;
+  if (first?.nodeType === Node.TEXT_NODE) first.textContent = first.textContent.trimStart();
+  if (last?.nodeType === Node.TEXT_NODE) last.textContent = last.textContent.trimEnd();
+  if (!label.textContent.trim() && !label.querySelector('img, picture')) return null;
+
+  const li = el('li', 'color-summary-feature');
+  if (tipText.length) {
+    const itemIcon = featureIcon?.cloneNode(true);
+    itemIcon?.classList.add('color-summary-tip-item-icon');
+    li.append(buildTooltip({
+      label,
+      icon: featureIcon,
+      title: LABELS.whatYoullLove,
+      items: [{ icon: itemIcon, title: label.textContent.trim(), text: tipText }],
+    }));
+  } else {
+    li.append(...[featureIcon, label].filter(Boolean));
+  }
+  return li;
+}
+
+/**
  * "What you'll love": authored items first, then the shared fragment items.
  * @param {Element[]} authoredRows rows after the statement row
  * @returns {Promise<HTMLElement>}
@@ -113,13 +295,13 @@ async function buildFeatures(authoredRows) {
   const list = el('ul', 'color-summary-features-list');
 
   const addItem = (source) => {
-    const li = el('li', 'color-summary-feature');
-    li.append(...source.childNodes);
-    if (li.textContent.trim() || li.querySelector('img, picture')) list.append(li);
+    const li = buildFeature(source);
+    if (li) list.append(li);
   };
 
   authoredRows.forEach((row) => {
-    const items = row.querySelectorAll('li');
+    // top-level items only: nested lists hold tooltip text
+    const items = [...row.querySelectorAll('li')].filter((li) => !li.parentElement.closest('li'));
     if (items.length) items.forEach(addItem);
     else {
       row.querySelectorAll(':scope > div').forEach((cell) => {
@@ -148,7 +330,16 @@ async function buildFeatures(authoredRows) {
  */
 function buildColorInfo(color) {
   if (!color) return null;
-  const { col } = buildColumn('info', LABELS.colorInfo);
+  const { col, heading } = buildColumn('info', LABELS.colorInfo);
+  col.prepend(buildTooltip({
+    label: heading,
+    title: LABELS.colorInfo,
+    items: [
+      [LABELS.lrv, LABELS.lrvDescription],
+      [LABELS.rgb, LABELS.rgbDescription],
+      [LABELS.hex, LABELS.hexDescription],
+    ].map(([title, text]) => ({ title, text: [el('p', '', text)] })),
+  }));
   const data = el('dl', 'color-summary-data');
 
   const addRow = (modifier, pairs) => {

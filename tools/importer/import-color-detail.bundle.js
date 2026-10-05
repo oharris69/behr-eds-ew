@@ -100,9 +100,16 @@ var CustomImportScript = (() => {
     if (store) store.remove();
     if (items.length && !element.querySelector(":scope > div:nth-child(n+2) li")) {
       const ul = document2.createElement("ul");
-      items.forEach(({ name }) => {
+      items.forEach(({ name, icon, tooltip }) => {
         const li = document2.createElement("li");
-        li.textContent = name;
+        li.textContent = icon ? `:${icon}: ${name}` : name;
+        if (tooltip) {
+          const tip = document2.createElement("ul");
+          const tipItem = document2.createElement("li");
+          tipItem.textContent = tooltip;
+          tip.append(tipItem);
+          li.append(tip);
+        }
         ul.append(li);
       });
       let row = element.children[1];

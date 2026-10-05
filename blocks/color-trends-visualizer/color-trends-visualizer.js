@@ -368,7 +368,8 @@ export default function decorate(block) {
   /* selection panel */
   const selectedSwatch = el('span', { class: 'ctv-selected-swatch', 'aria-hidden': 'true' });
   const selectedName = el('span', { class: 'ctv-selected-name' });
-  const selectedCode = el('span', { class: 'ctv-selected-code' });
+  // the color code is announced but not shown (the source shows the name only)
+  const selectedCode = el('span', { class: 'ctv-selected-code ctv-visually-hidden' });
   const selectedInfo = el(
     'p',
     { class: 'ctv-selected', 'aria-live': 'polite' },
@@ -395,7 +396,7 @@ export default function decorate(block) {
     if (color) {
       selectedSwatch.style.setProperty('--chip-color', color.hex);
       selectedName.textContent = color.name;
-      selectedCode.textContent = color.code;
+      selectedCode.textContent = ` ${color.code}`;
       const saved = isInProject(color.code);
       addButton.disabled = false;
       addButton.setAttribute('aria-pressed', String(saved));

@@ -47,14 +47,13 @@
 }
 
 .room-carousel-intro p {
-  line-height: 1.4;
+  line-height: 1.2;
 }
 
 /* slider */
 .room-carousel-viewer {
   display: flex;
   flex-direction: column;
-  gap: 24px;
   min-width: 0;
 }
 
@@ -100,6 +99,7 @@
 
 .room-carousel-controls {
   display: flex;
+  padding-top: 24px;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
@@ -168,6 +168,10 @@
   color: var(--room-carousel-fg);
 }
 
+.room-carousel-cta-mobile {
+  margin-top: 32px;
+}
+
 .room-carousel-cta-mobile .room-carousel-project {
   width: 100%;
 }
@@ -211,6 +215,14 @@
     border-radius: 24px;
   }
 
+  .room-carousel .room-carousel-title {
+    line-height: 1;
+  }
+
+  .room-carousel-controls {
+    padding-top: 32px;
+  }
+
   .room-carousel-slide img {
     aspect-ratio: 3 / 2;
   }
@@ -231,7 +243,7 @@
   /* premium: intro left, slider right */
   .room-carousel.premium {
     grid-template-columns: repeat(12, minmax(0, 1fr));
-    column-gap: 24px;
+    column-gap: 8px;
   }
 
   .room-carousel.premium .room-carousel-intro {

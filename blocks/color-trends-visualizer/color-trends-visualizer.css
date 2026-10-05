@@ -4,7 +4,6 @@
   box-sizing: content-box;
   display: flex;
   flex-direction: column;
-  gap: 40px;
   max-width: var(--container-max-width);
   margin-inline: auto;
   padding-block: 64px;
@@ -45,15 +44,16 @@
 .color-trends-visualizer .ctv-description,
 .color-trends-visualizer .ctv-instruction {
   font-size: var(--body-font-size-s);
-  line-height: 1.3;
+  line-height: 1.2;
 }
 
 /* stage column */
 .color-trends-visualizer .ctv-stage-area {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 19px;
   min-width: 0;
+  margin-top: 64px;
 }
 
 /* room tabs */
@@ -72,14 +72,14 @@
   display: inline-flex;
   flex: 0 0 auto;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   border: 0;
-  padding: 8px 2px;
+  padding: 8px 0;
   background: none;
   color: var(--theme-text-tertiary);
   font-family: var(--body-font-family);
   font-size: var(--body-font-size-xs);
-  font-weight: 600;
+  font-weight: 400;
   line-height: 1;
   white-space: nowrap;
   cursor: pointer;
@@ -98,9 +98,19 @@
   mask: var(--icon) center / contain no-repeat;
 }
 
+.color-trends-visualizer .ctv-tab-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.color-trends-visualizer .ctv-add-icon {
+  width: 24px;
+  height: 24px;
+}
+
 .color-trends-visualizer .ctv-tab-label {
-  padding-bottom: 2px;
   border-bottom: 1.5px solid transparent;
+  font-weight: 600;
 }
 
 .color-trends-visualizer .ctv-tab[aria-selected="true"] .ctv-tab-label {
@@ -114,6 +124,7 @@
 
 /* stage: base photo, one paint layer per surface, shading overlay on top */
 .color-trends-visualizer .ctv-panel {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -165,11 +176,22 @@
   pointer-events: none;
 }
 
-/* surface buttons: keyboard / screen reader alternative to tapping the photo */
+/* surface buttons: keyboard / screen reader alternative to tapping the photo;
+   visually hidden until one of them receives focus */
 .color-trends-visualizer .ctv-surfaces {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+}
+
+.color-trends-visualizer .ctv-surfaces:not(:focus-within) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .color-trends-visualizer .ctv-surface {
@@ -202,7 +224,7 @@
 .color-trends-visualizer .ctv-chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 16px;
 }
 
 .color-trends-visualizer .ctv-chip {
@@ -226,7 +248,8 @@
 .color-trends-visualizer .ctv-selection {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 16px;
+  margin-top: 24px;
 }
 
 .color-trends-visualizer .ctv-selected {
@@ -234,13 +257,15 @@
   align-items: center;
   gap: 24px;
   border-top: 1px solid var(--theme-border-secondary);
-  padding-top: 16px;
+  padding-block: 16px 24px;
 }
 
+/* swatch sits in a 44px column, like the source palette row */
 .color-trends-visualizer .ctv-selected-swatch {
   flex: 0 0 auto;
   width: 32px;
   height: 32px;
+  margin-inline-end: 12px;
   border: 1px dashed var(--theme-border-secondary);
   border-radius: 4px;
   forced-color-adjust: none;
@@ -259,15 +284,9 @@
 }
 
 .color-trends-visualizer .ctv-selected-name {
-  font-size: var(--body-font-size-s);
+  font-size: var(--body-font-size-xs);
   font-weight: 700;
   line-height: 1.2;
-}
-
-.color-trends-visualizer .ctv-selected-code {
-  font-size: var(--body-font-size-xs);
-  line-height: 1.2;
-  color: var(--theme-text-secondary);
 }
 
 .color-trends-visualizer .ctv-actions {
@@ -292,10 +311,6 @@
 
 /* breakpoint-exception: Behr tablet layout starts at 768px */
 @media (width >= 768px) {
-  .color-trends-visualizer .ctv-tabs {
-    gap: 24px;
-  }
-
   .color-trends-visualizer .ctv-actions {
     flex-direction: row;
   }
@@ -310,9 +325,10 @@
 @media (width >= 1024px) {
   .color-trends-visualizer {
     display: grid;
-    grid-template-columns: minmax(240px, 25%) minmax(0, 1fr);
+    grid-template-columns: max(240px, 24.5313%) minmax(0, 1400px);
     grid-template-rows: auto 1fr;
-    gap: 40px 10%;
+    column-gap: min(17.0313%, 218px);
+    justify-content: space-between;
     padding-block: 100px 80px;
   }
 
@@ -322,15 +338,43 @@
     margin-top: 56px;
   }
 
+  .color-trends-visualizer .ctv-intro > :is(h1, h2, h3, h4, h5, h6) {
+    line-height: 1;
+  }
+
   .color-trends-visualizer .ctv-stage-area {
     grid-column: 2;
     grid-row: 1 / span 2;
+    gap: 0;
+    margin-top: 0;
+  }
+
+  .color-trends-visualizer .ctv-tabs {
+    gap: 24px;
+  }
+
+  .color-trends-visualizer .ctv-panel {
+    margin-top: 40px;
+  }
+
+  .color-trends-visualizer .ctv-instruction {
+    margin-top: 14px;
+  }
+
+  .color-trends-visualizer .ctv-chips {
+    gap: 8px;
+    margin-top: 10px;
   }
 
   .color-trends-visualizer .ctv-selection {
     grid-column: 1;
     grid-row: 2;
     align-self: end;
+    margin-top: 76px;
+  }
+
+  .color-trends-visualizer .ctv-selected-name {
+    font-size: var(--body-font-size-s);
   }
 
   .color-trends-visualizer .ctv-actions {
@@ -354,5 +398,12 @@
   .color-trends-visualizer .ctv-chip {
     width: 29px;
     height: 29px;
+  }
+}
+
+/* breakpoint-exception: Behr widens the text column from 1440px */
+@media (width >= 1440px) {
+  .color-trends-visualizer {
+    grid-template-columns: calc(314px + 0.6 * (100% - 1280px)) minmax(0, 1400px);
   }
 }

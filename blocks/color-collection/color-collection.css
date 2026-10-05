@@ -8,7 +8,7 @@
   padding-inline: var(--container-padding);
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 24px;
   color: var(--theme-text-primary);
 }
 
@@ -128,8 +128,13 @@ main .section:is(.light, .dark, .highlight) .color-collection {
 /* breakpoint-exception: Behr desktop layout starts at 1024px */
 @media (width >= 1024px) {
   .color-collection {
-    gap: 40px;
-    padding-block: 100px;
+    gap: 64px;
+    padding-block: 104px;
+  }
+
+  /* heading spans 5 of the 12 columns (8px gutters), so long titles wrap */
+  .color-collection .color-collection-header > :is(h1, h2, h3, h4, h5, h6) {
+    max-width: calc((100% - 11 * 8px) * 5 / 12 + 4 * 8px);
   }
 
   .color-collection .color-collection-list {

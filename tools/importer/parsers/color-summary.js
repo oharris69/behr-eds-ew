@@ -8,7 +8,8 @@ import edsBlockParser from './eds-block.js';
  * runtime by a color service. migration-work/tools/color-collections-snapshot.js stores them in
  * the snapshot as <div id="eds-color-collections" hidden>[{name, icon, tooltip}]</div>; they
  * are authored here as a list in the block's second row (the block shows authored items
- * before the shared "What you'll love" fragment).
+ * before the shared "What you'll love" fragment): each item is an optional :icon: shorthand
+ * plus the label, with the tooltip (if any) as a nested list item.
  */
 export default function parse(element, { document, ...rest }) {
   const store = document.getElementById('eds-color-collections');
@@ -22,9 +23,17 @@ export default function parse(element, { document, ...rest }) {
 
   if (items.length && !element.querySelector(':scope > div:nth-child(n+2) li')) {
     const ul = document.createElement('ul');
-    items.forEach(({ name }) => {
+    // item = optional :icon: + label; an optional tooltip is a nested list under it
+    items.forEach(({ name, icon, tooltip }) => {
       const li = document.createElement('li');
-      li.textContent = name;
+      li.textContent = icon ? `:${icon}: ${name}` : name;
+      if (tooltip) {
+        const tip = document.createElement('ul');
+        const tipItem = document.createElement('li');
+        tipItem.textContent = tooltip;
+        tip.append(tipItem);
+        li.append(tip);
+      }
       ul.append(li);
     });
     // second row, first cell: reuse the source's empty row when present
