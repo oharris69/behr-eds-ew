@@ -5,10 +5,13 @@
 import edsBlockParser from './parsers/eds-block.js';
 import colorCollectionParser from './parsers/color-collection.js';
 import colorSummaryParser from './parsers/color-summary.js';
+import colorPalettesParser from './parsers/color-palettes.js';
+import paletteCarouselParser from './parsers/palette-carousel.js';
+import fragmentLinkParser from './parsers/fragment-link.js';
 
 // TRANSFORMER IMPORTS
 import behrCleanupTransformer from './transformers/behr-cleanup.js';
-import behrSectionsTransformer from './transformers/behr-sections.js';
+import edsSectionsTransformer from './transformers/eds-sections.js';
 
 // PARSER REGISTRY
 const parsers = {
@@ -22,6 +25,13 @@ const parsers = {
   testimonial: edsBlockParser,
   'image-cards': edsBlockParser,
   faq: edsBlockParser,
+  // premium pages with more modules (e.g. Whisper White HDC-MD-08)
+  'color-palettes': colorPalettesParser,
+  gallery: edsBlockParser,
+  'palette-carousel': paletteCarouselParser,
+  'color-visualizer': edsBlockParser,
+  'bento-grid': edsBlockParser,
+  fragment: fragmentLinkParser,
 };
 
 // Source page metadata carried over (color detail data used by the color blocks)
@@ -31,11 +41,13 @@ const COLOR_META = [
 ];
 
 // PAGE TEMPLATE CONFIGURATION - Embedded from page-templates.json
+// sections: every authored main > div is a section (eds-sections transformer)
 const PAGE_TEMPLATE = {
   name: "color-detail",
-  description: "Premium color detail (Color of the Year): video hero with color bar, color summary on the page color, room carousel, palette, color trends visualizer, sample CTAs, testimonial, past Colors of the Year carousel, FAQ",
+  description: "Premium color detail pages (e.g. Grounded T27-01, Whisper White HDC-MD-08): video hero with color bar, color summary, room carousel, palettes, visualizer, gallery, sample/product CTAs, testimonial, carousels, FAQ, shared fragments",
   urls: [
-    "https://www.behr.com/colors/color-detail/t27-01"
+    "https://www.behr.com/colors/color-detail/t27-01",
+    "https://www.behr.com/colors/color-detail/hdc-md-08"
   ],
   blocks: [
     {
@@ -69,6 +81,18 @@ const PAGE_TEMPLATE = {
       ]
     },
     {
+      name: "color-palettes",
+      instances: [
+        "main > div > div.color-palettes"
+      ]
+    },
+    {
+      name: "gallery",
+      instances: [
+        "main > div > div.gallery"
+      ]
+    },
+    {
       name: "fifty-fifty",
       instances: [
         "main > div > div.fifty-fifty"
@@ -87,120 +111,34 @@ const PAGE_TEMPLATE = {
       ]
     },
     {
+      name: "palette-carousel",
+      instances: [
+        "main > div > div.palette-carousel"
+      ]
+    },
+    {
       name: "faq",
       instances: [
         "main > div > div.faq"
       ]
-    }
-  ],
-  sections: [
-    {
-      id: "1",
-      name: "premium-color-hero",
-      selector: [
-        "main > div:has(> div.premium-color-hero)"
-      ],
-      style: null,
-      blocks: [
-        "premium-color-hero"
-      ],
-      defaultContent: []
     },
     {
-      id: "2",
-      name: "color-summary",
-      selector: [
-        "main > div:has(> div.color-summary)"
-      ],
-      style: null,
-      blocks: [
-        "color-summary"
-      ],
-      defaultContent: []
+      name: "color-visualizer",
+      instances: [
+        "main > div > div.color-visualizer"
+      ]
     },
     {
-      id: "3",
-      name: "room-carousel",
-      selector: [
-        "main > div:has(> div.room-carousel)"
-      ],
-      style: null,
-      blocks: [
-        "room-carousel"
-      ],
-      defaultContent: []
+      name: "bento-grid",
+      instances: [
+        "main > div > div.bento-grid"
+      ]
     },
     {
-      id: "4",
-      name: "color-collection",
-      selector: [
-        "main > div:has(> div.color-collection)"
-      ],
-      style: "light",
-      blocks: [
-        "color-collection"
-      ],
-      defaultContent: []
-    },
-    {
-      id: "5",
-      name: "color-trends-visualizer",
-      selector: [
-        "main > div:has(> div.color-trends-visualizer)"
-      ],
-      style: null,
-      blocks: [
-        "color-trends-visualizer"
-      ],
-      defaultContent: []
-    },
-    {
-      id: "6",
-      name: "fifty-fifty",
-      selector: [
-        "main > div:has(> div.fifty-fifty)"
-      ],
-      style: "light",
-      blocks: [
-        "fifty-fifty"
-      ],
-      defaultContent: []
-    },
-    {
-      id: "7",
-      name: "testimonial",
-      selector: [
-        "main > div:has(> div.testimonial)"
-      ],
-      style: null,
-      blocks: [
-        "testimonial"
-      ],
-      defaultContent: []
-    },
-    {
-      id: "8",
-      name: "image-cards",
-      selector: [
-        "main > div:has(> div.image-cards)"
-      ],
-      style: "light",
-      blocks: [
-        "image-cards"
-      ],
-      defaultContent: []
-    },
-    {
-      id: "9",
-      name: "faq",
-      selector: [
-        "main > div:has(> div.faq)"
-      ],
-      style: null,
-      blocks: [
-        "faq"
-      ],
-      defaultContent: []
+      name: "fragment",
+      instances: [
+        "main > div > p:has(> a[href*=\"/fragments/\"]:only-child)"
+      ]
     }
   ]
 };
@@ -208,7 +146,7 @@ const PAGE_TEMPLATE = {
 // TRANSFORMER REGISTRY
 const transformers = [
   behrCleanupTransformer,
-  ...(PAGE_TEMPLATE.sections && PAGE_TEMPLATE.sections.length > 1 ? [behrSectionsTransformer] : []),
+  edsSectionsTransformer,
 ];
 
 /**

@@ -50,8 +50,17 @@ var CustomImportScript = (() => {
     transform: (payload) => {
       const { document, url, params } = payload;
       const main = document.querySelector("main") || document.body;
+      const STYLE_BY_BLOCK = { "color-collection": "light", "fifty-fifty": "light", "image-cards": "light" };
+      const styles = /* @__PURE__ */ new Map();
+      [...main.children].filter((el) => el.tagName === "DIV").forEach((section) => {
+        const block = [...section.querySelectorAll(":scope > div[class]")].find((el) => STYLE_BY_BLOCK[el.classList[0]]);
+        if (block) styles.set(section, STYLE_BY_BLOCK[block.classList[0]]);
+      });
       [...main.querySelectorAll(":scope > div > div[class]")].forEach((block) => {
         parse(block, { document, url, params });
+      });
+      styles.forEach((style, section) => {
+        section.append(WebImporter.Blocks.createBlock(document, { name: "Section Metadata", cells: { style } }));
       });
       const sections = [...main.children].filter((el) => el.tagName === "DIV");
       sections.slice(1).forEach((section) => section.before(document.createElement("hr")));

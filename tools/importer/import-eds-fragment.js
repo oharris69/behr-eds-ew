@@ -13,9 +13,21 @@ export default {
     const { document, url, params } = payload;
     const main = document.querySelector('main') || document.body;
 
+    // sections holding a block that sits on a light band on behr.com (same rule as the
+    // eds-sections transformer for pages)
+    const STYLE_BY_BLOCK = { 'color-collection': 'light', 'fifty-fifty': 'light', 'image-cards': 'light' };
+    const styles = new Map();
+    [...main.children].filter((el) => el.tagName === 'DIV').forEach((section) => {
+      const block = [...section.querySelectorAll(':scope > div[class]')].find((el) => STYLE_BY_BLOCK[el.classList[0]]);
+      if (block) styles.set(section, STYLE_BY_BLOCK[block.classList[0]]);
+    });
+
     // blocks inside the fragment keep their authored table
     [...main.querySelectorAll(':scope > div > div[class]')].forEach((block) => {
       edsBlockParser(block, { document, url, params });
+    });
+    styles.forEach((style, section) => {
+      section.append(WebImporter.Blocks.createBlock(document, { name: 'Section Metadata', cells: { style } }));
     });
 
     // sections: the authored <div>s become section breaks

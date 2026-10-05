@@ -254,10 +254,11 @@
     {
       "name": "color-detail",
       "urls": [
-        "https://www.behr.com/colors/color-detail/t27-01"
+        "https://www.behr.com/colors/color-detail/t27-01",
+        "https://www.behr.com/colors/color-detail/hdc-md-08"
       ],
       "representativeUrl": "https://www.behr.com/colors/color-detail/t27-01",
-      "description": "Premium color detail (Color of the Year): video hero with color bar, color summary on the page color, room carousel, palette, color trends visualizer, sample CTAs, testimonial, past Colors of the Year carousel, FAQ",
+      "description": "Premium color detail pages (e.g. Grounded T27-01, Whisper White HDC-MD-08): video hero with color bar, color summary, room carousel, palettes, visualizer, gallery, sample/product CTAs, testimonial, carousels, FAQ, shared fragments",
       "blocks": [
         {
           "name": "premium-color-hero",
@@ -290,6 +291,18 @@
           ]
         },
         {
+          "name": "color-palettes",
+          "instances": [
+            "main > div > div.color-palettes"
+          ]
+        },
+        {
+          "name": "gallery",
+          "instances": [
+            "main > div > div.gallery"
+          ]
+        },
+        {
           "name": "fifty-fifty",
           "instances": [
             "main > div > div.fifty-fifty"
@@ -308,123 +321,38 @@
           ]
         },
         {
+          "name": "palette-carousel",
+          "instances": [
+            "main > div > div.palette-carousel"
+          ]
+        },
+        {
           "name": "faq",
           "instances": [
             "main > div > div.faq"
           ]
+        },
+        {
+          "name": "color-visualizer",
+          "instances": [
+            "main > div > div.color-visualizer"
+          ]
+        },
+        {
+          "name": "bento-grid",
+          "instances": [
+            "main > div > div.bento-grid"
+          ]
+        },
+        {
+          "name": "fragment",
+          "instances": [
+            "main > div > p:has(> a[href*=\"/fragments/\"]:only-child)"
+          ]
         }
       ],
       "urlPattern": "/colors/color-detail/*",
-      "sections": [
-        {
-          "id": "1",
-          "name": "premium-color-hero",
-          "selector": [
-            "main > div:has(> div.premium-color-hero)"
-          ],
-          "style": null,
-          "blocks": [
-            "premium-color-hero"
-          ],
-          "defaultContent": []
-        },
-        {
-          "id": "2",
-          "name": "color-summary",
-          "selector": [
-            "main > div:has(> div.color-summary)"
-          ],
-          "style": null,
-          "blocks": [
-            "color-summary"
-          ],
-          "defaultContent": []
-        },
-        {
-          "id": "3",
-          "name": "room-carousel",
-          "selector": [
-            "main > div:has(> div.room-carousel)"
-          ],
-          "style": null,
-          "blocks": [
-            "room-carousel"
-          ],
-          "defaultContent": []
-        },
-        {
-          "id": "4",
-          "name": "color-collection",
-          "selector": [
-            "main > div:has(> div.color-collection)"
-          ],
-          "style": "light",
-          "blocks": [
-            "color-collection"
-          ],
-          "defaultContent": []
-        },
-        {
-          "id": "5",
-          "name": "color-trends-visualizer",
-          "selector": [
-            "main > div:has(> div.color-trends-visualizer)"
-          ],
-          "style": null,
-          "blocks": [
-            "color-trends-visualizer"
-          ],
-          "defaultContent": []
-        },
-        {
-          "id": "6",
-          "name": "fifty-fifty",
-          "selector": [
-            "main > div:has(> div.fifty-fifty)"
-          ],
-          "style": "light",
-          "blocks": [
-            "fifty-fifty"
-          ],
-          "defaultContent": []
-        },
-        {
-          "id": "7",
-          "name": "testimonial",
-          "selector": [
-            "main > div:has(> div.testimonial)"
-          ],
-          "style": null,
-          "blocks": [
-            "testimonial"
-          ],
-          "defaultContent": []
-        },
-        {
-          "id": "8",
-          "name": "image-cards",
-          "selector": [
-            "main > div:has(> div.image-cards)"
-          ],
-          "style": "light",
-          "blocks": [
-            "image-cards"
-          ],
-          "defaultContent": []
-        },
-        {
-          "id": "9",
-          "name": "faq",
-          "selector": [
-            "main > div:has(> div.faq)"
-          ],
-          "style": null,
-          "blocks": [
-            "faq"
-          ],
-          "defaultContent": []
-        }
-      ]
+      "sections": []
     },
     {
       "name": "inspiration",

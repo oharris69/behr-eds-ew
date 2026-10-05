@@ -1,0 +1,265 @@
+/* gallery: editorial intro + room photo slider with thumbnail navigation */
+.gallery {
+  background-color: var(--theme-surface-primary);
+  color: var(--theme-text-primary);
+}
+
+.gallery-icon {
+  display: block;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 2;
+}
+
+/* stacked below 1024px: intro, slider, then the full-width CTA bar */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  row-gap: 64px;
+  box-sizing: content-box;
+  max-width: var(--container-max-width);
+  margin-inline: auto;
+  padding: 64px var(--container-padding) 0;
+}
+
+.gallery-editorial {
+  display: flex;
+  flex-direction: column;
+}
+
+.gallery-editorial > * {
+  margin: 0;
+}
+
+.gallery-editorial > * + * {
+  margin-top: 16px;
+}
+
+.gallery .gallery-title {
+  font-size: var(--heading-font-size-l);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.gallery .gallery-copy {
+  font-size: var(--body-font-size-s);
+  line-height: 1.2;
+}
+
+.gallery-cta-desktop {
+  display: none;
+}
+
+.gallery-cta-bar {
+  padding: 24px var(--container-padding) 64px;
+}
+
+.gallery-cta-bar .gallery-project {
+  width: 100%;
+}
+
+.gallery .gallery-project {
+  min-height: 60px;
+}
+
+/* the saved state keeps the black pill and swaps the plus for a check */
+.gallery .gallery-project[aria-pressed="true"] {
+  border-color: var(--theme-border-primary);
+}
+
+/* slider */
+.gallery-carousel {
+  min-width: 0;
+}
+
+.gallery-viewport {
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+.gallery-track {
+  display: flex;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+
+.gallery-track::-webkit-scrollbar {
+  display: none;
+}
+
+.gallery-track:focus-visible {
+  outline: 2px solid var(--theme-focus-primary);
+  outline-offset: -2px;
+}
+
+.gallery-slide {
+  position: relative;
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.gallery-image {
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  border-radius: 16px;
+  background-color: var(--theme-surface-tertiary);
+}
+
+.gallery-image picture,
+.gallery-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.gallery-image img {
+  object-fit: cover;
+}
+
+.gallery-caption {
+  position: absolute;
+  bottom: 32px;
+  left: 24px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background-color: var(--theme-surface-primary);
+  color: var(--theme-text-primary);
+  font-size: var(--body-font-size-xs);
+  line-height: 1.2;
+  pointer-events: none;
+}
+
+/* thumbnails */
+.gallery-thumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 24px;
+  padding: 2px;
+}
+
+.gallery-thumb {
+  flex: 0 0 auto;
+  width: 56px;
+  height: 56px;
+  margin: 0;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 0;
+  overflow: hidden;
+  background: none;
+  cursor: pointer;
+  transition: border-color 0.15s var(--ease-snappy);
+}
+
+.gallery-thumb.is-active {
+  border-color: var(--theme-border-primary);
+}
+
+.gallery-thumb:focus-visible {
+  outline: 2px solid var(--theme-focus-primary);
+  outline-offset: 2px;
+}
+
+.gallery-thumb picture,
+.gallery-thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .gallery-thumb:hover {
+    border-color: var(--theme-border-primary);
+  }
+}
+
+/* breakpoint-exception: Behr tablet layout starts at 768px */
+@media (width >= 768px) {
+  .gallery-image {
+    aspect-ratio: 1 / 1;
+  }
+
+  .gallery-thumbs {
+    gap: 8px;
+  }
+
+  .gallery-thumb {
+    width: 122px;
+    height: 122px;
+  }
+}
+
+/* breakpoint-exception: Behr desktop layout starts at 1024px */
+@media (width >= 1024px) {
+  .gallery .gallery-title {
+    line-height: 1;
+  }
+
+  /* 12-column grid: intro spans columns 1-3, slider columns 5-12 */
+  .gallery-grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 8px;
+    align-items: start;
+    padding-block: 104px;
+  }
+
+  .gallery-editorial {
+    grid-column: 1 / span 3;
+  }
+
+  .gallery-carousel {
+    grid-column: 5 / span 8;
+  }
+
+  .gallery-cta-desktop {
+    display: block;
+  }
+
+  .gallery-editorial > .gallery-cta-desktop {
+    margin-top: 32px;
+  }
+
+  .gallery-cta-bar {
+    display: none;
+  }
+
+  .gallery-viewport,
+  .gallery-image {
+    border-radius: 24px;
+  }
+
+  .gallery-image {
+    aspect-ratio: 3 / 2;
+  }
+
+  .gallery-thumbs {
+    justify-content: flex-end;
+    gap: 4px;
+    margin-top: 32px;
+  }
+
+  .gallery-thumb {
+    width: 56px;
+    height: 56px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gallery-thumb {
+    transition: none;
+  }
+}

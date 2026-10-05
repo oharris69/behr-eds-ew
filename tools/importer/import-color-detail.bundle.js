@@ -124,6 +124,86 @@ var CustomImportScript = (() => {
     parse(element, __spreadValues({ document: document2 }, rest));
   }
 
+  // tools/importer/parsers/color-palettes.js
+  var colorLink = (document2, { code, name, hex }) => {
+    const a = document2.createElement("a");
+    a.href = `/colors/color-detail/${code.toLowerCase()}`;
+    a.textContent = `${code}|${name}|${hex}`;
+    return a;
+  };
+  function parse4(element, _a) {
+    var _b = _a, { document: document2 } = _b, rest = __objRest(_b, ["document"]);
+    var _a2;
+    let data = {};
+    try {
+      data = JSON.parse(((_a2 = document2.getElementById("eds-color-api")) == null ? void 0 : _a2.textContent) || "{}");
+    } catch (e) {
+      data = {};
+    }
+    const palettes = (data.palettes || []).slice(0, 6);
+    if (palettes.length && !element.querySelector("a[href]")) {
+      palettes.forEach((palette) => {
+        const row = document2.createElement("div");
+        const cell = document2.createElement("div");
+        const ul = document2.createElement("ul");
+        palette.forEach((color) => {
+          const li = document2.createElement("li");
+          li.append(colorLink(document2, color));
+          ul.append(li);
+        });
+        cell.append(ul);
+        row.append(cell);
+        element.append(row);
+      });
+    }
+    parse(element, __spreadValues({ document: document2 }, rest));
+  }
+
+  // tools/importer/parsers/palette-carousel.js
+  var PALETTES = [["similar", "Similar"], ["lighter", "Lighter"], ["darker", "Darker"]];
+  function parse5(element, _a) {
+    var _b = _a, { document: document2 } = _b, rest = __objRest(_b, ["document"]);
+    var _a2;
+    let data = {};
+    try {
+      data = JSON.parse(((_a2 = document2.getElementById("eds-color-api")) == null ? void 0 : _a2.textContent) || "{}");
+    } catch (e) {
+      data = {};
+    }
+    if (!element.querySelector("a[href]")) {
+      PALETTES.forEach(([key, label]) => {
+        const colors = (data[key] || []).slice(0, 6);
+        if (!colors.length) return;
+        const row = document2.createElement("div");
+        const labelCell = document2.createElement("div");
+        labelCell.textContent = label;
+        const listCell = document2.createElement("div");
+        const ul = document2.createElement("ul");
+        colors.forEach((color) => {
+          const li = document2.createElement("li");
+          li.append(colorLink(document2, color));
+          ul.append(li);
+        });
+        listCell.append(ul);
+        row.append(labelCell, listCell);
+        element.append(row);
+      });
+    }
+    parse(element, __spreadValues({ document: document2 }, rest));
+  }
+
+  // tools/importer/parsers/fragment-link.js
+  function parse6(element, { document: document2 }) {
+    const a = element.querySelector("a[href]");
+    if (!a) return;
+    const href = new URL(a.getAttribute("href"), "https://www.behr.com").pathname;
+    const link = document2.createElement("a");
+    link.href = href;
+    link.textContent = href;
+    const block = WebImporter.Blocks.createBlock(document2, { name: "Fragment", cells: [[link]] });
+    element.replaceWith(block);
+  }
+
   // tools/importer/transformers/behr-cleanup.js
   var TransformHook = { beforeTransform: "beforeTransform", afterTransform: "afterTransform" };
   function transform(hookName, element, payload) {
@@ -151,48 +231,44 @@ var CustomImportScript = (() => {
     }
   }
 
-  // tools/importer/transformers/behr-sections.js
-  var SECTION_MARKER_ATTR = "data-excat-section-id";
-  function querySection(root, selectors) {
-    const list = Array.isArray(selectors) ? selectors : [selectors];
-    for (const sel of list) {
-      if (!sel) continue;
-      const el = root.querySelector(sel);
-      if (el) return el;
-    }
-    return null;
+  // tools/importer/transformers/eds-sections.js
+  var STYLE_BY_BLOCK = {
+    "color-collection": "light",
+    "fifty-fifty": "light",
+    "image-cards": "light"
+  };
+  var MARKER = "data-eds-section-style";
+  var STORES = ["#eds-color-collections", "#eds-color-api"];
+  function styleFor(section) {
+    const block = [...section.querySelectorAll(":scope > div[class]")].find((el) => STYLE_BY_BLOCK[el.classList[0]]);
+    return block ? STYLE_BY_BLOCK[block.classList[0]] : null;
   }
   function transform2(hookName, element, payload) {
-    const sections = payload && payload.template && payload.template.sections || [];
-    if (sections.length < 2) return;
+    const main = element.querySelector("main") || element;
     if (hookName === "beforeTransform") {
-      for (let i = sections.length - 1; i >= 0; i -= 1) {
-        const section = sections[i];
-        if (i === 0 && !section.style) continue;
-        const sectionEl = querySection(element, section.selector);
-        if (!sectionEl) continue;
+      const sections = [...main.children].filter((el) => el.tagName === "DIV" && !el.id.startsWith("eds-"));
+      const empty = (el) => !el.textContent.trim() && !el.querySelector("img, picture, video, iframe");
+      sections.filter(empty).forEach((el) => el.remove());
+      const authored = sections.filter((el) => el.isConnected);
+      authored.forEach((section, i) => {
+        const style = styleFor(section);
+        if (i === 0 && !style) return;
         const hr = document.createElement("hr");
-        if (section.style) hr.setAttribute(SECTION_MARKER_ATTR, section.id);
-        sectionEl.before(hr);
-      }
+        if (style) hr.setAttribute(MARKER, style);
+        section.before(hr);
+      });
     }
     if (hookName === "afterTransform") {
-      for (let i = sections.length - 1; i >= 0; i -= 1) {
-        const section = sections[i];
-        if (!section.style) continue;
-        const marker = element.querySelector(`[${SECTION_MARKER_ATTR}="${section.id}"]`);
-        const anchor = marker || querySection(element, section.selector);
-        if (!anchor) continue;
-        const metadataBlock = WebImporter.Blocks.createBlock(document, {
+      main.querySelectorAll(`hr[${MARKER}]`).forEach((hr, i) => {
+        const metadata = WebImporter.Blocks.createBlock(document, {
           name: "Section Metadata",
-          cells: { style: section.style }
+          cells: { style: hr.getAttribute(MARKER) }
         });
-        anchor.after(metadataBlock);
-        if (marker) {
-          marker.removeAttribute(SECTION_MARKER_ATTR);
-          if (i === 0) marker.remove();
-        }
-      }
+        hr.after(metadata);
+        hr.removeAttribute(MARKER);
+        if (!hr.previousElementSibling) hr.remove();
+      });
+      STORES.forEach((sel) => main.querySelectorAll(sel).forEach((el) => el.remove()));
     }
   }
 
@@ -207,7 +283,14 @@ var CustomImportScript = (() => {
     "fifty-fifty": parse,
     testimonial: parse,
     "image-cards": parse,
-    faq: parse
+    faq: parse,
+    // premium pages with more modules (e.g. Whisper White HDC-MD-08)
+    "color-palettes": parse4,
+    gallery: parse,
+    "palette-carousel": parse5,
+    "color-visualizer": parse,
+    "bento-grid": parse,
+    fragment: parse6
   };
   var COLOR_META = [
     "template",
@@ -224,9 +307,10 @@ var CustomImportScript = (() => {
   ];
   var PAGE_TEMPLATE = {
     name: "color-detail",
-    description: "Premium color detail (Color of the Year): video hero with color bar, color summary on the page color, room carousel, palette, color trends visualizer, sample CTAs, testimonial, past Colors of the Year carousel, FAQ",
+    description: "Premium color detail pages (e.g. Grounded T27-01, Whisper White HDC-MD-08): video hero with color bar, color summary, room carousel, palettes, visualizer, gallery, sample/product CTAs, testimonial, carousels, FAQ, shared fragments",
     urls: [
-      "https://www.behr.com/colors/color-detail/t27-01"
+      "https://www.behr.com/colors/color-detail/t27-01",
+      "https://www.behr.com/colors/color-detail/hdc-md-08"
     ],
     blocks: [
       {
@@ -260,6 +344,18 @@ var CustomImportScript = (() => {
         ]
       },
       {
+        name: "color-palettes",
+        instances: [
+          "main > div > div.color-palettes"
+        ]
+      },
+      {
+        name: "gallery",
+        instances: [
+          "main > div > div.gallery"
+        ]
+      },
+      {
         name: "fifty-fifty",
         instances: [
           "main > div > div.fifty-fifty"
@@ -278,126 +374,40 @@ var CustomImportScript = (() => {
         ]
       },
       {
+        name: "palette-carousel",
+        instances: [
+          "main > div > div.palette-carousel"
+        ]
+      },
+      {
         name: "faq",
         instances: [
           "main > div > div.faq"
         ]
-      }
-    ],
-    sections: [
-      {
-        id: "1",
-        name: "premium-color-hero",
-        selector: [
-          "main > div:has(> div.premium-color-hero)"
-        ],
-        style: null,
-        blocks: [
-          "premium-color-hero"
-        ],
-        defaultContent: []
       },
       {
-        id: "2",
-        name: "color-summary",
-        selector: [
-          "main > div:has(> div.color-summary)"
-        ],
-        style: null,
-        blocks: [
-          "color-summary"
-        ],
-        defaultContent: []
+        name: "color-visualizer",
+        instances: [
+          "main > div > div.color-visualizer"
+        ]
       },
       {
-        id: "3",
-        name: "room-carousel",
-        selector: [
-          "main > div:has(> div.room-carousel)"
-        ],
-        style: null,
-        blocks: [
-          "room-carousel"
-        ],
-        defaultContent: []
+        name: "bento-grid",
+        instances: [
+          "main > div > div.bento-grid"
+        ]
       },
       {
-        id: "4",
-        name: "color-collection",
-        selector: [
-          "main > div:has(> div.color-collection)"
-        ],
-        style: "light",
-        blocks: [
-          "color-collection"
-        ],
-        defaultContent: []
-      },
-      {
-        id: "5",
-        name: "color-trends-visualizer",
-        selector: [
-          "main > div:has(> div.color-trends-visualizer)"
-        ],
-        style: null,
-        blocks: [
-          "color-trends-visualizer"
-        ],
-        defaultContent: []
-      },
-      {
-        id: "6",
-        name: "fifty-fifty",
-        selector: [
-          "main > div:has(> div.fifty-fifty)"
-        ],
-        style: "light",
-        blocks: [
-          "fifty-fifty"
-        ],
-        defaultContent: []
-      },
-      {
-        id: "7",
-        name: "testimonial",
-        selector: [
-          "main > div:has(> div.testimonial)"
-        ],
-        style: null,
-        blocks: [
-          "testimonial"
-        ],
-        defaultContent: []
-      },
-      {
-        id: "8",
-        name: "image-cards",
-        selector: [
-          "main > div:has(> div.image-cards)"
-        ],
-        style: "light",
-        blocks: [
-          "image-cards"
-        ],
-        defaultContent: []
-      },
-      {
-        id: "9",
-        name: "faq",
-        selector: [
-          "main > div:has(> div.faq)"
-        ],
-        style: null,
-        blocks: [
-          "faq"
-        ],
-        defaultContent: []
+        name: "fragment",
+        instances: [
+          'main > div > p:has(> a[href*="/fragments/"]:only-child)'
+        ]
       }
     ]
   };
   var transformers = [
     transform,
-    ...PAGE_TEMPLATE.sections && PAGE_TEMPLATE.sections.length > 1 ? [transform2] : []
+    transform2
   ];
   function executeTransformers(hookName, element, payload) {
     const enhancedPayload = __spreadProps(__spreadValues({}, payload), {

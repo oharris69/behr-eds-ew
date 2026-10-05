@@ -1,0 +1,339 @@
+/* Color Palettes: intro + carousel of curated four-color palettes */
+
+.color-palettes {
+  box-sizing: content-box;
+  max-width: var(--container-max-width);
+  margin-inline: auto;
+  padding-block: 64px;
+  padding-inline: var(--container-padding);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  row-gap: 64px;
+  align-items: start;
+}
+
+/* padded sections (section metadata style) already provide the vertical rhythm */
+.section:is(.light, .highlight, .dark) .color-palettes {
+  padding-block: 0;
+}
+
+/* intro */
+.color-palettes .color-palettes-intro {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  min-width: 0;
+}
+
+.color-palettes .color-palettes-intro > * {
+  margin: 0;
+}
+
+.color-palettes .color-palettes-title {
+  font-size: var(--heading-font-size-xl);
+  line-height: 1;
+}
+
+.color-palettes .color-palettes-intro > p:not(.color-palettes-cta) {
+  font-size: var(--body-font-size-m);
+  line-height: 1.2;
+}
+
+/* "Add palette to project": under the carousel on mobile, under the intro on desktop */
+.color-palettes .color-palettes-cta {
+  margin: 0;
+}
+
+.color-palettes .color-palettes-cta-desktop {
+  display: none;
+}
+
+.color-palettes .color-palettes-cta-mobile {
+  margin-top: 24px;
+}
+
+.color-palettes .color-palettes-project {
+  width: 100%;
+  min-height: 60px;
+}
+
+.color-palettes .color-palettes-project[aria-pressed="true"] {
+  border-color: var(--theme-border-primary);
+}
+
+.color-palettes .color-palettes-icon {
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* carousel */
+.color-palettes .color-palettes-carousel {
+  --color-palettes-radius: 16px;
+
+  min-width: 0;
+}
+
+.color-palettes .color-palettes-viewport {
+  overflow: hidden;
+  border-radius: var(--color-palettes-radius);
+}
+
+.color-palettes .color-palettes-track {
+  list-style: none;
+  display: flex;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.color-palettes .color-palettes-track::-webkit-scrollbar {
+  display: none;
+}
+
+.color-palettes .color-palettes-track:focus-visible {
+  outline: 2px solid var(--theme-focus-primary);
+  outline-offset: -2px;
+}
+
+.color-palettes .color-palettes-slide {
+  flex: 0 0 100%;
+  min-width: 0;
+  scroll-snap-align: start;
+}
+
+/* palette: four stacked swatches in a square (mobile) */
+.color-palettes .color-palettes-palette {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-auto-rows: minmax(0, 1fr);
+  aspect-ratio: 1;
+  width: 100%;
+}
+
+.color-palettes .color-palettes-swatch {
+  --swatch-color: var(--theme-surface-tertiary);
+  --swatch-radius: 0;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  min-height: 0;
+  padding: 16px;
+  border-radius: var(--swatch-radius);
+  background-color: var(--swatch-color);
+  color: var(--theme-text-primary);
+  text-decoration: none;
+}
+
+.color-palettes .color-palettes-swatch:first-child {
+  --swatch-radius: var(--color-palettes-radius) var(--color-palettes-radius) 0 0;
+}
+
+.color-palettes .color-palettes-swatch:last-child {
+  --swatch-radius: 0 0 var(--color-palettes-radius) var(--color-palettes-radius);
+}
+
+.color-palettes .color-palettes-swatch:only-child {
+  --swatch-radius: var(--color-palettes-radius);
+}
+
+.color-palettes .color-palettes-swatch.color-theme-dark {
+  color: var(--theme-surface-secondary);
+}
+
+/* near-white colors get a hairline so they read against the page */
+.color-palettes .color-palettes-swatch.is-white {
+  box-shadow: inset 0 0 0 1.5px var(--theme-border-secondary);
+}
+
+.color-palettes .color-palettes-swatch.is-plain {
+  box-shadow: inset 0 0 0 1.5px var(--theme-border-secondary);
+  background-color: var(--theme-surface-secondary);
+}
+
+.color-palettes a.color-palettes-swatch:focus-visible {
+  z-index: 1;
+  outline: 2px solid var(--theme-focus-primary);
+  outline-offset: -4px;
+}
+
+.color-palettes .color-palettes-swatch-name {
+  font-size: var(--body-font-size-xs);
+  font-weight: 700;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.color-palettes .color-palettes-swatch-code {
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+/* controls: round prev/next buttons + counter */
+.color-palettes .color-palettes-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-top: 24px;
+}
+
+.color-palettes .color-palettes-nav {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  margin: 0;
+  border: 2px solid var(--theme-border-primary);
+  border-radius: 96px;
+  padding: 0;
+  background-color: transparent;
+  color: var(--theme-text-primary);
+  cursor: pointer;
+  transition:
+    background-color 0.15s var(--ease-snappy),
+    color 0.15s var(--ease-snappy),
+    opacity 0.15s var(--ease-snappy);
+}
+
+.color-palettes .color-palettes-nav::before {
+  content: "";
+  width: 24px;
+  height: 24px;
+  background-color: currentcolor;
+  mask: url("../../icons/chevron-right.svg") center / contain no-repeat;
+}
+
+.color-palettes .color-palettes-nav-prev::before {
+  mask-image: url("../../icons/chevron-left.svg");
+}
+
+.color-palettes .color-palettes-nav:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.color-palettes .color-palettes-nav:focus-visible {
+  outline: 2px solid var(--theme-focus-primary);
+  outline-offset: 4px;
+}
+
+.color-palettes .color-palettes-counter {
+  margin: 0 0 0 auto;
+  font-size: var(--body-font-size-s);
+}
+
+.color-palettes .color-palettes-counter-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .color-palettes .color-palettes-nav:not(:disabled):hover {
+    background-color: var(--theme-text-primary);
+    color: var(--theme-surface-secondary);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .color-palettes .color-palettes-nav {
+    transition: none;
+  }
+}
+
+/* breakpoint-exception: Behr desktop layout starts at 1024px */
+@media (width >= 1024px) {
+  /* 12-column grid: intro spans columns 1-3, carousel 5-12 */
+  .color-palettes {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 8px;
+    padding-block: 104px;
+  }
+
+  .color-palettes .color-palettes-intro {
+    position: sticky;
+    top: calc(var(--nav-height) + 32px);
+    grid-column: 1 / 4;
+  }
+
+  .color-palettes .color-palettes-carousel {
+    --color-palettes-radius: 24px;
+
+    grid-column: 5 / -1;
+  }
+
+  .color-palettes .color-palettes-intro + .color-palettes-carousel {
+    grid-row: 1;
+  }
+
+  .color-palettes .color-palettes-carousel:only-child {
+    grid-column: 1 / -1;
+  }
+
+  .color-palettes .color-palettes-cta-desktop {
+    display: block;
+    margin-top: 16px;
+  }
+
+  .color-palettes .color-palettes-project {
+    width: auto;
+  }
+
+  .color-palettes .color-palettes-cta-mobile:not(.is-only) {
+    display: none;
+  }
+
+  .color-palettes .color-palettes-controls {
+    padding-top: 32px;
+  }
+
+  .color-palettes .color-palettes-swatch {
+    padding: 24px;
+  }
+
+  /* 3:2 palette: main color on the left, the other three stacked on the right */
+  .color-palettes .color-palettes-palette {
+    aspect-ratio: 3 / 2;
+  }
+
+  .color-palettes .color-palettes-palette[data-count="4"] {
+    grid-template: repeat(3, minmax(0, 1fr)) / repeat(2, minmax(0, 1fr));
+    grid-auto-flow: column;
+  }
+
+  .color-palettes .color-palettes-palette[data-count="4"] .color-palettes-swatch {
+    --swatch-radius: 0;
+  }
+
+  .color-palettes .color-palettes-palette[data-count="4"] .color-palettes-swatch:first-child {
+    --swatch-radius: var(--color-palettes-radius) 0 0 var(--color-palettes-radius);
+
+    grid-row: 1 / -1;
+  }
+
+  .color-palettes .color-palettes-palette[data-count="4"] .color-palettes-swatch:nth-child(2) {
+    --swatch-radius: 0 var(--color-palettes-radius) 0 0;
+  }
+
+  .color-palettes .color-palettes-palette[data-count="4"] .color-palettes-swatch:last-child {
+    --swatch-radius: 0 0 var(--color-palettes-radius) 0;
+  }
+}

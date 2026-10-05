@@ -1,0 +1,25 @@
+{
+  "variantName": "color-palettes",
+  "baseBlock": "color-palettes",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "moderate",
+    "purpose": "curated-color-palettes",
+    "imagePattern": "none (solid color swatches)",
+    "structure": "intro (h3 + p + Add palette to project pill) beside a carousel of four-color palette cards",
+    "layout": "Mobile: intro, then a full-width carousel of square palettes (four stacked swatches, 16px rounded), prev/next + 01/06 counter, full-width Add palette to project pill below. From 1024px: 12-column grid, intro columns 1-3 (sticky), carousel columns 5-12; 3:2 palette with the main color filling the left half and accent 1 / accent 2 / trim white stacked on the right, 24px rounded. Swatch name (bold) + code top-left, dark/light text by color contrast, near-white swatches get a hairline border. At most 6 palettes are shown."
+  },
+  "contentPattern": "Row 1 (optional): [h3 + p intro]. Rows 2..n: one cell with a ul of 4 color links whose text is CODE|Name|HEX (main, accent 1, accent 2, trim white). Links not in that form render as a plain swatch showing the link text.",
+  "usage": {
+    "pagesUsing": [
+      "https://www.behr.com/colors/color-detail/hdc-md-08"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-10-05T00:00:00Z"
+  },
+  "options": [],
+  "memberVariantIds": [
+    "color-palettes"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "variantName": "palette-carousel",
+  "baseBlock": "carousel",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "moderate",
+    "purpose": "related-color-browser",
+    "imagePattern": "none (solid color cards)",
+    "structure": "intro (h2 + p) + Similar / Lighter / Darker segmented control (only authored palettes) switching color cards",
+    "layout": "Mobile/tablet: intro, full-width white pill segmented control with a sliding black active pill, then a 2-up grid of square color cards (8px rounded). From 1024px: intro columns 1-6 with control right-aligned (columns 9-12, 10-12 from 1200px); scroll-snap carousel of 420px square cards (24px rounded) bleeding past the container edges, prev/next + 01/06 counter. Card name (bold) + code top-left, dark/light text via getColorTheme. At most 6 cards per palette."
+  },
+  "contentPattern": "Row 1 (optional): [h2 + p intro]. Rows 2..n: [palette label: Similar | Lighter | Darker] | [ul of color links whose text is CODE|Name|HEX]. Rows may be omitted (e.g. no Lighter); links not in CODE|Name|HEX form show their link text.",
+  "usage": {
+    "pagesUsing": [
+      "https://www.behr.com/colors/color-detail/hdc-md-08"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-10-05T00:00:00Z"
+  },
+  "options": [],
+  "memberVariantIds": [
+    "palette-carousel"
+  ]
+}

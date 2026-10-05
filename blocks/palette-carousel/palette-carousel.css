@@ -1,0 +1,334 @@
+/* Palette Carousel: intro + Similar / Lighter / Darker control switching color cards */
+
+.palette-carousel {
+  box-sizing: content-box;
+  max-width: var(--container-max-width);
+  margin-inline: auto;
+  padding-block: 64px;
+  padding-inline: var(--container-padding);
+  overflow: hidden;
+}
+
+/* padded sections (section metadata style) already provide the vertical rhythm */
+.section:is(.light, .highlight, .dark) .palette-carousel {
+  padding-block: 0;
+}
+
+/* header: intro + segmented control */
+.palette-carousel .palette-carousel-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  row-gap: 64px;
+  margin-bottom: 24px;
+}
+
+.palette-carousel .palette-carousel-intro {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  min-width: 0;
+}
+
+.palette-carousel .palette-carousel-intro > * {
+  margin: 0;
+}
+
+.palette-carousel .palette-carousel-title {
+  font-size: var(--heading-font-size-l);
+  line-height: 1.1;
+}
+
+.palette-carousel .palette-carousel-intro > p {
+  font-size: var(--body-font-size-s);
+  line-height: 1.2;
+}
+
+.palette-carousel .palette-carousel-control {
+  align-self: end;
+  min-width: 0;
+}
+
+/* segmented control: white pill track, black pill slides under the active tab */
+.palette-carousel .palette-carousel-tabs {
+  position: relative;
+  display: flex;
+  gap: 4px;
+  width: 100%;
+  padding: 8px;
+  border-radius: 9999px;
+  background-color: var(--theme-surface-secondary);
+}
+
+.palette-carousel .palette-carousel-pill {
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 0;
+  width: var(--pill-width, 0);
+  border-radius: 9999px;
+  background-color: var(--theme-text-primary);
+  transform: translateX(var(--pill-x, 0));
+  transition:
+    transform 0.3s var(--ease-in),
+    width 0.3s var(--ease-in);
+  pointer-events: none;
+}
+
+.palette-carousel .palette-carousel-tab {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  flex: 1 1 0;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  margin: 0;
+  border: 0;
+  border-radius: 9999px;
+  padding: 12px 16px;
+  background: transparent;
+  color: var(--theme-text-primary);
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs);
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.3s var(--ease-in);
+}
+
+.palette-carousel .palette-carousel-tab.is-active {
+  color: var(--theme-surface-secondary);
+}
+
+.palette-carousel .palette-carousel-tab:focus-visible {
+  outline: 2px solid var(--theme-focus-primary);
+  outline-offset: 4px;
+}
+
+.palette-carousel .palette-carousel-panel:focus-visible {
+  outline: 2px solid var(--theme-focus-primary);
+  outline-offset: 4px;
+}
+
+.palette-carousel .palette-carousel-panel[hidden] {
+  display: none;
+}
+
+/* cards: 2-up grid below the desktop breakpoint */
+.palette-carousel .palette-carousel-track {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+}
+
+.palette-carousel .palette-carousel-slide {
+  display: flex;
+  min-width: 0;
+}
+
+.palette-carousel .palette-carousel-card {
+  --card-color: var(--theme-surface-tertiary);
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  box-sizing: border-box;
+  width: 100%;
+  aspect-ratio: 1;
+  padding: 16px;
+  border-radius: 8px;
+  background-color: var(--card-color);
+  color: var(--theme-text-primary);
+  text-decoration: none;
+}
+
+.palette-carousel .palette-carousel-card.color-theme-dark {
+  color: var(--theme-surface-secondary);
+}
+
+/* near-white colors get a hairline so they read against the page */
+.palette-carousel .palette-carousel-card.is-white {
+  box-shadow: inset 0 0 0 1.5px var(--theme-border-secondary);
+}
+
+.palette-carousel .palette-carousel-card.is-plain {
+  box-shadow: inset 0 0 0 1.5px var(--theme-border-secondary);
+  background-color: var(--theme-surface-secondary);
+}
+
+.palette-carousel a.palette-carousel-card:focus-visible {
+  outline: 2px solid var(--theme-focus-primary);
+  outline-offset: 4px;
+}
+
+.palette-carousel .palette-carousel-card-name {
+  font-size: var(--body-font-size-xs);
+  font-weight: 700;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.palette-carousel .palette-carousel-card-code {
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+/* controls: only the desktop carousel has them */
+.palette-carousel .palette-carousel-controls {
+  display: none;
+  align-items: center;
+  gap: 16px;
+  padding-top: 32px;
+}
+
+.palette-carousel .palette-carousel-nav {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  margin: 0;
+  border: 2px solid var(--theme-border-primary);
+  border-radius: 96px;
+  padding: 0;
+  background-color: transparent;
+  color: var(--theme-text-primary);
+  cursor: pointer;
+  transition:
+    background-color 0.15s var(--ease-snappy),
+    color 0.15s var(--ease-snappy),
+    opacity 0.15s var(--ease-snappy);
+}
+
+.palette-carousel .palette-carousel-nav::before {
+  content: "";
+  width: 24px;
+  height: 24px;
+  background-color: currentcolor;
+  mask: url("../../icons/chevron-right.svg") center / contain no-repeat;
+}
+
+.palette-carousel .palette-carousel-nav-prev::before {
+  mask-image: url("../../icons/chevron-left.svg");
+}
+
+.palette-carousel .palette-carousel-nav:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.palette-carousel .palette-carousel-nav:focus-visible {
+  outline: 2px solid var(--theme-focus-primary);
+  outline-offset: 4px;
+}
+
+.palette-carousel .palette-carousel-counter {
+  margin: 0 0 0 auto;
+  font-size: var(--body-font-size-s);
+}
+
+.palette-carousel .palette-carousel-counter-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .palette-carousel .palette-carousel-nav:not(:disabled):hover {
+    background-color: var(--theme-text-primary);
+    color: var(--theme-surface-secondary);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .palette-carousel .palette-carousel-pill,
+  .palette-carousel .palette-carousel-tab,
+  .palette-carousel .palette-carousel-nav {
+    transition: none;
+  }
+}
+
+/* breakpoint-exception: Behr desktop layout starts at 1024px */
+@media (width >= 1024px) {
+  .palette-carousel {
+    padding-block: 96px;
+  }
+
+  /* 12-column grid: intro spans columns 1-6, control 9-12 */
+  .palette-carousel .palette-carousel-header {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 8px;
+    margin-bottom: 64px;
+  }
+
+  .palette-carousel .palette-carousel-intro {
+    grid-column: 1 / span 6;
+  }
+
+  .palette-carousel .palette-carousel-title {
+    line-height: 1;
+  }
+
+  .palette-carousel .palette-carousel-intro > p {
+    width: 60%;
+  }
+
+  .palette-carousel .palette-carousel-control {
+    grid-row: 1;
+    grid-column: 9 / span 4;
+  }
+
+  /* scroll-snap carousel of 420px cards bleeding past the container edges */
+  .palette-carousel .palette-carousel-track {
+    display: flex;
+    margin: 0 calc(-1 * var(--container-padding));
+    padding: 0 var(--container-padding);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--container-padding);
+    scrollbar-width: none;
+  }
+
+  .palette-carousel .palette-carousel-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .palette-carousel .palette-carousel-track:focus-visible {
+    outline: 2px solid var(--theme-focus-primary);
+    outline-offset: -2px;
+  }
+
+  .palette-carousel .palette-carousel-slide {
+    flex: 0 0 420px;
+    scroll-snap-align: start;
+  }
+
+  .palette-carousel .palette-carousel-card {
+    padding: 24px;
+    border-radius: 24px;
+  }
+
+  .palette-carousel .palette-carousel-controls {
+    display: flex;
+  }
+}
+
+@media (width >= 1200px) {
+  .palette-carousel .palette-carousel-intro > p {
+    width: 50%;
+  }
+
+  .palette-carousel .palette-carousel-control {
+    grid-column: 10 / span 3;
+  }
+}

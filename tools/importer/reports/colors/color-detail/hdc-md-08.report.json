@@ -1,0 +1,20 @@
+{
+  "status": "success",
+  "url": "https://www.behr.com/colors/color-detail/hdc-md-08",
+  "path": "colors/color-detail/hdc-md-08",
+  "timestamp": "2026-10-05T21:25:06.729Z",
+  "title": "Whisper White - HDC-MD-08 | Behr",
+  "template": "color-detail",
+  "blocks": [
+    "premium-color-hero",
+    "color-summary",
+    "room-carousel",
+    "color-palettes",
+    "gallery",
+    "testimonial",
+    "palette-carousel",
+    "fragment",
+    "fragment",
+    "fragment"
+  ]
+}

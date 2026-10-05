@@ -1,0 +1,137 @@
+/* color visualizer: intro + "Use the visualizer" pill beside a large room image, on the page color */
+.color-visualizer {
+  --color-visualizer-fg: var(--theme-text-primary);
+  --color-visualizer-contrast: var(--theme-surface-secondary);
+
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 64px;
+
+  /* full-bleed color, content kept inside the Behr container */
+  padding: 64px max(var(--container-padding), calc((100% - var(--container-max-width)) / 2));
+  background-color: var(--page-color, transparent);
+  color: var(--color-visualizer-fg);
+}
+
+.color-visualizer.color-theme-dark {
+  --color-visualizer-fg: var(--theme-surface-secondary);
+  --color-visualizer-contrast: var(--theme-text-primary);
+}
+
+/* text column */
+.color-visualizer .color-visualizer-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+}
+
+.color-visualizer .color-visualizer-text {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.color-visualizer .color-visualizer-text > * {
+  margin: 0;
+}
+
+.color-visualizer .color-visualizer-title {
+  color: inherit;
+  font-size: var(--heading-font-size-l);
+  font-weight: 400;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+}
+
+.color-visualizer .color-visualizer-text p {
+  font-size: var(--body-font-size-s);
+  line-height: 1.2;
+}
+
+/* CTA: Behr primary pill, inverted on dark page colors */
+.color-visualizer a.button.color-visualizer-cta {
+  width: 100%;
+  border-color: transparent;
+  background-color: var(--color-visualizer-fg);
+  color: var(--color-visualizer-contrast);
+}
+
+.color-visualizer a.button.color-visualizer-cta:focus-visible {
+  outline-color: var(--color-visualizer-fg);
+}
+
+.color-visualizer .color-visualizer-icon {
+  display: block;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 2;
+}
+
+/* room image */
+.color-visualizer .color-visualizer-media {
+  min-width: 0;
+}
+
+.color-visualizer .color-visualizer-media picture {
+  display: block;
+  overflow: clip;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  border-radius: 16px;
+}
+
+.color-visualizer .color-visualizer-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .color-visualizer a.button.color-visualizer-cta:hover {
+    border-color: var(--color-visualizer-fg);
+    background-color: transparent;
+    color: var(--color-visualizer-fg);
+  }
+}
+
+/* breakpoint-exception: Behr desktop layout starts at 1024px */
+@media (width >= 1024px) {
+  /* 12-column grid: text in columns 1-3, image in columns 5-12 */
+  .color-visualizer {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 64px 8px;
+    padding-block: 104px;
+  }
+
+  .color-visualizer .color-visualizer-content {
+    grid-column: 1 / span 3;
+    align-self: start;
+    gap: 32px;
+  }
+
+  .color-visualizer .color-visualizer-media {
+    grid-column: 5 / span 8;
+  }
+
+  .color-visualizer.color-visualizer-no-media .color-visualizer-content {
+    grid-column: 1 / span 6;
+  }
+
+  .color-visualizer .color-visualizer-title {
+    line-height: 1;
+  }
+
+  .color-visualizer a.button.color-visualizer-cta {
+    width: auto;
+  }
+
+  .color-visualizer .color-visualizer-media picture {
+    aspect-ratio: 3 / 2;
+    border-radius: 24px;
+  }
+}

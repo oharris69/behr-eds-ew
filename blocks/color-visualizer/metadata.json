@@ -1,0 +1,25 @@
+{
+  "variantName": "color-visualizer",
+  "baseBlock": "color-visualizer",
+  "canonicalModel": "standalone",
+  "visualCharacteristics": {
+    "colorScheme": "page-color",
+    "density": "spacious",
+    "purpose": "visualizer-promo",
+    "imagePattern": "large-rounded-room-image-right",
+    "structure": "h2 + description + \"Use the visualizer\" pill CTA (eye icon) + room picture",
+    "layout": "full-bleed band painted with the page color (rgbhex metadata via applyPageColor; light text and inverted pill on dark colors). Mobile/tablet: text, full-width pill, then a 2:3 picture (16px radius), 64px gaps. From 1024px: 12-column grid, text in columns 1-3 (top-aligned, auto-width pill), 3:2 picture in columns 5-12 (24px radius), 104px vertical padding. CTA links to https://www.behr.com/colors/paint/visualizer-landing?colorCode=<color-code metadata>"
+  },
+  "contentPattern": "row 1: intro (h2 + p; an optional link-only <p> overrides the CTA label); row 2: picture. The CTA is generated: label \"Use the visualizer\", href built from the color-code page metadata (bare visualizer URL when missing)",
+  "usage": {
+    "pagesUsing": [
+      "https://www.behr.com/colors/color-detail/hdc-md-08"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-10-05T00:00:00Z"
+  },
+  "options": [],
+  "memberVariantIds": [
+    "color-visualizer"
+  ]
+}
