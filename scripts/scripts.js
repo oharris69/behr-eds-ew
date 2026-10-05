@@ -277,18 +277,49 @@ function describeGenericLinks(main) {
   });
 }
 
+// hosts that are this site (Behr pages not migrated yet still live on www.behr.com)
+const SITE_HOSTS = ['www.behr.com', 'behr.com'];
+
+/**
+ * Opens links to other sites in a new tab, as on behr.com, and tells screen reader users.
+ * @param {Element} root container to decorate
+ */
+function decorateExternalLinks(root) {
+  if (!root) return;
+  root.querySelectorAll('a[href]').forEach((link) => {
+    let url;
+    try {
+      url = new URL(link.href);
+    } catch (e) {
+      return;
+    }
+    if (!/^https?:$/.test(url.protocol) || link.hasAttribute('target')) return;
+    if (url.hostname === window.location.hostname || SITE_HOSTS.includes(url.hostname)) return;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    if (!link.hasAttribute('aria-label')) {
+      const note = document.createElement('span');
+      note.className = 'visually-hidden';
+      note.textContent = ' (opens in a new tab)';
+      link.append(note);
+    }
+  });
+}
+
 async function loadLazy(doc) {
   loadHeader(doc.querySelector('body > header'));
 
   const main = doc.querySelector('main');
   await loadSections(main);
   describeGenericLinks(main);
+  decorateExternalLinks(main);
 
   const { hash } = window.location;
   const element = hash ? doc.getElementById(hash.substring(1)) : false;
   if (hash && element) element.scrollIntoView();
 
-  loadFooter(doc.querySelector('body > footer'));
+  const footer = doc.querySelector('body > footer');
+  loadFooter(footer).then(() => decorateExternalLinks(footer));
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   loadFonts();

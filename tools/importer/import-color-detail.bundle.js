@@ -87,6 +87,36 @@ var CustomImportScript = (() => {
     parse(element, __spreadValues({ document: document2 }, rest));
   }
 
+  // tools/importer/parsers/color-summary.js
+  function parse3(element, _a) {
+    var _b = _a, { document: document2 } = _b, rest = __objRest(_b, ["document"]);
+    const store = document2.getElementById("eds-color-collections");
+    let items = [];
+    try {
+      items = JSON.parse(store ? store.textContent : "[]");
+    } catch (e) {
+      items = [];
+    }
+    if (store) store.remove();
+    if (items.length && !element.querySelector(":scope > div:nth-child(n+2) li")) {
+      const ul = document2.createElement("ul");
+      items.forEach(({ name }) => {
+        const li = document2.createElement("li");
+        li.textContent = name;
+        ul.append(li);
+      });
+      let row = element.children[1];
+      if (!row) {
+        row = document2.createElement("div");
+        row.append(document2.createElement("div"));
+        element.append(row);
+      }
+      const cell = row.firstElementChild || row.appendChild(document2.createElement("div"));
+      cell.replaceChildren(ul);
+    }
+    parse(element, __spreadValues({ document: document2 }, rest));
+  }
+
   // tools/importer/transformers/behr-cleanup.js
   var TransformHook = { beforeTransform: "beforeTransform", afterTransform: "afterTransform" };
   function transform(hookName, element, payload) {
@@ -163,7 +193,7 @@ var CustomImportScript = (() => {
   var parsers = {
     // the source is an Edge Delivery site: its block tables are kept as authored
     "premium-color-hero": parse,
-    "color-summary": parse,
+    "color-summary": parse3,
     "room-carousel": parse,
     "color-collection": parse2,
     "color-trends-visualizer": parse,

@@ -110,7 +110,8 @@ export default function transform(hookName, element, payload) {
     element.querySelectorAll('section.trends .trends__header').forEach((el) => replaceWithText(doc, el, 'h2'));
     element.querySelectorAll('section.trends .d-sm-block > a.trends__link').forEach((a) => {
       const link = doc.createElement('a');
-      link.href = a.getAttribute('href');
+      // absolute, like the post links: /pro/onthejob/trends/ isn't a migrated page
+      link.href = new URL(a.getAttribute('href'), 'https://www.behr.com/').href;
       link.textContent = cleanText(a.textContent);
       const p = doc.createElement('p');
       p.append(link);

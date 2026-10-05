@@ -4,6 +4,7 @@
 // PARSER IMPORTS
 import edsBlockParser from './parsers/eds-block.js';
 import colorCollectionParser from './parsers/color-collection.js';
+import colorSummaryParser from './parsers/color-summary.js';
 
 // TRANSFORMER IMPORTS
 import behrCleanupTransformer from './transformers/behr-cleanup.js';
@@ -13,7 +14,7 @@ import behrSectionsTransformer from './transformers/behr-sections.js';
 const parsers = {
   // the source is an Edge Delivery site: its block tables are kept as authored
   'premium-color-hero': edsBlockParser,
-  'color-summary': edsBlockParser,
+  'color-summary': colorSummaryParser,
   'room-carousel': edsBlockParser,
   'color-collection': colorCollectionParser,
   'color-trends-visualizer': edsBlockParser,

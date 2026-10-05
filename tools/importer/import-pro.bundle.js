@@ -502,7 +502,7 @@ var CustomImportScript = (() => {
       element.querySelectorAll("section.trends .trends__header").forEach((el) => replaceWithText(doc, el, "h2"));
       element.querySelectorAll("section.trends .d-sm-block > a.trends__link").forEach((a) => {
         const link3 = doc.createElement("a");
-        link3.href = a.getAttribute("href");
+        link3.href = new URL(a.getAttribute("href"), "https://www.behr.com/").href;
         link3.textContent = cleanText(a.textContent);
         const p = doc.createElement("p");
         p.append(link3);
