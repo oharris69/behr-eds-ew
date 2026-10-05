@@ -218,7 +218,7 @@ header .nav-locale-list a[aria-current] {
 
 header .nav-utility-links {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-self: end;
   gap: 16px;
   grid-column: 3 / -1;
@@ -228,7 +228,11 @@ header .nav-utility-links li {
   display: flex;
 }
 
+/* a flex box, so its height is the label's: an inline line box would also size to
+   the font's own metrics, which made the bar taller on some hosts */
 header .nav-utility-links a {
+  display: inline-flex;
+  align-items: center;
   font-size: 14px;
   line-height: 1.2;
 }
