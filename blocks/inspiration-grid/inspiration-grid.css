@@ -96,7 +96,6 @@
   right: 0;
   z-index: 29;
   background-color: var(--theme-surface-primary);
-  border-bottom: 1px solid var(--theme-border-secondary);
   transform: translateY(-100%);
   visibility: hidden;
   transition:
@@ -294,6 +293,12 @@
   inset: 0 auto 0 0;
   background-color: var(--theme-surface-secondary);
   color: var(--theme-text-primary);
+  box-shadow:
+    0 16px 16px 0 rgb(29 33 48 / 10%),
+    0 10px 10px 0 rgb(29 33 48 / 8%),
+    0 6px 6px 0 rgb(29 33 48 / 6%),
+    0 3px 3px 0 rgb(29 33 48 / 4%),
+    0 1px 1px 0 rgb(29 33 48 / 2%);
   transform: translateX(-100%);
   transition: transform 0.3s var(--ease-in);
 }
@@ -308,7 +313,7 @@
 }
 
 .inspiration-grid .inspiration-grid-tray.is-open::backdrop {
-  background-color: rgb(0 0 0 / 50%);
+  background-color: rgb(0 0 0 / 54%);
 }
 
 .inspiration-grid .inspiration-grid-tray-panel {
@@ -322,7 +327,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 12px 12px 12px 24px;
+  padding: 16px 24px;
 }
 
 .inspiration-grid .inspiration-grid-tray-title {
@@ -333,11 +338,13 @@
 }
 
 .inspiration-grid .inspiration-grid-tray-close {
+  position: relative;
   display: inline-flex;
+  flex: 0 0 auto;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
+  width: 24px;
+  height: 24px;
   margin: 0;
   padding: 0;
   border: 0;
@@ -355,6 +362,13 @@
   mask: url("../../icons/close.svg") center / contain no-repeat;
 }
 
+/* keep a 44px touch target around the 24px icon button */
+.inspiration-grid .inspiration-grid-tray-close::after {
+  content: "";
+  position: absolute;
+  inset: -10px;
+}
+
 .inspiration-grid .inspiration-grid-tray-close:focus-visible {
   outline: 2px solid var(--theme-focus-primary);
   outline-offset: -2px;
@@ -365,7 +379,72 @@
   min-height: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding: 0 24px;
+  padding: 6px 24px 0;
+}
+
+/* applied filters: removable chips for the current selection */
+.inspiration-grid .inspiration-grid-applied {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 32px 0;
+  border-bottom: 1px solid var(--theme-border-secondary);
+}
+
+.inspiration-grid .inspiration-grid-applied[hidden] {
+  display: none;
+}
+
+.inspiration-grid .inspiration-grid-applied-heading {
+  margin: 0;
+  font-size: var(--body-font-size-m);
+  line-height: 1.2;
+}
+
+.inspiration-grid .inspiration-grid-applied-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.inspiration-grid .inspiration-grid-applied-chip {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 44px;
+  margin: 0;
+  padding: 12px 16px;
+  border: 1.5px solid var(--theme-border-secondary);
+  border-radius: 8px;
+  background-color: var(--theme-surface-secondary);
+  color: var(--theme-text-primary);
+  font-family: inherit;
+  font-size: var(--body-font-size-xs);
+  font-weight: 400;
+  line-height: 1.2;
+  cursor: pointer;
+  transition:
+    background-color 0.15s var(--ease-snappy),
+    border-color 0.15s var(--ease-snappy);
+}
+
+.inspiration-grid .inspiration-grid-applied-chip:focus-visible {
+  outline: none;
+  border-color: var(--theme-border-primary);
+  box-shadow: 0 0 0 2px var(--theme-focus-primary);
+}
+
+.inspiration-grid .inspiration-grid-applied-icon {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  background-color: currentcolor;
+  mask: url("../../icons/close.svg") center / contain no-repeat;
+}
+
+.inspiration-grid .inspiration-grid-applied-label {
+  white-space: nowrap;
 }
 
 .inspiration-grid .inspiration-grid-group {
@@ -462,18 +541,13 @@
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 16px 24px 24px;
-  border-top: 1px solid var(--theme-border-secondary);
+  padding: 16px 24px;
 }
 
 .inspiration-grid .inspiration-grid-tray-footer .button {
   flex: 1 1 auto;
-  padding-inline: 24px;
+  padding: 16px 32px;
   white-space: nowrap;
-}
-
-.inspiration-grid .inspiration-grid-tray-clear {
-  flex-grow: 0;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -486,7 +560,8 @@
     transform: scale(1.04);
   }
 
-  .inspiration-grid .inspiration-grid-option:not(.is-disabled, :has(:checked)):hover {
+  .inspiration-grid .inspiration-grid-option:not(.is-disabled, :has(:checked)):hover,
+  .inspiration-grid .inspiration-grid-applied-chip:hover {
     border-color: var(--theme-border-primary);
   }
 }
@@ -497,6 +572,7 @@
   .inspiration-grid .inspiration-grid-tray,
   .inspiration-grid .inspiration-grid-tray::backdrop,
   .inspiration-grid .inspiration-grid-card-media img,
+  .inspiration-grid .inspiration-grid-applied-chip,
   .inspiration-grid .inspiration-grid-swatch::after {
     transition: none;
   }

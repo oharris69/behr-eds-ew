@@ -8,7 +8,7 @@
   padding-inline: var(--container-padding);
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 40px;
+  gap: 64px;
 }
 
 /* padded sections (section metadata style) already provide the vertical rhythm */
@@ -77,8 +77,7 @@
 
 .simple-cards .simple-cards-slide {
   display: flex;
-  flex: 0 0 calc(100% - 16px);
-  max-width: 327px;
+  flex: 0 0 calc(100vw - 74px);
   scroll-snap-align: start;
 }
 
@@ -91,6 +90,7 @@
   flex-direction: column;
   box-sizing: border-box;
   width: 100%;
+  max-width: 327px;
   min-height: 195px;
   padding: 16px 25% 16px 16px;
   border-radius: 16px;
@@ -186,9 +186,9 @@
   color: var(--theme-text-primary);
   cursor: pointer;
   transition:
-    background-color 0.15s var(--ease-snappy),
-    color 0.15s var(--ease-snappy),
-    opacity 0.15s var(--ease-snappy);
+    background-color 0.45s var(--ease-underline),
+    color 0.45s var(--ease-underline),
+    border-color 0.45s var(--ease-underline);
 }
 
 .simple-cards .simple-cards-nav::before {
@@ -216,7 +216,7 @@
 .simple-cards .simple-cards-counter {
   margin: 0 0 0 auto;
   font-size: var(--body-font-size-s);
-  font-variant-numeric: tabular-nums;
+  line-height: normal;
 }
 
 .simple-cards .simple-cards-counter-sr {
@@ -244,10 +244,9 @@
 
 /* breakpoint-exception: Behr tablet layout starts at 768px */
 @media (width >= 768px) {
-  /* two cards per view, the third peeking */
+  /* two cards per view, the third peeking (cards stay capped at 327px) */
   .simple-cards .simple-cards-slide {
-    flex-basis: calc((100% - 24px) / 2);
-    max-width: none;
+    flex-basis: calc((100vw - 120px) / 2);
   }
 }
 
@@ -272,6 +271,7 @@
 
   .simple-cards .simple-cards-carousel {
     grid-column: 5 / -1;
+    gap: 32px;
   }
 
   .simple-cards .simple-cards-intro + .simple-cards-carousel {
@@ -288,16 +288,21 @@
     scroll-padding-left: 0;
   }
 
-  /* two 3:2 cards fill the carousel column (max 582px each) */
+  /* two 3:2 cards per view, sized off the viewport like the source (max 582px each) */
   .simple-cards .simple-cards-slide {
-    flex-basis: min(calc((100% - 24px) / 2), 582px);
+    flex-basis: min(calc((8 / 12 * (min(100vw, 1920px) - 160px) - 24px) / 2), 582px);
   }
 
   .simple-cards .simple-cards-card {
+    max-width: none;
     min-height: 0;
     aspect-ratio: 3 / 2;
     padding: 24px 25% 24px 24px;
     border-radius: 24px;
+  }
+
+  .simple-cards .simple-cards-card-title {
+    line-height: 1;
   }
 
   .simple-cards .simple-cards-card-arrow {

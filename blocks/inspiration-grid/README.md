@@ -35,5 +35,9 @@ Key/value rows (cards are not authored; they come from the query index):
 - Filter tray: one chip group per tag namespace (project-area, style, mood, color, then others),
   labels from the tag sheet (`key` -> `value`, group label = row whose key is the namespace).
   OR within a group, AND across groups. Changes apply with "View N results"; Escape / close discards.
+- An "Applied Filters" strip at the top of the tray lists the current selection as removable chips
+  (hidden when nothing is selected); "Clear All" in the footer empties it.
+- The in-page button reads "Filter"; the sticky bar's button reads "Filters" (Behr's labels, kept in
+  the `LABELS` constant in the block JS).
 - Empty states: "No results match your current filters" and a graceful message when the index
   cannot be loaded.

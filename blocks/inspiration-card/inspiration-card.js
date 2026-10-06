@@ -4,7 +4,7 @@ import { isInProject, toggleProjectColor, PROJECTS_CHANGE_EVENT } from '../../sc
 /* UI strings (not authored) */
 const LABELS = {
   addPalette: 'Add palette to project',
-  paletteAdded: 'Palette added',
+  paletteAdded: 'Added',
   paletteSaved: 'Palette added to your project',
   paletteRemoved: 'Palette removed from your project',
 };
@@ -12,7 +12,7 @@ const LABELS = {
 const SVG_NS = 'http://www.w3.org/2000/svg';
 const ICON_PATHS = {
   plus: ['M12 4v16', 'M20 12H4'],
-  check: ['M5 12.5l4.5 4.5L19 7.5'],
+  check: ['M5.6 12.4l4.27 4.4 8.53-8.8'],
 };
 
 /**
@@ -138,14 +138,22 @@ function buildPaletteButton(colors) {
   live.setAttribute('aria-live', 'polite');
   live.setAttribute('aria-atomic', 'true');
 
+  // both labels share one grid cell, so the slot keeps the width of the longer label and
+  // the icon doesn't move when the label swaps (CSS slides the active label in)
+  const labelDefault = el('span', 'inspiration-card-palette-label', LABELS.addPalette);
+  const labelAdded = el('span', 'inspiration-card-palette-label-added', LABELS.paletteAdded);
+  const labels = el('span', 'inspiration-card-palette-labels');
+  labels.append(labelDefault, labelAdded);
+  button.append(labels, icon('plus'));
+
   const allSaved = () => colors.every((c) => isInProject(c.code));
   const sync = () => {
     const saved = allSaved();
     button.setAttribute('aria-pressed', String(saved));
-    button.replaceChildren(
-      el('span', 'inspiration-card-palette-label', saved ? LABELS.paletteAdded : LABELS.addPalette),
-      icon(saved ? 'check' : 'plus'),
-    );
+    // only the visible label is part of the accessible name
+    labelDefault.setAttribute('aria-hidden', String(saved));
+    labelAdded.setAttribute('aria-hidden', String(!saved));
+    button.querySelector('.inspiration-card-icon').replaceWith(icon(saved ? 'check' : 'plus'));
   };
 
   button.addEventListener('click', () => {

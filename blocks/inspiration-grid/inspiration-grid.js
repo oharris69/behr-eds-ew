@@ -23,6 +23,23 @@ const COLOR_FAMILY_DOTS = {
   warms: '#df9f6b',
 };
 const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])';
+/* UI strings (Behr's own labels: in-page "Filter", sticky bar "Filters") */
+const LABELS = {
+  filter: 'Filter',
+  stickyFilter: 'Filters',
+  filters: 'Filters',
+  closeFilters: 'Close filters',
+  appliedFilters: 'Applied Filters',
+  removeFilter: (label) => `Remove ${label}`,
+  clearAll: 'Clear All',
+  viewResults: (n) => `View ${n} result${n === 1 ? '' : 's'}`,
+  activeCount: (n) => `, ${n} active`,
+  loadMore: 'Load more',
+  displaying: (n, m) => `Displaying ${n} of ${m} results`,
+  noResults: 'No results match your current filters',
+  noFilters: 'No filters available.',
+  error: 'Inspiration ideas can’t be loaded right now. Please try again later.',
+};
 
 let instance = 0;
 
@@ -198,30 +215,37 @@ function buildGroups(cards, labels, prefilters) {
   }));
 }
 
-/** Inline "filters" (sliders) icon. */
+/** Inline "filters" icon: Behr's filters glyph (two sliders, knobs left-top / right-bottom). */
 function filterIcon() {
   const ns = 'http://www.w3.org/2000/svg';
   const svg = document.createElementNS(ns, 'svg');
-  svg.setAttribute('viewBox', '0 0 16 16');
+  svg.setAttribute('viewBox', '0 0 24 24');
+  svg.setAttribute('fill', 'none');
+  svg.setAttribute('stroke', 'currentColor');
+  svg.setAttribute('stroke-width', '2');
   svg.setAttribute('aria-hidden', 'true');
   svg.setAttribute('focusable', 'false');
   svg.classList.add('inspiration-grid-filter-icon');
   const path = document.createElementNS(ns, 'path');
-  path.setAttribute('d', 'M1 4h7M12 4h3M1 12h3M8 12h7M10 2.25a1.75 1.75 0 1 1 0 3.5 1.75 1.75 0 0 1 0-3.5ZM6 10.25a1.75 1.75 0 1 1 0 3.5 1.75 1.75 0 0 1 0-3.5Z');
-  path.setAttribute('fill', 'none');
-  path.setAttribute('stroke', 'currentColor');
-  path.setAttribute('stroke-width', '1.25');
-  path.setAttribute('stroke-linecap', 'round');
+  path.setAttribute('d', 'M10 8.25H20M4 16H14');
   svg.append(path);
+  [[7, 8], [17, 16]].forEach(([cx, cy]) => {
+    const circle = document.createElementNS(ns, 'circle');
+    circle.setAttribute('cx', cx);
+    circle.setAttribute('cy', cy);
+    circle.setAttribute('r', '3');
+    svg.append(circle);
+  });
   return svg;
 }
 
 /**
- * Builds a "Filter" control button with an active-count badge.
+ * Builds a filter control button with an active-count badge.
  * @param {string} controlsId id of the tray it opens
+ * @param {string} label visible button label
  * @returns {HTMLButtonElement}
  */
-function filterButton(controlsId) {
+function filterButton(controlsId, label) {
   return el(
     'button',
     {
@@ -231,7 +255,7 @@ function filterButton(controlsId) {
       'aria-controls': controlsId,
     },
     filterIcon(),
-    el('span', { class: 'inspiration-grid-filter-label' }, 'Filter'),
+    el('span', { class: 'inspiration-grid-filter-label' }, label),
     el('span', { class: 'inspiration-grid-filter-badge', 'aria-hidden': 'true', hidden: '' }),
     el('span', { class: 'inspiration-grid-sr inspiration-grid-filter-sr' }),
   );
@@ -303,10 +327,10 @@ export default function decorate(block) {
   const count = el('p', {
     class: 'inspiration-grid-count', role: 'status', 'aria-live': 'polite', 'aria-atomic': 'true',
   });
-  const controlsButton = filterButton(trayId);
+  const controlsButton = filterButton(trayId, LABELS.filter);
   const controls = el('div', { class: 'inspiration-grid-controls' }, count, controlsButton);
 
-  const stickyButton = filterButton(trayId);
+  const stickyButton = filterButton(trayId, LABELS.stickyFilter);
   const sticky = el(
     'div',
     { class: 'inspiration-grid-sticky', 'aria-hidden': 'true', inert: '' },
@@ -315,21 +339,29 @@ export default function decorate(block) {
 
   const list = el('ul', { class: 'inspiration-grid-list' });
   const message = el('p', { class: 'inspiration-grid-message', hidden: '' });
-  const moreButton = el('button', { type: 'button', class: 'button secondary inspiration-grid-more-button' }, 'Load more');
+  const moreButton = el('button', { type: 'button', class: 'button secondary inspiration-grid-more-button' }, LABELS.loadMore);
   const more = el('div', { class: 'inspiration-grid-more', hidden: '' }, moreButton);
   const skeleton = el('ul', { class: 'inspiration-grid-list inspiration-grid-skeleton', 'aria-hidden': 'true' });
   for (let i = 0; i < 6; i += 1) skeleton.append(el('li', { class: 'inspiration-grid-skeleton-card' }));
 
   /* ---------- filter tray (modal dialog) ---------- */
   const tray = el('dialog', { class: 'inspiration-grid-tray', id: trayId, 'aria-labelledby': trayTitleId });
-  const closeButton = el('button', { type: 'button', class: 'inspiration-grid-tray-close', 'aria-label': 'Close filters' });
+  const closeButton = el('button', { type: 'button', class: 'inspiration-grid-tray-close', 'aria-label': LABELS.closeFilters });
   const trayBody = el('div', { class: 'inspiration-grid-tray-body' });
-  const clearButton = el('button', { type: 'button', class: 'button secondary inspiration-grid-tray-clear' }, 'Clear All');
-  const applyButton = el('button', { type: 'button', class: 'button primary inspiration-grid-tray-apply' }, 'View results');
+  // "Applied Filters" strip: one removable chip per selected tag (hidden while none)
+  const appliedList = el('div', { class: 'inspiration-grid-applied-list' });
+  const applied = el(
+    'div',
+    { class: 'inspiration-grid-applied', hidden: '' },
+    el('p', { class: 'inspiration-grid-applied-heading' }, LABELS.appliedFilters),
+    appliedList,
+  );
+  const clearButton = el('button', { type: 'button', class: 'button secondary inspiration-grid-tray-clear' }, LABELS.clearAll);
+  const applyButton = el('button', { type: 'button', class: 'button primary inspiration-grid-tray-apply' }, LABELS.viewResults(0));
   tray.append(el(
     'div',
     { class: 'inspiration-grid-tray-panel' },
-    el('div', { class: 'inspiration-grid-tray-header' }, el('h2', { class: 'inspiration-grid-tray-title', id: trayTitleId }, 'Filters'), closeButton),
+    el('div', { class: 'inspiration-grid-tray-header' }, el('h2', { class: 'inspiration-grid-tray-title', id: trayTitleId }, LABELS.filters), closeButton),
     trayBody,
     el('div', { class: 'inspiration-grid-tray-footer' }, clearButton, applyButton),
   ));
@@ -353,7 +385,7 @@ export default function decorate(block) {
       const badge = button.querySelector('.inspiration-grid-filter-badge');
       badge.textContent = n;
       badge.hidden = n === 0;
-      button.querySelector('.inspiration-grid-filter-sr').textContent = n ? `, ${n} active` : '';
+      button.querySelector('.inspiration-grid-filter-sr').textContent = n ? LABELS.activeCount(n) : '';
     });
   };
 
@@ -368,15 +400,36 @@ export default function decorate(block) {
     list.replaceChildren(...shown.map(renderCard));
     list.hidden = !shown.length;
     more.hidden = shown.length >= results.length;
-    count.textContent = results.length
-      ? `Displaying ${shown.length} of ${results.length} results` : '';
-    showMessage(results.length ? '' : 'No results match your current filters');
+    count.textContent = results.length ? LABELS.displaying(shown.length, results.length) : '';
+    showMessage(results.length ? '' : LABELS.noResults);
     updateBadges();
     if (focusFrom >= 0) list.children[focusFrom]?.querySelector('a')?.focus();
   };
 
   /* ---------- tray ---------- */
+  const tagLabel = (tag) => {
+    const group = groups.find((g) => g.ns === namespaceOf(tag));
+    return group?.options.find((o) => o.tag === tag)?.label || titleCase(tag.slice(tag.indexOf('/') + 1));
+  };
+
+  // chips follow the tray's current selection, in the order it was made
+  const renderApplied = () => {
+    appliedList.replaceChildren(...draft.map((tag) => {
+      const label = tagLabel(tag);
+      return el(
+        'button',
+        {
+          type: 'button', class: 'inspiration-grid-applied-chip', 'data-tag': tag, 'aria-label': LABELS.removeFilter(label),
+        },
+        el('span', { class: 'inspiration-grid-applied-icon', 'aria-hidden': 'true' }),
+        el('span', { class: 'inspiration-grid-applied-label' }, label),
+      );
+    }));
+    applied.hidden = draft.length === 0;
+  };
+
   const updateTray = () => {
+    renderApplied();
     trayBody.querySelectorAll('input[type="checkbox"]').forEach((input) => {
       const tag = input.value;
       input.checked = draft.includes(tag);
@@ -389,12 +442,12 @@ export default function decorate(block) {
       option.classList.toggle('is-disabled', input.disabled);
     });
     const n = filtered(draft).length;
-    applyButton.textContent = `View ${n} result${n === 1 ? '' : 's'}`;
+    applyButton.textContent = LABELS.viewResults(n);
     clearButton.disabled = draft.length === 0;
   };
 
   const buildTray = () => {
-    trayBody.replaceChildren(...groups.map((group) => {
+    trayBody.replaceChildren(applied, ...groups.map((group) => {
       const fieldset = el(
         'fieldset',
         { class: 'inspiration-grid-group', 'data-group': group.ns },
@@ -423,7 +476,7 @@ export default function decorate(block) {
       fieldset.append(options);
       return fieldset;
     }));
-    if (!groups.length) trayBody.append(el('p', { class: 'inspiration-grid-tray-empty' }, 'No filters available.'));
+    if (!groups.length) trayBody.append(el('p', { class: 'inspiration-grid-tray-empty' }, LABELS.noFilters));
   };
 
   trayBody.addEventListener('change', (e) => {
@@ -431,6 +484,21 @@ export default function decorate(block) {
     if (!input) return;
     draft = input.checked ? [...draft, input.value] : draft.filter((t) => t !== input.value);
     updateTray();
+  });
+
+  // removing an applied chip deselects its tag; focus moves to the chip now in
+  // its slot (else the previous one), or to the first option once none remain
+  appliedList.addEventListener('click', (e) => {
+    const chip = e.target.closest('.inspiration-grid-applied-chip');
+    if (!chip) return;
+    const index = [...appliedList.children].indexOf(chip);
+    draft = draft.filter((t) => t !== chip.dataset.tag);
+    updateTray();
+    const chips = appliedList.children;
+    const target = chips.length
+      ? chips[Math.min(index, chips.length - 1)]
+      : trayBody.querySelector('.inspiration-grid-option-input:not(:disabled)');
+    target?.focus();
   });
 
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -564,7 +632,7 @@ export default function decorate(block) {
       list.hidden = true;
       controls.hidden = true;
       block.classList.add('is-error');
-      showMessage('Inspiration ideas can’t be loaded right now. Please try again later.');
+      showMessage(LABELS.error);
     }
   };
   load();
