@@ -1,28 +1,31 @@
 /* Filter Chips: label + row of pill chips filtering the next cards-post block */
 
+/* the block sits in the Behr container; its bottom border is the rule under the chips */
 .filter-chips {
-  box-sizing: content-box;
+  width: calc(100% - 2 * var(--container-padding));
   max-width: var(--container-max-width);
   margin-inline: auto;
-  padding-block: 24px;
-  padding-inline: var(--container-padding);
+  border-bottom: 1px solid var(--theme-border-secondary);
+  padding: 23px 0 0;
 }
 
+/* 9px to the chips: 5px here + 4px of focus-ring room at the top of the scroller */
 .filter-chips .filter-chips-label {
-  margin: 0 0 12px;
-  font-size: var(--body-font-size-xs);
+  margin: 0 0 5px;
+  font-size: var(--body-font-size-s);
   font-weight: 600;
-  line-height: 1.2;
+  line-height: 1;
+  text-align: center;
 }
 
-/* mobile: one horizontally scrolling row, bleeding to the viewport edge */
+/* one horizontally scrolling row, bleeding to the viewport edge */
 .filter-chips .filter-chips-list {
   display: flex;
-  gap: 8px;
+  gap: 15px;
   margin-inline: calc(-1 * var(--container-padding));
-  border-bottom: 1px solid var(--theme-border-secondary);
-  padding: 2px var(--container-padding) 24px;
+  padding: 4px var(--container-padding) 32px;
   overflow-x: auto;
+  scroll-padding-inline: var(--container-padding);
   scrollbar-width: none;
 }
 
@@ -88,17 +91,18 @@
 
 /* breakpoint-exception: Behr tablet layout starts at 768px */
 @media (width >= 768px) {
-  .filter-chips .filter-chips-list {
-    flex-wrap: wrap;
-    margin-inline: 0;
-    padding-inline: 0;
-    overflow-x: visible;
-  }
-}
-
-/* breakpoint-exception: Behr desktop layout starts at 1024px */
-@media (width >= 1024px) {
   .filter-chips {
-    padding-block: 32px;
+    padding-top: 37px;
+  }
+
+  /* 23px to the chips (19px + the scroller's 4px focus-ring room) */
+  .filter-chips .filter-chips-label {
+    margin-bottom: 19px;
+    text-align: start;
+  }
+
+  /* still one row; it only scrolls when the chips don't fit */
+  .filter-chips .filter-chips-list {
+    padding-bottom: 37px;
   }
 }

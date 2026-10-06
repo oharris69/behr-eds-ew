@@ -402,6 +402,40 @@ main .section.centered > .default-content-wrapper p > picture img {
   max-height: 96px;
 }
 
+/* a centered intro right under a hero banner sits close to it (blog landing "Today's Must-Reads") */
+main > .section:is(.hero-spotlight-container, .carousel-hero-container) + .section.centered {
+  padding-top: 32px;
+}
+
+/* narrow: the section's headings and links sit in a centred 945px column (blog listings) */
+main .section.narrow > .default-content-wrapper {
+  max-width: 945px;
+}
+
+/* heading-link: a section heading with its "See all" link on the same row */
+main .section.heading-link > .default-content-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  column-gap: 24px;
+}
+
+main .section.heading-link > .default-content-wrapper > * {
+  margin-top: 0;
+}
+
+main .section.heading-link > .default-content-wrapper > p a:any-link::after {
+  content: "";
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-left: 4px;
+  vertical-align: -2px;
+  background-color: currentcolor;
+  mask: url("/icons/chevron-right.svg") center / contain no-repeat;
+}
+
 /* script word in a heading (*Today's* Must-Reads): upright, semi-bold */
 main .default-content-wrapper h2 em {
   font-style: normal;
@@ -443,6 +477,11 @@ main .section.statement :is(h1, h2, h3, p) {
   main .section.highlight,
   main .section.dark {
     padding-block: 104px;
+  }
+
+  /* the On the Job lead post band is a little tighter (88px on behr.com) */
+  main .section.light:has(> div > .cards-post.highlight) {
+    padding-block: 88px;
   }
 
   /* quote spans columns 2-11 of the 12-column grid */
@@ -655,6 +694,35 @@ body.blog-post main .section.sidebar a:has(> picture) {
 body.blog-post main .section.sidebar img {
   display: block;
   width: 100%;
+}
+
+/* featured post image: full card width, cropped like behr.com's 220x200 */
+body.blog-post main .section.sidebar > .default-content-wrapper > p > a:has(> picture) {
+  margin-inline: -16px;
+}
+
+body.blog-post main .section.sidebar > .default-content-wrapper > p > a:has(> picture) img {
+  aspect-ratio: 11 / 10;
+  object-fit: cover;
+}
+
+/* a link on its own line ("See More") is a small centred pill */
+body.blog-post main .section.sidebar > .default-content-wrapper > p:has(> a:only-child):not(:has(picture)) {
+  margin-top: 24px;
+  text-align: center;
+}
+
+body.blog-post main .section.sidebar > .default-content-wrapper > p > a:only-child:not(:has(picture)) {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  border-radius: 96px;
+  padding: 8px 20px;
+  background: var(--theme-text-primary);
+  color: var(--theme-surface-secondary);
+  font-size: var(--body-font-size-xs);
+  font-weight: 600;
+  line-height: 1;
 }
 
 body.blog-post main .section.sidebar ul {

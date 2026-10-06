@@ -20,12 +20,12 @@
 .cards-post .cards-post-card {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
   min-width: 0;
-  border: 1px solid var(--theme-border-secondary);
   padding: 16px;
   background-color: var(--theme-surface-secondary);
   color: var(--theme-text-primary);
+  box-shadow: 0 0 10px rgb(217 217 217);
 }
 
 /* text */
@@ -52,7 +52,10 @@
   line-clamp: 2;
   overflow: hidden;
   overflow-wrap: anywhere;
-  margin: 0;
+  margin: 0 0 4px;
+
+  /* reserve two lines so every card's image starts at the same height */
+  min-height: calc(2em * 1.25);
   font-size: var(--heading-font-size-xs);
   font-weight: 600;
   line-height: 1.25;
@@ -62,9 +65,13 @@
 .cards-post .cards-post-card-excerpt {
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
   overflow: hidden;
+  margin-bottom: 16px;
+
+  /* reserve four lines (see title) */
+  min-height: calc(4em * 1.4);
   font-size: var(--body-font-size-xs);
   line-height: 1.4;
   color: var(--theme-text-secondary);
@@ -86,7 +93,7 @@
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: 1;
+  aspect-ratio: 65 / 36;
   object-fit: cover;
   transition: transform 0.45s var(--ease-snappy);
 }
@@ -108,6 +115,10 @@
 }
 
 /* date footer */
+.cards-post .cards-post-card-image:has(+ .cards-post-card-meta) {
+  margin-bottom: 10px;
+}
+
 .cards-post .cards-post-card-meta {
   margin-top: auto;
   border-top: 1px solid var(--theme-border-secondary);
@@ -143,28 +154,34 @@
   }
 }
 
-/* feature option: large white cards with a label heading and pill CTA */
+/* feature option: large white cards with a label heading and pill CTA,
+   inset on a greige panel (no Behr surface token is this warm/dark) */
 .cards-post.feature {
   padding-block: 0;
 }
 
+.cards-post.feature > ul {
+  padding: 12px;
+  background-color: rgb(223 219 216);
+}
+
 .cards-post.feature .cards-post-card {
-  gap: 24px;
-  border: 0;
-  padding: 24px;
-  box-shadow: 0 4px 16px rgb(0 0 0 / 8%);
+  gap: 20px;
+  padding: 20px;
+  box-shadow: 10px 10px 10px rgb(190 186 184);
 }
 
 .cards-post.feature .cards-post-card-body {
-  gap: 16px;
+  gap: 20px;
 }
 
 .cards-post.feature .cards-post-card-label {
-  margin: 0;
+  margin: 0 0 10px;
   border-bottom: 1px solid var(--theme-border-secondary);
   padding-bottom: 16px;
   font-size: var(--heading-font-size-s);
   line-height: 1.1;
+  text-align: center;
 }
 
 .cards-post.feature .cards-post-card-script {
@@ -174,6 +191,8 @@
 
 .cards-post.feature .cards-post-card-title {
   font-size: var(--heading-font-size-s);
+  min-height: calc(2em * 1.15);
+  margin-bottom: 0;
   font-weight: 400;
   line-height: 1.15;
   letter-spacing: -0.02em;
@@ -182,11 +201,9 @@
 .cards-post.feature .cards-post-card-excerpt {
   -webkit-line-clamp: 2;
   line-clamp: 2;
+  min-height: calc(2em * 1.4);
+  margin-bottom: 0;
   font-size: var(--body-font-size-s);
-}
-
-.cards-post.feature .cards-post-card-cta {
-  margin-top: 8px;
 }
 
 .cards-post.feature .cards-post-card-image img {
@@ -197,6 +214,10 @@
 @media (width >= 768px) {
   .cards-post > ul {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cards-post.feature > ul {
+    padding: 40px;
   }
 
   .cards-post.feature .cards-post-card {
@@ -215,13 +236,18 @@
     gap: 32px;
   }
 
+  .cards-post .cards-post-card-image img {
+    aspect-ratio: 1;
+  }
+
   .cards-post.feature > ul {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 40px;
+    gap: 50px;
+    padding: 60px;
   }
 
   .cards-post.feature .cards-post-card {
-    padding: 40px;
+    padding: 32px 35px 35px;
   }
 
   .cards-post.feature .cards-post-card-title {
@@ -232,9 +258,9 @@
 /* pro + highlight options: image-first post cards with tag pills and a byline */
 .cards-post:is(.pro, .highlight) .cards-post-card {
   gap: 16px;
-  border: 0;
   padding: 0;
   background-color: transparent;
+  box-shadow: none;
 }
 
 /* filter-chips hides non-matching posts; Load More pages the rest */
@@ -249,6 +275,10 @@
 
 .cards-post:is(.pro, .highlight) .cards-post-card-body > * {
   margin: 0;
+}
+
+.cards-post:is(.pro, .highlight) :is(.cards-post-card-title, .cards-post-card-excerpt) {
+  min-height: 0;
 }
 
 .cards-post:is(.pro, .highlight) .cards-post-card-title {
@@ -328,9 +358,46 @@
   display: none;
 }
 
-/* highlight option: one featured post, image left / text right */
+/* highlight option: one featured post, image left / text right, in a
+   narrow centred column with a "The Latest" badge over the photo */
 .cards-post.highlight > ul {
   grid-template-columns: minmax(0, 1fr);
+  max-width: 945px;
+  margin-inline: auto;
+}
+
+.cards-post.highlight .cards-post-card-body {
+  gap: 15px;
+  padding-top: 15px;
+}
+
+.cards-post.highlight .cards-post-card-image {
+  position: relative;
+}
+
+.cards-post.highlight .cards-post-card-image::after {
+  content: 'The Latest';
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  padding: 8px;
+  background-color: var(--theme-text-primary);
+  color: var(--theme-surface-secondary);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.04em;
+  text-align: center;
+  text-transform: uppercase;
+  pointer-events: none;
 }
 
 .cards-post.highlight .cards-post-card-title {
@@ -345,12 +412,8 @@
   font-size: var(--body-font-size-s);
 }
 
-.cards-post.highlight .cards-post-card-cta {
-  margin-top: 8px;
-}
-
 .cards-post.highlight .cards-post-card-image img {
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 341 / 208;
 }
 
 /* breakpoint-exception: Behr tablet layout starts at 768px */
@@ -358,8 +421,12 @@
   .cards-post.highlight .cards-post-card {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    align-items: center;
-    gap: 32px;
+    align-items: start;
+    gap: 30px;
+  }
+
+  .cards-post.highlight .cards-post-card-image img {
+    aspect-ratio: 457 / 352;
   }
 }
 
@@ -374,11 +441,35 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .cards-post.highlight .cards-post-card {
-    gap: 64px;
+  .cards-post.highlight .cards-post-card-image::after {
+    top: -42px;
+    left: -42px;
+    width: 104px;
+    height: 104px;
+    padding: 12px;
+    font-size: 20px;
   }
 
   .cards-post.highlight .cards-post-card-title {
     font-size: var(--heading-font-size-m);
+  }
+}
+
+/* pro with two posts or fewer (e.g. the Trends teaser row): a narrow
+   centred 2-up with short fixed-height photos */
+.cards-post.pro > ul:not(:has(> :nth-child(3))) {
+  max-width: 945px;
+  margin-inline: auto;
+}
+
+.cards-post.pro > ul:not(:has(> :nth-child(3))) .cards-post-card-image img {
+  height: 232px;
+  aspect-ratio: auto;
+}
+
+/* breakpoint-exception: Behr tablet layout starts at 768px */
+@media (width >= 768px) {
+  .cards-post.pro > ul:not(:has(> :nth-child(3))) {
+    column-gap: 30px;
   }
 }

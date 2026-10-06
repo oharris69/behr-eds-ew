@@ -710,7 +710,7 @@ var CustomImportScript = (() => {
         selector: [
           "section.trends"
         ],
-        style: null,
+        style: "light, narrow, heading-link",
         blocks: [
           "cards-post"
         ],

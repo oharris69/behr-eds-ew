@@ -110,7 +110,7 @@ const PAGE_TEMPLATE = {
       selector: [
         "section.trends"
       ],
-      style: null,
+      style: "light, narrow, heading-link",
       blocks: [
         "cards-post"
       ],

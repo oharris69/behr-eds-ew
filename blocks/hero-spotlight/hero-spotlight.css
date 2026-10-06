@@ -9,9 +9,20 @@
   background-color: var(--theme-surface-tertiary);
 }
 
-/* mobile: image on top, text box below */
+.hero-spotlight.hero-spotlight-has-image {
+  justify-content: center;
+  background-color: transparent;
+}
+
+/* the banner always sits behind the text box */
 .hero-spotlight .hero-spotlight-image {
   line-height: 0;
+}
+
+.hero-spotlight.hero-spotlight-has-image .hero-spotlight-image {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
 }
 
 .hero-spotlight .hero-spotlight-image picture {
@@ -24,7 +35,6 @@
   display: block;
   width: 100%;
   height: 100%;
-  aspect-ratio: 4 / 3;
   object-fit: cover;
 }
 
@@ -83,18 +93,6 @@
 @media (width >= 768px) {
   .hero-spotlight.hero-spotlight-has-image {
     min-height: 460px;
-    justify-content: center;
-    background-color: transparent;
-  }
-
-  .hero-spotlight.hero-spotlight-has-image .hero-spotlight-image {
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-  }
-
-  .hero-spotlight .hero-spotlight-image img {
-    aspect-ratio: auto;
   }
 
   .hero-spotlight .hero-spotlight-inner {
@@ -104,11 +102,6 @@
   .hero-spotlight .hero-spotlight-content {
     max-width: 360px;
     padding: 40px 32px;
-  }
-
-  .hero-spotlight.hero-spotlight-has-image .hero-spotlight-content {
-    background-color: rgb(255 255 255 / 85%);
-    backdrop-filter: blur(4px);
   }
 }
 
@@ -250,5 +243,95 @@
 
   .hero-spotlight.dark .hero-spotlight-title {
     font-size: 48px;
+  }
+}
+
+/* ---------- default (not dark) text box geometry ----------
+ * Matches the ColorfullyBEHR spotlight slider: a 315px translucent box over
+ * the banner. The eyebrow gets the source's 36px line box and the rule/title
+ * keep the source offsets; the taller Behr pill absorbs the difference so
+ * the box keeps the source height (268 / 343 / 378px).
+ * Below 1200px the box is centred 30px above the banner's middle.
+ */
+.hero-spotlight:not(.dark) .hero-spotlight-eyebrow::after {
+  margin-top: 20px;
+}
+
+.hero-spotlight.hero-spotlight-has-image:not(.dark) {
+  min-height: 318px;
+}
+
+.hero-spotlight.hero-spotlight-has-image:not(.dark) .hero-spotlight-inner {
+  width: calc(100% - 30px);
+  padding: 10px 15px 40px;
+}
+
+/* mobile stack: 15 + 36 + 20 + 2 + 20 + title + 25 + CTA + 15 */
+.hero-spotlight.hero-spotlight-has-image:not(.dark) .hero-spotlight-content {
+  box-sizing: border-box;
+  width: 315px;
+  max-width: 100%;
+  margin-inline: auto;
+  gap: 20px;
+  padding: 15px 10px;
+  background-color: rgb(255 255 255 / 84%);
+  box-shadow: 0 1px 10px rgb(0 0 0 / 22%);
+}
+
+.hero-spotlight.hero-spotlight-has-image:not(.dark) .hero-spotlight-eyebrow {
+  line-height: 36px;
+}
+
+.hero-spotlight.hero-spotlight-has-image:not(.dark) .hero-spotlight-title {
+  font-size: var(--heading-font-size-s);
+}
+
+.hero-spotlight.hero-spotlight-has-image:not(.dark) .hero-spotlight-content > .hero-spotlight-cta {
+  margin-top: 5px;
+}
+
+/* breakpoint-exception: Behr tablet layout starts at 768px */
+@media (width >= 768px) {
+  /* tablet: banner follows the slider ratio up to 530px;
+   * stack 60 + 36 + 25 + 2 + 25 + title + 25 + CTA + 35 */
+  .hero-spotlight.hero-spotlight-has-image:not(.dark) {
+    min-height: min(530px, 55.2vw - 16.5px);
+  }
+
+  .hero-spotlight.hero-spotlight-has-image:not(.dark) .hero-spotlight-content {
+    gap: 25px;
+    padding: 60px 30px 35px;
+  }
+
+  .hero-spotlight.hero-spotlight-has-image:not(.dark) .hero-spotlight-eyebrow::after {
+    margin-top: 25px;
+  }
+
+  .hero-spotlight.hero-spotlight-has-image:not(.dark) .hero-spotlight-content > .hero-spotlight-cta {
+    margin-top: 0;
+  }
+}
+
+/* breakpoint-exception: the ColorfullyBEHR spotlight slider switches to its
+ * desktop layout at 1200px: box vertically centred at the left of a centred
+ * 900px column (85px inside the 1070px slider);
+ * stack 60 + 36 + 31 + 2 + 35 + title + 44 + CTA + 35 */
+@media (width >= 1200px) {
+  .hero-spotlight.hero-spotlight-has-image:not(.dark) .hero-spotlight-inner {
+    max-width: 900px;
+    padding-block: 40px;
+  }
+
+  .hero-spotlight.hero-spotlight-has-image:not(.dark) .hero-spotlight-content {
+    margin-inline: 0;
+    gap: 35px;
+  }
+
+  .hero-spotlight.hero-spotlight-has-image:not(.dark) .hero-spotlight-eyebrow::after {
+    margin-top: 31px;
+  }
+
+  .hero-spotlight.hero-spotlight-has-image:not(.dark) .hero-spotlight-content > .hero-spotlight-cta {
+    margin-top: 9px;
   }
 }

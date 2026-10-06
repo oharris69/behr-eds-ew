@@ -23,7 +23,7 @@
   display: block;
   width: 100%;
   height: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 3 / 2;
   object-fit: cover;
 }
 
@@ -37,9 +37,21 @@
 .columns-split .columns-split-body {
   display: flex;
   flex-direction: column;
-  gap: 16px;
   width: 100%;
   max-width: 560px;
+}
+
+.columns-split .columns-split-body > * + * {
+  margin-top: 16px;
+}
+
+.columns-split .columns-split-body > p {
+  line-height: 1.4;
+}
+
+/* the bold lead-in line runs straight into the paragraph that follows it */
+.columns-split .columns-split-body > .columns-split-title + p + p:not(.columns-split-cta) {
+  margin-top: 0;
 }
 
 .columns-split .columns-split-title {
@@ -52,12 +64,8 @@
   font-weight: 600;
 }
 
-.columns-split .columns-split-body > p {
-  line-height: 1.4;
-}
-
 .columns-split .columns-split-body > .columns-split-cta {
-  margin-top: 8px;
+  margin-top: 20px;
 }
 
 /* breakpoint-exception: Behr tablet layout starts at 768px */
@@ -81,7 +89,9 @@
     min-height: 100%;
   }
 
+  /* copy hangs from the top of the panel instead of centring */
   .columns-split .columns-split-panel {
+    align-items: flex-start;
     padding: 48px;
   }
 }
@@ -92,7 +102,18 @@
     min-height: 520px;
   }
 
+  /* image | text split is 55/45 (a lone cell still grows to full width) */
+  .columns-split .columns-split-image {
+    flex: 1 1 55%;
+  }
+
+  /* copy inset 2.5% of the row width, 440px measure */
   .columns-split .columns-split-panel {
-    padding: 80px;
+    flex: 1 1 45%;
+    padding: 48px 2.5%;
+  }
+
+  .columns-split .columns-split-body {
+    max-width: 440px;
   }
 }

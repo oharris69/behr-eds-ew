@@ -13,6 +13,11 @@
   padding-block: 0;
 }
 
+/* in a centered section the intro copy above (heading, logo) sets the spacing */
+.section.centered .fifty-fifty {
+  padding-top: 40px;
+}
+
 /* intro */
 .fifty-fifty .fifty-fifty-intro {
   display: flex;
